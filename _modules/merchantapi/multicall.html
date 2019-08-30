@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>merchantapi.multicall &#8212; merchantapi  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for merchantapi.multicall</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file is part of the MerchantAPI package.</span>
+
+<span class="sd">(c) Miva Inc &lt;https://www.miva.com/&gt;</span>
+
+<span class="sd">For the full copyright and license information, please view the LICENSE</span>
+<span class="sd">file that was distributed with self source code.</span>
+
+<span class="sd">$Id: multicall.py 77667 2019-08-29 19:18:13Z gidriss $</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Client</span>
+
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Handles sending multiple Request objects as one request.</span>
+<span class="sd">:see: https://docs.miva.com/json-api/multicall</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="MultiCallRequest"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest">[docs]</a><span class="k">class</span> <span class="nc">MultiCallRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">requests</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		MultiCallRequest Constructor.</span>
+
+<span class="sd">		:param client: Client</span>
+<span class="sd">		:param requests: list[Request]</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">use_iterations</span> <span class="o">=</span> <span class="kc">False</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">requests</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_requests</span><span class="p">(</span><span class="n">requests</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiCallRequest.add_request"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.add_request">[docs]</a>	<span class="k">def</span> <span class="nf">add_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a request to be sent.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:returns: MultiCallRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">MultiCallRequest</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">get_requests</span><span class="p">():</span>
+				<span class="n">r</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.get_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.get_requests">[docs]</a>	<span class="k">def</span> <span class="nf">get_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the requests to be sent.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.set_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.set_requests">[docs]</a>	<span class="k">def</span> <span class="nf">set_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set and override the requests to be sent.</span>
+
+<span class="sd">		:param requests: list</span>
+<span class="sd">		:returns: MultiCallRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.add_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.add_requests">[docs]</a>	<span class="k">def</span> <span class="nf">add_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add requests to be sent.</span>
+<span class="sd">		</span>
+<span class="sd">		:param :Array requests</span>
+<span class="sd">		:returns:MultiCallRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.operation"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.operation">[docs]</a>	<span class="k">def</span> <span class="nf">operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">shared_data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create an operation instance and add it to the request.</span>
+
+<span class="sd">		:param request: Request|list[Request]|None</span>
+<span class="sd">		:param shared_data: dict|None</span>
+<span class="sd">		:returns:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">operation</span> <span class="o">=</span> <span class="n">MultiCallOperation</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">shared_data</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">operation</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.add_operation"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.add_operation">[docs]</a>	<span class="k">def</span> <span class="nf">add_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a operation to be sent.</span>
+
+<span class="sd">		:param operation: MultiCallOperation</span>
+<span class="sd">		:returns: MultiCallRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.add_operations"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.add_operations">[docs]</a>	<span class="k">def</span> <span class="nf">add_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operations</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add an array of operations.</span>
+
+<span class="sd">		:param: list[MultiCallOperation]</span>
+<span class="sd">		:returns: MultiCallRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">operations</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.to_dict"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.to_dict">[docs]</a>	<span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the request to an Object.</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="s1">&#39;Operations&#39;</span><span class="p">:</span> <span class="p">[]</span>
+		<span class="p">}</span>
+
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">MultiCallRequest</span><span class="p">):</span>
+				<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Operations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">merged</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+				<span class="n">merged</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+					<span class="s1">&#39;Function&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_function</span><span class="p">()</span>
+				<span class="p">})</span>
+				<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Operations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="MultiCallRequest.create_response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.create_response">[docs]</a>	<span class="k">def</span> <span class="nf">create_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallResponse&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		:param data: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">MultiCallResponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+	<span class="c1"># noinspection PyTypeChecker</span>
+<div class="viewcode-block" id="MultiCallRequest.send"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallRequest.send">[docs]</a>	<span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallResponse&#39;</span><span class="p">:</span>
+		<span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">send</span><span class="p">()</span></div></div>
+
+
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Handles multicall response.</span>
+<span class="sd">:see: https://docs.miva.com/json-api/multicall</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="MultiCallResponse"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallResponse">[docs]</a><span class="k">class</span> <span class="nc">MultiCallResponse</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">MultiCallRequest</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		MultiCallResponse constructor.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:param data: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_success</span><span class="p">():</span>
+			<span class="k">return</span>
+
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">get_requests</span><span class="p">(),</span> <span class="mi">0</span><span class="p">):</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">MultiCallOperation</span><span class="p">):</span>
+				<span class="k">for</span> <span class="n">i2</span><span class="p">,</span> <span class="n">r2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get_requests</span><span class="p">(),</span> <span class="mi">0</span><span class="p">):</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">add_response</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">create_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i2</span><span class="p">]))</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">add_response</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">create_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+<div class="viewcode-block" id="MultiCallResponse.is_success"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallResponse.is_success">[docs]</a>	<span class="k">def</span> <span class="nf">is_success</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultiCallResponse.get_responses"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallResponse.get_responses">[docs]</a>	<span class="k">def</span> <span class="nf">get_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the responses.</span>
+
+<span class="sd">		:returns: list[Response]</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">responses</span></div>
+
+<div class="viewcode-block" id="MultiCallResponse.add_response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallResponse.add_response">[docs]</a>	<span class="k">def</span> <span class="nf">add_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallResponse&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a response.</span>
+
+<span class="sd">		:param response: Response</span>
+<span class="sd">		:returns: MultiCallResponse</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallResponse.set_responses"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallResponse.set_responses">[docs]</a>	<span class="k">def</span> <span class="nf">set_responses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">responses</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallResponse&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set and overwrite the responses.</span>
+
+<span class="sd">		:param responses: list[Response]</span>
+<span class="sd">		:returns: MultiCallResponse</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">for</span> <span class="n">response</span> <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">Handles creation of an Operation with Iterations.</span>
+
+<span class="sd">:see: MultiCallRequest</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="MultiCallOperation"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation">[docs]</a><span class="k">class</span> <span class="nc">MultiCallOperation</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">shared_data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		MultiCallOperation Constructor.</span>
+
+<span class="sd">		:param request: Request or list[Request]</span>
+<span class="sd">		:param shared_data: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+
+		<span class="k">if</span> <span class="n">shared_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
+			<span class="n">shared_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span> <span class="o">=</span> <span class="n">shared_data</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">Request</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">request</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiCallOperation.get_function"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.get_function">[docs]</a>	<span class="k">def</span> <span class="nf">get_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_function</span><span class="p">()</span>
+		<span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.add_request"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.add_request">[docs]</a>	<span class="k">def</span> <span class="nf">add_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a request iteration.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:returns: MultiCallOperation</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">MultiCallRequest</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Can</span><span class="se">\&#39;</span><span class="s1">t nest a MultiCallRequest in a MultiCallOperation&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.get_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.get_requests">[docs]</a>	<span class="k">def</span> <span class="nf">get_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the request iterations.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.set_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.set_requests">[docs]</a>	<span class="k">def</span> <span class="nf">set_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set and override the request iterations.</span>
+
+<span class="sd">		:param requests: list[Request]</span>
+<span class="sd">		:returns: MultiCallOperation</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">requests</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.add_requests"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.add_requests">[docs]</a>	<span class="k">def</span> <span class="nf">add_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add an array of requests iterations.</span>
+
+<span class="sd">		:param requests: list[Request]</span>
+<span class="sd">		:returns: MultiCallOperation</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.add_shared_data"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.add_shared_data">[docs]</a>	<span class="k">def</span> <span class="nf">add_shared_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a shared data value for key.</span>
+
+<span class="sd">		:param key: str</span>
+<span class="sd">		:param value: str|dict</span>
+<span class="sd">		:returns: MultiCallOperation</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.set_shared_data"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.set_shared_data">[docs]</a>	<span class="k">def</span> <span class="nf">set_shared_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MultiCallOperation&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the shared data object.</span>
+
+<span class="sd">		:param values: dict</span>
+<span class="sd">		:returns: MultiCallOperation</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span> <span class="o">=</span> <span class="n">values</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.get_shared_data"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.get_shared_data">[docs]</a>	<span class="k">def</span> <span class="nf">get_shared_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the shared data between the iterations.</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span></div>
+
+<div class="viewcode-block" id="MultiCallOperation.to_dict"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.multicall.MultiCallOperation.to_dict">[docs]</a>	<span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the operation to a dict</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">):</span>
+			<span class="k">return</span> <span class="p">{}</span>
+
+		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+		<span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+			<span class="s1">&#39;Function&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_function</span><span class="p">(),</span>
+			<span class="s1">&#39;Iterations&#39;</span><span class="p">:</span> <span class="p">[]</span>
+		<span class="p">})</span>
+
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">requests</span><span class="p">:</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Iterations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+		<span class="k">return</span> <span class="n">data</span></div></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">merchantapi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../merchantapi.html">merchantapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Miva Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

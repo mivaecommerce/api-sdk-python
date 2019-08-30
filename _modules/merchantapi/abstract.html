@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>merchantapi.abstract &#8212; merchantapi  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for merchantapi.abstract</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file is part of the MerchantAPI package.</span>
+
+<span class="sd">(c) Miva Inc &lt;https://www.miva.com/&gt;</span>
+
+<span class="sd">For the full copyright and license information, please view the LICENSE</span>
+<span class="sd">file that was distributed with this source code.</span>
+
+<span class="sd">$Id: abstract.py 77675 2019-08-29 21:03:50Z gidriss $</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Client - Abstract client class</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Client.get_endpoint"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client.get_endpoint">[docs]</a>	<span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+	<span class="k">def</span> <span class="nf">get_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the API endpoint URL.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Client.get_api_token"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client.get_api_token">[docs]</a>	<span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+	<span class="k">def</span> <span class="nf">get_api_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the api token used to authenticate the request.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Client.get_signing_key"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client.get_signing_key">[docs]</a>	<span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+	<span class="k">def</span> <span class="nf">get_signing_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the signing key used to sign requests. Base64 encoded.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client.send">[docs]</a>	<span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+	<span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="s1">&#39;Request&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Response&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Send a Request object with callback.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		:returns: Response</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Client.generate_auth_header"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Client.generate_auth_header">[docs]</a>	<span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+	<span class="k">def</span> <span class="nf">generate_auth_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Generates the authentication header value.</span>
+
+<span class="sd">		:param data: str</span>
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">pass</span></div></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Model - Abstract model class</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Model Constructor.</span>
+
+<span class="sd">		:param data:  dict|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+		<span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Model.get_field"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Model.get_field">[docs]</a>	<span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get a field value.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:param default: mixed</span>
+<span class="sd">		:return: mixed</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_field</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+			<span class="k">return</span> <span class="n">default</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Model.has_field"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Model.has_field">[docs]</a>	<span class="k">def</span> <span class="nf">has_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if a field is defined.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:return: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Model.set_field"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Model.set_field">[docs]</a>	<span class="k">def</span> <span class="nf">set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set a field value.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: Model</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Model.to_dict"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Model.to_dict">[docs]</a>	<span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the model to a dict.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Request - Abstract request class</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Request"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request">[docs]</a><span class="k">class</span> <span class="nc">Request</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="n">SCOPE_STORE</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">SCOPE_DOMAIN</span> <span class="o">=</span> <span class="mi">2</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Request Constructor.</span>
+
+<span class="sd">		:param client: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">store_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">SCOPE_STORE</span>
+
+<div class="viewcode-block" id="Request.get_function"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.get_function">[docs]</a>	<span class="k">def</span> <span class="nf">get_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the function of the request.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span></div>
+
+<div class="viewcode-block" id="Request.get_store_code"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.get_store_code">[docs]</a>	<span class="k">def</span> <span class="nf">get_store_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the store code set for the request.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_code</span></div>
+
+<div class="viewcode-block" id="Request.set_store_code"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.set_store_code">[docs]</a>	<span class="k">def</span> <span class="nf">set_store_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_code</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the store code for the request.</span>
+
+<span class="sd">		:param store_code: str</span>
+<span class="sd">		:returns: Request</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">store_code</span> <span class="o">=</span> <span class="n">store_code</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Request.get_scope"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.get_scope">[docs]</a>	<span class="k">def</span> <span class="nf">get_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the scope of request.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scope</span></div>
+
+<div class="viewcode-block" id="Request.get_client"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.get_client">[docs]</a>	<span class="k">def</span> <span class="nf">get_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Client&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Return the assigned client.</span>
+
+<span class="sd">		:returns: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span></div>
+
+<div class="viewcode-block" id="Request.set_client"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.set_client">[docs]</a>	<span class="k">def</span> <span class="nf">set_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="s1">&#39;Client&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Request&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the Client used for the request.</span>
+
+<span class="sd">		:param client: Client</span>
+<span class="sd">		:returns: Request</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+	
+<div class="viewcode-block" id="Request.send"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.send">[docs]</a>	<span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Response&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Send this object via the assigned client.</span>
+
+<span class="sd">		:returns: Response</span>
+<span class="sd">		:raises Exception: when no client assigned</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No client assigned to Request&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Request.to_dict"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.to_dict">[docs]</a>	<span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the request to a dict</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scope</span> <span class="o">==</span> <span class="n">Request</span><span class="o">.</span><span class="n">SCOPE_STORE</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Store_Code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_code</span>
+
+		<span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="Request.create_response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Request.create_response">[docs]</a>	<span class="k">def</span> <span class="nf">create_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Response&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Override this method to create a response for this request.</span>
+
+<span class="sd">		:param data: dict</span>
+<span class="sd">		:returns: Response</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Response - Abstract response class</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response">[docs]</a><span class="k">class</span> <span class="nc">Response</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Response constructor.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:param data: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="Response.is_success"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.is_success">[docs]</a>	<span class="k">def</span> <span class="nf">is_success</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if the response was a success.</span>
+
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="s1">&#39;success&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Response.is_error"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.is_error">[docs]</a>	<span class="k">def</span> <span class="nf">is_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if the response was a error.</span>
+
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_success</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Response.get_error_message"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_message">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the error message.</span>
+
+<span class="sd">		:returns: str|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;error_message&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Response.get_error_code"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_code">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the error code.</span>
+
+<span class="sd">		:returns: str|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;error_code&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;error_code&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Response.get_error_input_count"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_input_count">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_input_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the number of input errors.</span>
+
+<span class="sd">		:returns: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;input_errors&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;input_errors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Response.get_error_fields"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_fields">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the fields which encountered a validation error.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;error_fields&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;error_fields&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Response.get_error_field"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_field">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the field which triggered the error.</span>
+
+<span class="sd">		:returns: str|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;error_field&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;error_field&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Response.get_error_field_message"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_error_field_message">[docs]</a>	<span class="k">def</span> <span class="nf">get_error_field_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the error message associated with the error field that cause the error.</span>
+<span class="sd">		:returns: str|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;error_field_message&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;error_field_message&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Response.is_list_error"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.is_list_error">[docs]</a>	<span class="k">def</span> <span class="nf">is_list_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if the error response is a list error.</span>
+
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;list_error&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;list_error&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Response.is_validation_error"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.is_validation_error">[docs]</a>	<span class="k">def</span> <span class="nf">is_validation_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if the error response is a validation error.</span>
+
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;validation_error&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;validation_error&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Response.is_input_error"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.is_input_error">[docs]</a>	<span class="k">def</span> <span class="nf">is_input_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if the error response is a input error.</span>
+
+<span class="sd">		:returns: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;input_errors&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;input_errors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Response.get_errors"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_errors">[docs]</a>	<span class="k">def</span> <span class="nf">get_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the error messages associated with the response.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;errors&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;errors&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">else</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Response.get_data"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_data">[docs]</a>	<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the underlying data object.</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span></div>
+
+<div class="viewcode-block" id="Response.get_request"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.abstract.Response.get_request">[docs]</a>	<span class="k">def</span> <span class="nf">get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the initiating Request object.</span>
+
+<span class="sd">		:returns: Request</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">merchantapi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../merchantapi.html">merchantapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Miva Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

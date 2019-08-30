@@ -1,0 +1,1294 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>merchantapi.listquery &#8212; merchantapi  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for merchantapi.listquery</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file is part of the MerchantAPI package.</span>
+
+<span class="sd">(c) Miva Inc &lt;https://www.miva.com/&gt;</span>
+
+<span class="sd">For the full copyright and license information, please view the LICENSE</span>
+<span class="sd">file that was distributed with self source code.</span>
+
+<span class="sd">$Id: listquery.py 77682 2019-08-29 23:21:44Z gidriss $</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Client</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ListQueryRequest</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ListQueryRequest"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest">[docs]</a><span class="k">class</span> <span class="nc">ListQueryRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+	<span class="n">SORT_ASCENDING</span> <span class="o">=</span> <span class="s1">&#39;asc&#39;</span>
+	<span class="n">SORT_DESCENDING</span> <span class="o">=</span> <span class="s1">&#39;desc&#39;</span>
+
+	<span class="n">available_on_demand_columns</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">available_custom_filters</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="n">available_sort_fields</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">available_search_fields</span> <span class="o">=</span> <span class="p">[]</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Client</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		ListQueryRequest Constructor</span>
+
+<span class="sd">		:param client: Client|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="ListQueryRequest.get_sort"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_sort">[docs]</a>	<span class="k">def</span> <span class="nf">get_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the sorting field.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_sort"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_sort">[docs]</a>	<span class="k">def</span> <span class="nf">set_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">SORT_ASCENDING</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the sorting field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param direction: str</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">ListQueryRequest</span><span class="o">.</span><span class="n">SORT_ASCENDING</span> <span class="ow">and</span> <span class="n">direction</span> <span class="o">!=</span> <span class="n">ListQueryRequest</span><span class="o">.</span><span class="n">SORT_DESCENDING</span><span class="p">:</span>
+			<span class="n">direction</span> <span class="o">=</span> <span class="n">ListQueryRequest</span><span class="o">.</span><span class="n">SORT_ASCENDING</span>
+		<span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">ListQueryRequest</span><span class="o">.</span><span class="n">SORT_DESCENDING</span> <span class="ow">and</span> <span class="n">field</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+			<span class="n">field</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">field</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">sort</span> <span class="o">=</span> <span class="n">field</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_available_sort_fields"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_available_sort_fields">[docs]</a>	<span class="k">def</span> <span class="nf">get_available_sort_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the available sorting fields for the request.</span>
+
+<span class="sd">		@returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_sort_fields</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_offset"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_offset">[docs]</a>	<span class="k">def</span> <span class="nf">get_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the record offset.</span>
+
+<span class="sd">		:returns: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_offset"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_offset">[docs]</a>	<span class="k">def</span> <span class="nf">set_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the record offset.</span>
+
+<span class="sd">		:param offset: int</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_count"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_count">[docs]</a>	<span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the maximum records to request.</span>
+
+<span class="sd">		:returns: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_count"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_count">[docs]</a>	<span class="k">def</span> <span class="nf">set_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the maximum records to request.</span>
+
+<span class="sd">		:param count: int</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_available_search_fields"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_available_search_fields">[docs]</a>	<span class="k">def</span> <span class="nf">get_available_search_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the available search fields for the request.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_search_fields</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.add_on_demand_column"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.add_on_demand_column">[docs]</a>	<span class="k">def</span> <span class="nf">add_on_demand_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add an on demand column to the request.</span>
+
+<span class="sd">		:param column: str</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">column</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+			<span class="n">column</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">column</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_on_demand_columns</span><span class="p">)</span> <span class="ow">and</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_on_demand_columns</span><span class="p">:</span>
+				<span class="n">available</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_on_demand_columns</span><span class="p">)</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid Column </span><span class="si">%s</span><span class="s1">. Available on demand columns are </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">available</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.remove_on_demand_column"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.remove_on_demand_column">[docs]</a>	<span class="k">def</span> <span class="nf">remove_on_demand_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Remove an on demand column from the request.</span>
+
+<span class="sd">		:param column: str</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="n">column</span><span class="p">:</span>
+					<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_on_demand_columns"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_on_demand_columns">[docs]</a>	<span class="k">def</span> <span class="nf">set_on_demand_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the on demand columns to fetch.</span>
+
+<span class="sd">		:param: list</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">add_on_demand_column</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_on_demand_columns"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_on_demand_columns">[docs]</a>	<span class="k">def</span> <span class="nf">get_on_demand_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the on demand columns to fetch.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_available_on_demand_columns"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_available_on_demand_columns">[docs]</a>	<span class="k">def</span> <span class="nf">get_available_on_demand_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the available on demand columns for the request.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_on_demand_columns</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_custom_filters"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_custom_filters">[docs]</a>	<span class="k">def</span> <span class="nf">get_custom_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the custom filters to apply.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_available_custom_filters"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_available_custom_filters">[docs]</a>	<span class="k">def</span> <span class="nf">get_available_custom_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the available custom filters for the request.</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_filters"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_filters">[docs]</a>	<span class="k">def</span> <span class="nf">set_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the search filters to apply to the request.</span>
+
+<span class="sd">		:param filters: list|FilterExpression</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Expecting an array of instance of FilterExpression&#39;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.get_filters"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.get_filters">[docs]</a>	<span class="k">def</span> <span class="nf">get_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the search filters to apply to the request.</span>
+
+<span class="sd">		:returns: list|FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.set_custom_filter"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.set_custom_filter">[docs]</a>	<span class="k">def</span> <span class="nf">set_custom_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set a custom filter supported by the request.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid custom filter </span><span class="si">%s</span><span class="s1">. Available filters are </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+							<span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">)))</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid custom filter choice for </span><span class="si">%s</span><span class="s1">. Available choices are </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+								<span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">])))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+					<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Expected str but got </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+					<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Expected int but got </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+					<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Expected float but got </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+					<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Expected bool but got </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">value</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid value type for </span><span class="si">%s</span><span class="s1">, expected </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_custom_filters</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
+
+		<span class="k">for</span> <span class="n">cf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">cf</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+				<span class="n">cf</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+				<span class="k">return</span> <span class="bp">self</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+			<span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+			<span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span>
+		<span class="p">})</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.remove_custom_filter"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.remove_custom_filter">[docs]</a>	<span class="k">def</span> <span class="nf">remove_custom_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryRequest&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Remove a custom filter applied to the request.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:returns: ListQueryRequest</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">cf</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+				<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+				<span class="k">break</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.filter_expression"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.filter_expression">[docs]</a>	<span class="k">def</span> <span class="nf">filter_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Creates a new FilterExpression object in the context of the request.</span>
+<span class="sd">		:returns: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">FilterExpression</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.create_response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.create_response">[docs]</a>	<span class="k">def</span> <span class="nf">create_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListQueryResponse&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Creates a ListQueryResponse from an api response</span>
+
+<span class="sd">		:returns: ListQueryResponse</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">ListQueryResponse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ListQueryRequest.to_dict"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryRequest.to_dict">[docs]</a>	<span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the request to a dict</span>
+
+<span class="sd">		:returns: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">data</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+		<span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+			<span class="s1">&#39;Sort&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sort</span><span class="p">(),</span>
+			<span class="s1">&#39;Offset&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_offset</span><span class="p">(),</span>
+			<span class="s1">&#39;Count&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_count</span><span class="p">(),</span>
+			<span class="s1">&#39;Filter&#39;</span><span class="p">:</span> <span class="p">[]</span>
+		<span class="p">})</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="p">):</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+		<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>
+
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span><span class="p">):</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Filter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+				<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ondemandcolumns&#39;</span><span class="p">,</span>
+				<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_demand_columns</span>
+			<span class="p">})</span>
+
+		<span class="k">for</span> <span class="n">cf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_filters</span><span class="p">:</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Filter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ListQueryResponse</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ListQueryResponse"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryResponse">[docs]</a><span class="k">class</span> <span class="nc">ListQueryResponse</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">ListQueryRequest</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		ListQueryResponse Constructor</span>
+
+<span class="sd">		:param request: ListQueryRequest</span>
+<span class="sd">		:param data: dict</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ListQueryResponse.get_total_count"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryResponse.get_total_count">[docs]</a>	<span class="k">def</span> <span class="nf">get_total_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the total count of returned records</span>
+
+<span class="sd">		:return: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;total_count&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;total_count&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="ListQueryResponse.get_start_offset"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.ListQueryResponse.get_start_offset">[docs]</a>	<span class="k">def</span> <span class="nf">get_start_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the starting offset of the result set</span>
+
+<span class="sd">		:return:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;start_offset&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="s1">&#39;start_offset&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span></div></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">FilterExpressionEntry</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="FilterExpressionEntry"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry">[docs]</a><span class="k">class</span> <span class="nc">FilterExpressionEntry</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s1">&#39;search&#39;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		FilterExpressionEntry Constructor.</span>
+
+<span class="sd">		:param left: str</span>
+<span class="sd">		:param operator: str</span>
+<span class="sd">		:param right: str</span>
+<span class="sd">		:param search: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">left</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">search</span> <span class="o">=</span> <span class="n">search</span>
+
+<div class="viewcode-block" id="FilterExpressionEntry.get_left"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.get_left">[docs]</a>	<span class="k">def</span> <span class="nf">get_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the left side of the expression.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span></div>
+
+<div class="viewcode-block" id="FilterExpressionEntry.set_left"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.set_left">[docs]</a>	<span class="k">def</span> <span class="nf">set_left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpressionEntry&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the left side of the comparison.</span>
+
+<span class="sd">		:param left: str</span>
+<span class="sd">		:returns: FilterExpressionEntry</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">left</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpressionEntry.get_operator"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.get_operator">[docs]</a>	<span class="k">def</span> <span class="nf">get_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the expression operator.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span></div>
+
+<div class="viewcode-block" id="FilterExpressionEntry.set_operator"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.set_operator">[docs]</a>	<span class="k">def</span> <span class="nf">set_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpressionEntry&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the expression operator.</span>
+
+<span class="sd">		:param operator: str</span>
+<span class="sd">		:returns: FilterExpressionEntry</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpressionEntry.get_right"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.get_right">[docs]</a>	<span class="k">def</span> <span class="nf">get_right</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the right side of the expression.</span>
+
+<span class="sd">		:return: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span></div>
+
+<div class="viewcode-block" id="FilterExpressionEntry.set_right"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpressionEntry.set_right">[docs]</a>	<span class="k">def</span> <span class="nf">set_right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpressionEntry&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the right side of the expression.</span>
+
+<span class="sd">		:param right: str</span>
+<span class="sd">		:return: FilterExpressionEntry</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span>
+		<span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Filter Expresion</span>
+
+<span class="sd">:see: https://docs.miva.com/json-api/list-load-query-overview#filter-list-parameters</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="FilterExpression"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression">[docs]</a><span class="k">class</span> <span class="nc">FilterExpression</span><span class="p">:</span>
+	<span class="n">OPERATOR_EQ</span> <span class="o">=</span> <span class="s1">&#39;EQ&#39;</span>					<span class="c1"># Operator: Equals</span>
+	<span class="n">OPERATOR_GT</span> <span class="o">=</span> <span class="s1">&#39;GT&#39;</span>					<span class="c1"># Operator: Greater Than</span>
+	<span class="n">OPERATOR_GE</span> <span class="o">=</span> <span class="s1">&#39;GE&#39;</span>					<span class="c1"># Operator: Greater Than or Equal</span>
+	<span class="n">OPERATOR_LT</span> <span class="o">=</span> <span class="s1">&#39;LT&#39;</span>					<span class="c1"># Operator: Less Than</span>
+	<span class="n">OPERATOR_LE</span> <span class="o">=</span> <span class="s1">&#39;LE&#39;</span>					<span class="c1"># Operator: Less Than or Equal</span>
+	<span class="n">OPERATOR_CO</span> <span class="o">=</span> <span class="s1">&#39;CO&#39;</span>					<span class="c1"># Operator: Contains</span>
+	<span class="n">OPERATOR_NC</span> <span class="o">=</span> <span class="s1">&#39;NC&#39;</span>					<span class="c1"># Operator: Does Not Contain</span>
+	<span class="n">OPERATOR_LIKE</span> <span class="o">=</span> <span class="s1">&#39;LIKE&#39;</span>				<span class="c1"># Operator: Like</span>
+	<span class="n">OPERATOR_NOTLIKE</span> <span class="o">=</span> <span class="s1">&#39;NOTLIKE&#39;</span>		<span class="c1"># Operator: Not Like</span>
+	<span class="n">OPERATOR_NE</span> <span class="o">=</span> <span class="s1">&#39;NE&#39;</span>					<span class="c1"># Operator: Not Equal</span>
+	<span class="n">OPERATOR_TRUE</span> <span class="o">=</span> <span class="s1">&#39;TRUE&#39;</span>       		<span class="c1"># Operator: True</span>
+	<span class="n">OPERATOR_FALSE</span> <span class="o">=</span> <span class="s1">&#39;FALSE&#39;</span>      		<span class="c1"># Operator: False</span>
+	<span class="n">OPERATOR_NULL</span> <span class="o">=</span> <span class="s1">&#39;NULL&#39;</span>       		<span class="c1"># Operator: Is Null</span>
+	<span class="n">OPERATOR_IN</span> <span class="o">=</span> <span class="s1">&#39;IN&#39;</span>         			<span class="c1"># Operator: In Set (comma separated list)</span>
+	<span class="n">OPERATOR_NOT_IN</span> <span class="o">=</span> <span class="s1">&#39;NOT_IN&#39;</span>     		<span class="c1"># Operator: Not In Set (comma separated list)</span>
+	<span class="n">OPERATOR_SUBWHERE</span> <span class="o">=</span> <span class="s1">&#39;SUBWHERE&#39;</span>   	<span class="c1"># Operator: SUBWHERE</span>
+
+	<span class="n">VALID_OPERATORS</span> <span class="o">=</span> <span class="p">[</span>
+		<span class="n">OPERATOR_EQ</span><span class="p">,</span>
+		<span class="n">OPERATOR_GT</span><span class="p">,</span>
+		<span class="n">OPERATOR_GE</span><span class="p">,</span>
+		<span class="n">OPERATOR_LT</span><span class="p">,</span>
+		<span class="n">OPERATOR_LE</span><span class="p">,</span>
+		<span class="n">OPERATOR_CO</span><span class="p">,</span>
+		<span class="n">OPERATOR_NC</span><span class="p">,</span>
+		<span class="n">OPERATOR_LIKE</span><span class="p">,</span>
+		<span class="n">OPERATOR_NOTLIKE</span><span class="p">,</span>
+		<span class="n">OPERATOR_NE</span><span class="p">,</span>
+		<span class="n">OPERATOR_TRUE</span><span class="p">,</span>
+		<span class="n">OPERATOR_FALSE</span><span class="p">,</span>
+		<span class="n">OPERATOR_NULL</span><span class="p">,</span>
+		<span class="n">OPERATOR_IN</span><span class="p">,</span>
+		<span class="n">OPERATOR_NOT_IN</span><span class="p">,</span>
+		<span class="n">OPERATOR_SUBWHERE</span>
+	<span class="p">]</span>
+
+	<span class="c1"># Search Filter Constants</span>
+	<span class="n">FILTER_SEARCH</span> <span class="o">=</span> <span class="s1">&#39;search&#39;</span>
+	<span class="n">FILTER_SEARCH_AND</span> <span class="o">=</span> <span class="s1">&#39;search_AND&#39;</span>
+	<span class="n">FILTER_SEARCH_OR</span> <span class="o">=</span> <span class="s1">&#39;search_OR&#39;</span>
+
+	<span class="n">VALID_FILTERS</span> <span class="o">=</span> <span class="p">[</span>
+		<span class="n">FILTER_SEARCH</span><span class="p">,</span>
+		<span class="n">FILTER_SEARCH_AND</span><span class="p">,</span>
+		<span class="n">FILTER_SEARCH_OR</span>
+	<span class="p">]</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="s1">&#39;ListQueryRequest&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		FilterExpression Constructor.</span>
+
+<span class="sd">		:param request: Request|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="FilterExpression.get_parent"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.get_parent">[docs]</a>	<span class="k">def</span> <span class="nf">get_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="s1">&#39;FilterExpression&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the parent expression.</span>
+
+<span class="sd">		:returns: FilterExpression|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span></div>
+
+<div class="viewcode-block" id="FilterExpression.set_parent"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.set_parent">[docs]</a>	<span class="k">def</span> <span class="nf">set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the parent expression.</span>
+
+<span class="sd">		:param parent: FilterExpression|None</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpression.is_child"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.is_child">[docs]</a>	<span class="k">def</span> <span class="nf">is_child</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if self expression is a child of another.</span>
+
+<span class="sd">		:return: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="FilterExpression.child_depth"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.child_depth">[docs]</a>	<span class="k">def</span> <span class="nf">child_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the child depth.</span>
+
+<span class="sd">		:return: int</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+
+		<span class="k">while</span> <span class="n">parent</span><span class="p">:</span>
+			<span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+			<span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+		<span class="k">return</span> <span class="n">i</span></div>
+
+<div class="viewcode-block" id="FilterExpression.expr"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.expr">[docs]</a>	<span class="k">def</span> <span class="nf">expr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Create a new expression instance.</span>
+
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="n">FilterExpression</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.add"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.add">[docs]</a>	<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">filter_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a search filter.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param operator: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:param filter_type: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">get_available_search_fields</span><span class="p">():</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Field </span><span class="si">%s</span><span class="s1"> is invalid. Available fields are: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+								<span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">get_available_search_fields</span><span class="p">())))</span>
+
+		<span class="k">if</span> <span class="n">operator</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">VALID_OPERATORS</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Operator </span><span class="si">%s</span><span class="s1"> is invalid. Available operators are: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+							<span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FilterExpression</span><span class="o">.</span><span class="n">VALID_OPERATORS</span><span class="p">)))</span>
+
+		<span class="k">if</span> <span class="n">filter_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">VALID_FILTERS</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Filter type </span><span class="si">%s</span><span class="s1"> is invalid. Available search filter types are </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+							<span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FilterExpression</span><span class="o">.</span><span class="n">VALID_FILTERS</span><span class="p">)))</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">):</span>
+			<span class="n">filter_type</span> <span class="o">=</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span>
+		<span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">)</span> <span class="ow">and</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">:</span>
+			<span class="n">filter_type</span> <span class="o">=</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span>
+
+		<span class="k">if</span> <span class="n">filter_type</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+				<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">filter_type</span><span class="p">,</span>
+				<span class="s1">&#39;entry&#39;</span><span class="p">:</span> <span class="n">FilterExpressionEntry</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">filter_type</span><span class="p">)</span>
+			<span class="p">})</span>
+		<span class="k">elif</span> <span class="n">filter_type</span> <span class="o">==</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+				<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">filter_type</span><span class="p">,</span>
+				<span class="s1">&#39;entry&#39;</span><span class="p">:</span> <span class="n">FilterExpressionEntry</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">filter_type</span><span class="p">)</span>
+			<span class="p">})</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid type </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">filter_type</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_x"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_x">[docs]</a>	<span class="k">def</span> <span class="nf">and_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a AND expression.</span>
+
+<span class="sd">		:param expression: FilterExpression</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">expression</span><span class="o">.</span><span class="n">set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+			<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">,</span>
+			<span class="s1">&#39;entry&#39;</span><span class="p">:</span> <span class="n">expression</span>
+		<span class="p">})</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_x"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_x">[docs]</a>	<span class="k">def</span> <span class="nf">or_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a OR expression.</span>
+
+<span class="sd">		:param expression: FilterExpression</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">expression</span><span class="o">.</span><span class="n">set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+			<span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">,</span>
+			<span class="s1">&#39;entry&#39;</span><span class="p">:</span> <span class="n">expression</span>
+		<span class="p">})</span>
+
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="FilterExpression.equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.equal">[docs]</a>	<span class="k">def</span> <span class="nf">equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a equal (x EQ y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_EQ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_equal">[docs]</a>	<span class="k">def</span> <span class="nf">and_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a equal (AND x EQ y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_EQ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_equal">[docs]</a>	<span class="k">def</span> <span class="nf">or_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a equal (OR x EQ y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_EQ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.greater_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.greater_than">[docs]</a>	<span class="k">def</span> <span class="nf">greater_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than (x GT y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_greater_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_greater_than">[docs]</a>	<span class="k">def</span> <span class="nf">and_greater_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than (AND x GT y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_greater_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_greater_than">[docs]</a>	<span class="k">def</span> <span class="nf">or_greater_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than (OR x GT y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.greater_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.greater_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">greater_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than or equal (x GE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_greater_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_greater_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">and_greater_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than or equal (AND x GE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_greater_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_greater_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">or_greater_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a greater than or equal (OR x GE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return:  FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_GE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.less_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.less_than">[docs]</a>	<span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than (x LT y) filter for specified field.</span>
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_less_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_less_than">[docs]</a>	<span class="k">def</span> <span class="nf">and_less_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than (AND x LT y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_less_than"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_less_than">[docs]</a>	<span class="k">def</span> <span class="nf">or_less_than</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than (OR x LT y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return:  FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LT</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.less_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.less_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">less_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than or equal (x LE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_less_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_less_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">and_less_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than or equal (AND x LE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_less_than_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_less_than_equal">[docs]</a>	<span class="k">def</span> <span class="nf">or_less_than_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a less than or equal (OR x LE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: int|float</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.contains"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.contains">[docs]</a>	<span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a contains (x CO y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_CO</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_contains"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_contains">[docs]</a>	<span class="k">def</span> <span class="nf">and_contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a contains (AND x CO y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_CO</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_contains"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_contains">[docs]</a>	<span class="k">def</span> <span class="nf">or_contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a contains (OR x CO y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_CO</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.does_not_contain"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.does_not_contain">[docs]</a>	<span class="k">def</span> <span class="nf">does_not_contain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a does not contains (x NC y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NC</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_does_not_contain"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_does_not_contain">[docs]</a>	<span class="k">def</span> <span class="nf">and_does_not_contain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a does not contains (AND x NC y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NC</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_does_not_contain"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_does_not_contain">[docs]</a>	<span class="k">def</span> <span class="nf">or_does_not_contain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a does not contains (OR x NC y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NC</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.like">[docs]</a>	<span class="k">def</span> <span class="nf">like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a like (x LIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_like">[docs]</a>	<span class="k">def</span> <span class="nf">and_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a like (AND x LIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_like">[docs]</a>	<span class="k">def</span> <span class="nf">or_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a like (OR x LIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_LIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.not_like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.not_like">[docs]</a>	<span class="k">def</span> <span class="nf">not_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not like (x NOTLIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOTLIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_not_like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_not_like">[docs]</a>	<span class="k">def</span> <span class="nf">and_not_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not like (AND x NOTLIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOTLIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_not_like"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_not_like">[docs]</a>	<span class="k">def</span> <span class="nf">or_not_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not like (OR x NOTLIKE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOTLIKE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.not_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.not_equal">[docs]</a>	<span class="k">def</span> <span class="nf">not_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not equal (x NE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_not_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_not_equal">[docs]</a>	<span class="k">def</span> <span class="nf">and_not_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not equal (AND x NE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_not_equal"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_not_equal">[docs]</a>	<span class="k">def</span> <span class="nf">or_not_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not equal (OR x NE y) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NE</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.is_true"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.is_true">[docs]</a>	<span class="k">def</span> <span class="nf">is_true</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a true (x == true) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_TRUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_is_true"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_is_true">[docs]</a>	<span class="k">def</span> <span class="nf">and_is_true</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a true (AND x == true) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_TRUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_is_true"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_is_true">[docs]</a>	<span class="k">def</span> <span class="nf">or_is_true</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a true (OR x == true) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_TRUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.is_false"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.is_false">[docs]</a>	<span class="k">def</span> <span class="nf">is_false</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a false (x == false) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_FALSE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_is_false"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_is_false">[docs]</a>	<span class="k">def</span> <span class="nf">and_is_false</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a false (AND x == false) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_FALSE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_is_false"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_is_false">[docs]</a>	<span class="k">def</span> <span class="nf">or_is_false</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a false (OR x == false) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_FALSE</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.is_null"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.is_null">[docs]</a>	<span class="k">def</span> <span class="nf">is_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a is None (x == None) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NULL</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_is_null"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_is_null">[docs]</a>	<span class="k">def</span> <span class="nf">and_is_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a is None (AND x == None) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NULL</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_is_null"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_is_null">[docs]</a>	<span class="k">def</span> <span class="nf">or_is_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a is None (OR x == None) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NULL</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.is_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.is_in">[docs]</a>	<span class="k">def</span> <span class="nf">is_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a in (x IN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_is_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_is_in">[docs]</a>	<span class="k">def</span> <span class="nf">and_is_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a in (AND x IN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_is_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_is_in">[docs]</a>	<span class="k">def</span> <span class="nf">or_is_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a in (OR x IN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.not_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.not_in">[docs]</a>	<span class="k">def</span> <span class="nf">not_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not in (x NOTIN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOT_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.and_not_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.and_not_in">[docs]</a>	<span class="k">def</span> <span class="nf">and_not_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not in (AND x NOTIN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOT_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_AND</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.or_not_in"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.or_not_in">[docs]</a>	<span class="k">def</span> <span class="nf">or_not_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="s1">&#39;FilterExpression&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Add a not in (OR x NOTIN y,z,.. ) filter for specified field.</span>
+
+<span class="sd">		:param field: str</span>
+<span class="sd">		:param values: list|str</span>
+<span class="sd">		:return: FilterExpression</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_NOT_IN</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">FILTER_SEARCH_OR</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterExpression.to_list"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.listquery.FilterExpression.to_list">[docs]</a>	<span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reduce the built expression(s) to an array.</span>
+
+<span class="sd">		:returns: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expressions</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">],</span> <span class="n">FilterExpression</span><span class="p">):</span>
+				<span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+					<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+					<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+				<span class="p">}</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_child</span><span class="p">():</span>
+				<span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+					<span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+					<span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="n">FilterExpression</span><span class="o">.</span><span class="n">OPERATOR_SUBWHERE</span><span class="p">,</span>
+					<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span>
+						<span class="p">{</span>
+							<span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_left</span><span class="p">(),</span>
+							<span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_operator</span><span class="p">(),</span>
+							<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">())</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">(),</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">()</span>
+						<span class="p">},</span>
+					<span class="p">]</span>
+				<span class="p">}</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">entry</span> <span class="o">=</span> <span class="p">{</span>
+					<span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+					<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="p">[</span>
+						<span class="p">{</span>
+							<span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_left</span><span class="p">(),</span>
+							<span class="s1">&#39;operator&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_operator</span><span class="p">(),</span>
+							<span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">())</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">(),</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">e</span><span class="p">[</span><span class="s1">&#39;entry&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_right</span><span class="p">()</span>
+
+						<span class="p">}</span>
+					<span class="p">]</span>
+				<span class="p">}</span>
+			<span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">ret</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">merchantapi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../merchantapi.html">merchantapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Miva Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>merchantapi.client &#8212; merchantapi  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for merchantapi.client</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file is part of the MerchantAPI package.</span>
+
+<span class="sd">(c) Miva Inc &lt;https://www.miva.com/&gt;</span>
+
+<span class="sd">For the full copyright and license information, please view the LICENSE</span>
+<span class="sd">file that was distributed with self source code.</span>
+
+<span class="sd">$Id: client.py 77669 2019-08-29 19:21:04Z gidriss $</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">merchantapi.abstract</span> <span class="k">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">merchantapi.multicall</span> <span class="k">import</span> <span class="n">MultiCallRequest</span><span class="p">,</span> <span class="n">MultiCallOperation</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">HTTPError</span><span class="p">,</span> <span class="ne">ConnectionError</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Handles sending API requests</span>
+
+<span class="sd">:see: https://docs.miva.com/json-api/#authentication</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+	<span class="n">SIGN_DIGEST_NONE</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="n">SIGN_DIGEST_SHA1</span> <span class="o">=</span> <span class="s1">&#39;sha1&#39;</span>
+	<span class="n">SIGN_DIGEST_SHA256</span> <span class="o">=</span> <span class="s1">&#39;sha256&#39;</span>
+	<span class="n">DEFAULT_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="s1">&#39;require_timestamps&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+		<span class="s1">&#39;signing_key_digest&#39;</span><span class="p">:</span> <span class="n">SIGN_DIGEST_SHA256</span><span class="p">,</span>
+		<span class="s1">&#39;default_store_code&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+		<span class="s1">&#39;ssl_verify&#39;</span><span class="p">:</span> <span class="kc">True</span>
+	<span class="p">}</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">api_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">signing_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_endpoint</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_api_token</span><span class="p">(</span><span class="n">api_token</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">set_signing_key</span><span class="p">(</span><span class="n">signing_key</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">Client</span><span class="o">.</span><span class="n">DEFAULT_OPTIONS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Client.get_endpoint"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.get_endpoint">[docs]</a>	<span class="k">def</span> <span class="nf">get_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the API endpoint URL.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span></div>
+
+<div class="viewcode-block" id="Client.set_endpoint"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.set_endpoint">[docs]</a>	<span class="k">def</span> <span class="nf">set_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Client&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the API endpoint URL.</span>
+
+<span class="sd">		:param endpoint: str</span>
+<span class="sd">		:returns: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">=</span> <span class="n">endpoint</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Client.get_api_token"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.get_api_token">[docs]</a>	<span class="k">def</span> <span class="nf">get_api_token</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the api token used to authenticate the request.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span></div>
+
+<div class="viewcode-block" id="Client.set_api_token"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.set_api_token">[docs]</a>	<span class="k">def</span> <span class="nf">set_api_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Client&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the api token used to authenticate the request.</span>
+
+<span class="sd">		:param api_token: str</span>
+<span class="sd">		:returns: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">api_token</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Client.get_signing_key"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.get_signing_key">[docs]</a>	<span class="k">def</span> <span class="nf">get_signing_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the signing key used to sign requests. Base64 encoded.</span>
+
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">signing_key</span></div>
+
+<div class="viewcode-block" id="Client.set_signing_key"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.set_signing_key">[docs]</a>	<span class="k">def</span> <span class="nf">set_signing_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signing_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Client&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set the signing key used to sign requests. Base64 encoded.</span>
+
+<span class="sd">		:param signing_key: str</span>
+<span class="sd">		:returns: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">signing_key</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">signing_key</span> <span class="o">=</span> <span class="n">signing_key</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;=&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signing_key</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">signing_key</span> <span class="o">=</span> <span class="n">signing_key</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Client.get_option"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.get_option">[docs]</a>	<span class="k">def</span> <span class="nf">get_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get a client option.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:param default: default return value if not set</span>
+<span class="sd">		:returns: mixed</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="k">else</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="Client.set_option"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.set_option">[docs]</a>	<span class="k">def</span> <span class="nf">set_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Client&#39;</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Set a client option.</span>
+
+<span class="sd">		:param name: str</span>
+<span class="sd">		:param value: mixed</span>
+<span class="sd">		:returns: Client</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Invalid option </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+		<span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Client.send"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.send">[docs]</a>	<span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Send a Request object with callback.</span>
+
+<span class="sd">		:param request: Request</span>
+<span class="sd">		:raises Exception:</span>
+<span class="sd">		:returns: Response</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">default_store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;default_store_code&#39;</span><span class="p">)</span>
+		<span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">MultiCallRequest</span><span class="p">):</span>
+			<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">get_requests</span><span class="p">():</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">MultiCallOperation</span><span class="p">):</span>
+					<span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">get_requests</span><span class="p">():</span>
+						<span class="k">if</span> <span class="n">o</span><span class="o">.</span><span class="n">get_scope</span><span class="p">()</span> <span class="o">==</span> <span class="n">Request</span><span class="o">.</span><span class="n">SCOPE_STORE</span> <span class="ow">and</span> \
+								<span class="n">o</span><span class="o">.</span><span class="n">get_store_code</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">default_store</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+							<span class="n">o</span><span class="o">.</span><span class="n">set_store_code</span><span class="p">(</span><span class="n">default_store</span><span class="p">)</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">get_scope</span><span class="p">()</span> <span class="o">==</span> <span class="n">Request</span><span class="o">.</span><span class="n">SCOPE_STORE</span> <span class="ow">and</span> \
+							<span class="n">r</span><span class="o">.</span><span class="n">get_store_code</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">default_store</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+						<span class="n">r</span><span class="o">.</span><span class="n">set_store_code</span><span class="p">(</span><span class="n">default_store</span><span class="p">)</span>
+
+			<span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">get_scope</span><span class="p">()</span> <span class="o">==</span> <span class="n">Request</span><span class="o">.</span><span class="n">SCOPE_STORE</span> <span class="ow">and</span> \
+					<span class="n">request</span><span class="o">.</span><span class="n">get_store_code</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">default_store</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+				<span class="n">request</span><span class="o">.</span><span class="n">set_store_code</span><span class="p">(</span><span class="n">default_store</span><span class="p">)</span>
+
+			<span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+			<span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;Function&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">get_function</span><span class="p">()})</span>
+
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;require_timestamps&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Miva_Request_Timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+
+		<span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+		<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+			<span class="s2">&quot;Content-Length&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
+			<span class="s2">&quot;X-Miva-API-Authorization&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_auth_header</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;ssl_verify&#39;</span><span class="p">))</span>
+
+			<span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">create_response</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+		<span class="k">except</span> <span class="ne">ConnectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">ClientException</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+		<span class="k">except</span> <span class="n">HTTPError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">ClientException</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">ClientException</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.generate_auth_header"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.Client.generate_auth_header">[docs]</a>	<span class="k">def</span> <span class="nf">generate_auth_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Generates the authentication header value.</span>
+
+<span class="sd">		:param data: str</span>
+<span class="sd">		:returns: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="n">hash_type</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="n">digest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_option</span><span class="p">(</span><span class="s1">&#39;signing_key_digest&#39;</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">digest</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+			<span class="n">digest</span> <span class="o">=</span> <span class="n">digest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+		<span class="k">if</span> <span class="n">digest</span> <span class="o">==</span> <span class="n">Client</span><span class="o">.</span><span class="n">SIGN_DIGEST_SHA1</span><span class="p">:</span>
+			<span class="n">hash_type</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span>
+		<span class="k">elif</span> <span class="n">digest</span> <span class="o">==</span> <span class="n">Client</span><span class="o">.</span><span class="n">SIGN_DIGEST_SHA256</span><span class="p">:</span>
+			<span class="n">hash_type</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span>
+
+		<span class="k">if</span> <span class="n">hash_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="k">return</span> <span class="s1">&#39;MIVA </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_api_token</span><span class="p">())</span>
+
+		<span class="n">key</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_signing_key</span><span class="p">())</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">hash_type</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span>
+
+		<span class="k">return</span> <span class="s1">&#39;MIVA-HMAC-</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">digest</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_api_token</span><span class="p">(),</span> <span class="n">result</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span></div></div>
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">ClientException</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="ClientException"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.ClientException">[docs]</a><span class="k">class</span> <span class="nc">ClientException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Request</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">http_response</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="ne">Exception</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">http_response</span> <span class="o">=</span> <span class="n">http_response</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">other</span> <span class="o">=</span> <span class="n">other</span>
+
+<div class="viewcode-block" id="ClientException.get_request"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.ClientException.get_request">[docs]</a>	<span class="k">def</span> <span class="nf">get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Request</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the Request object being sent</span>
+<span class="sd">		:return: Request</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span></div>
+
+<div class="viewcode-block" id="ClientException.get_http_response"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.ClientException.get_http_response">[docs]</a>	<span class="k">def</span> <span class="nf">get_http_response</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the Response object of the resulting http request, if available</span>
+<span class="sd">		:return: requests.Response|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_response</span></div>
+
+<div class="viewcode-block" id="ClientException.get_other"><a class="viewcode-back" href="../../merchantapi.html#merchantapi.client.ClientException.get_other">[docs]</a>	<span class="k">def</span> <span class="nf">get_other</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="ne">Exception</span><span class="p">:</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get the passed Exception, if available</span>
+<span class="sd">		:return: Exception|None</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">other</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">merchantapi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../merchantapi.html">merchantapi package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Miva Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

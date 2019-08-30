@@ -1,0 +1,78 @@
+merchantapi package
+===================
+
+Submodules
+----------
+
+merchantapi.abstract module
+---------------------------
+
+.. automodule:: merchantapi.abstract
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.client module
+-------------------------
+
+.. automodule:: merchantapi.client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.listquery module
+----------------------------
+
+.. automodule:: merchantapi.listquery
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.model module
+------------------------
+
+.. automodule:: merchantapi.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.multicall module
+----------------------------
+
+.. automodule:: merchantapi.multicall
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.request module
+--------------------------
+
+.. automodule:: merchantapi.request
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.response module
+---------------------------
+
+.. automodule:: merchantapi.response
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+merchantapi.version module
+--------------------------
+
+.. automodule:: merchantapi.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: merchantapi
+   :members:
+   :undoc-members:
+   :show-inheritance:
