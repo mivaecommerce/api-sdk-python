@@ -1,0 +1,12 @@
+/build
+/dist
+/*.egg
+/*.egg-info
+/**/__pycache__/
+*.pyc
+.pytest_cache
+/tests
+pytest.ini
+*.dev
+*.dist
+/docs
