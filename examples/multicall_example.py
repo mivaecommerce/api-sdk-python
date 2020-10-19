@@ -5,8 +5,6 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
-
-$Id: multicall_example.py 77672 2019-08-29 20:59:57Z gidriss $
 """
 
 from merchantapi.client import Client, ClientException
@@ -64,6 +62,16 @@ operation = request.operation()
 		request.add_operation(operation)
 '''
 
+# If needed, we can adjust the timeout for the multi call operation within the client. The default is 60 seconds.
+
+client.set_option('operation_timeout', 60);
+
+# If you wish to automatically fetch the remaining data in the event of a timeout, you can specify the auto timeout completion flag within the request. 
+# By default it is not enabled.
+
+request.set_auto_timeout_continue(True)
+
+
 '''
 Set shared data between the iterations, for example we can set a shared
 value for Product_Price and update many products without specifying the same
@@ -117,7 +125,10 @@ except ClientException as e:
 	exit()
 
 if not response.is_success():
-	print('Error Executing MultiCallRequest: %s: %s' % (response.get_error_code(), response.get_error_message()))
+	if response.is_timeout():
+		print('MultiCallRequest Request Timed Out')
+	else:
+		print('Error Executing MultiCallRequest: %s: %s' % (response.get_error_code(), response.get_error_message()))
 else:
 	for r in response.get_responses():
 		print('Response for %s' % r.get_request().get_function())

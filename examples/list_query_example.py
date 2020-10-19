@@ -5,8 +5,6 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
-
-$Id: list_query_example.py 77672 2019-08-29 20:59:57Z gidriss $
 """
 
 from merchantapi.client import Client, ClientException
