@@ -5,8 +5,6 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with self source code.
-
-$Id: multicall.py 77667 2019-08-29 19:18:13Z gidriss $
 """
 
 from merchantapi.abstract import Request
@@ -17,6 +15,8 @@ from merchantapi.abstract import Client
 Handles sending multiple Request objects as one request.
 :see: https://docs.miva.com/json-api/multicall
 """
+
+from requests.models import Response as HttpResponse
 
 
 class MultiCallRequest(Request):
@@ -31,6 +31,8 @@ class MultiCallRequest(Request):
 		super().__init__(client)
 		self.requests = []
 		self.use_iterations = False
+		self.auto_timeout_continue = False
+		self._initial_response = None
 
 		if isinstance(requests, list):
 			self.add_requests(requests)
@@ -75,7 +77,7 @@ class MultiCallRequest(Request):
 	def add_requests(self, requests: list):
 		"""
 		Add requests to be sent.
-		
+
 		:param :Array requests
 		:returns:MultiCallRequest
 		"""
@@ -120,6 +122,17 @@ class MultiCallRequest(Request):
 			self.add_operation(o)
 		return self
 
+	def set_auto_timeout_continue(self, state: bool):
+		"""
+		Sets the state of the auto continue feature which will automatically fetch remaining data when  timeout occurs
+
+		:param state: bool
+		:returns: MultiCallRequest
+		"""
+
+		self.auto_timeout_continue = state
+		return self
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the request to an Object.
@@ -132,22 +145,35 @@ class MultiCallRequest(Request):
 		}
 
 		for r in self.requests:
-			if isinstance(r, MultiCallRequest):
-				data['Operations'].append(r.to_dict())
-			else:
-				merged = r.to_dict()
-				merged.update({
-					'Function': self.requests[0].get_function()
-				})
-				data['Operations'].append(merged)
+			merged = r.to_dict()
+			merged.update({
+				'Function': r.get_function()
+			})
+			data['Operations'].append(merged)
 		return data
 
-	def create_response(self, data: dict) -> 'MultiCallResponse':
+	def process_request_headers(self, headers: dict) -> dict:
 		"""
+		Allows manipulation of the request headers before sending.
+
+		:param headers: dict
+		:returns: dict
+		"""
+
+		if isinstance(self._initial_response, MultiCallResponse):
+			if self._initial_response.timeout:
+				headers['RANGE'] = 'Operations=%d-%d' % \
+										(self._initial_response.completed + 1, self._initial_response.total)
+
+		return headers
+
+	def create_response(self, http_response: HttpResponse, data: dict) -> 'MultiCallResponse':
+		"""
+		:param http_response: requests.models.Response
 		:param data: dict
 		"""
 
-		return MultiCallResponse(self, data)
+		return MultiCallResponse(self, http_response, data)
 
 	# noinspection PyTypeChecker
 	def send(self) -> 'MultiCallResponse':
@@ -161,35 +187,136 @@ Handles multicall response.
 
 
 class MultiCallResponse(Response):
-	def __init__(self, request: MultiCallRequest, data: dict):
+	def __init__(self, request: MultiCallRequest, http_response: HttpResponse, data: dict):
 		"""
 		MultiCallResponse constructor.
 
 		:param request: Request
+		:param http_response: requests.models.Response
 		:param data: dict
 		"""
 
-		super().__init__(request, data)
+		super().__init__(request, http_response, [])  # init super with no data
 
-		self.data = data
 		self.responses = []
+		self.timeout = False
+		self.completed = 0
+		self.total = 0
 
-		if not self.is_success():
+		# If we are continuing, we just set the data and let the initiating response handle it
+		# Also if we did not receive an array of objects, we must have encountered some error
+		if request._initial_response is not None or not isinstance(data, list):
+			self.data = data
 			return
 
-		for i, r in enumerate(request.get_requests(), 0):
-			if isinstance(r, MultiCallOperation):
-				for i2, r2 in enumerate(r.get_requests(), 0):
-					self.add_response(r2.create_response(self.data[i][i2]))
+		self._append_response_data(data)
+
+		if self.http_response.status_code == 206:
+			self.timeout = True
+			try:
+				self.completed, self.total = self._read_content_range(self.http_response.headers['Content-Range'])
+			except KeyError:
+				pass
+
+			if not self.total:
+				raise MultiCallException('Unexpected format', self.request, self)
+			elif self.completed > self.total:
+				raise MultiCallException('Completed exceeds total', self.request, self)
+			elif self.total != len(self.request.get_requests()):
+				raise MultiCallException('Total does not match request count', self.request, self)
+
+		if self.timeout and self.request.auto_timeout_continue:
+			self._process_continue()
+
+		if not self.timeout and len(request.get_requests()) != len(self.data):
+			raise MultiCallException('Resulting data does not match request count %d vs %d' % (len(request.get_requests()), len(self.data)), self.request, self)
+
+		requests = request.get_requests()
+
+		for index, rdata in enumerate(self.data, 0):
+			crequest = requests[index]
+			if crequest is None:
+				raise MultiCallException('Unable to match response data chunk to request object', self.request, self)
+
+			if isinstance(crequest, MultiCallOperation):
+				for opindex, oprequest in enumerate(crequest.get_requests(), 0):
+					self.add_response(oprequest.create_response(http_response, rdata[opindex]))
 			else:
-				self.add_response(r.create_response(self.data[i]))
+				self.add_response(crequest.create_response(http_response, rdata))
+
+	def _append_response_data(self, data):
+		"""
+		Appends response data to be later processed into Response objects
+		:param data:
+		:return:
+		"""
+
+		if not isinstance(self.data, list):
+			self.data = []
+
+		if isinstance(data, dict):
+			self.data.append(data)
+		elif isinstance(data, list):
+			for i in range(len(data)):
+				self.data.append(data[i])
+
+	def _process_continue(self):
+		"""
+		Processes the auto continue feature until completion or error
+		:return:
+		"""
+
+		self.request._initial_response = self
+
+		while self.completed != self.total:
+			response = self.request.send()
+
+			if not isinstance(response.data, list):
+				raise MultiCallException('Expected an array of dict', self.request, self)
+
+			self._append_response_data(response.data)
+
+			try:
+				completed, total = self._read_content_range(response.http_response.headers['Content-Range'])
+				self.completed = self.completed + completed
+			except KeyError:
+				if (self.total - self.completed) == len(response.data):
+					self.completed = self.total
+		self.timeout = False
+		self.request._initial_response = None
+
+	@staticmethod
+	def _read_content_range(range: str) -> (int, int):
+		"""
+		Reads the content range header into its parts
+		:param range: str
+		:return: (int,int)
+		"""
+
+		ranges = range.split('/')
+		completed = 0
+		total = 0
+
+		if len(ranges) == 2:
+			completed = int(ranges[0])
+			total = int(ranges[1])
+
+		return completed, total
 
 	def is_success(self):
 		"""
 		:returns: bool
 		"""
 
-		return isinstance(self.data, list)
+		return not self.is_timeout() and isinstance(self.data, list)
+
+	def is_timeout(self):
+		"""
+		:returns: bool
+		"""
+
+		return self.timeout
+
 
 	def get_responses(self) -> list:
 		"""
@@ -206,7 +333,7 @@ class MultiCallResponse(Response):
 
 		:param response: Response
 		:returns: MultiCallResponse
-		:raises Exception:
+		:raises ExceptionException:
 		"""
 
 		self.responses.append(response)
@@ -269,7 +396,7 @@ class MultiCallOperation:
 		"""
 
 		if isinstance(request, MultiCallRequest):
-			raise Exception('Can\'t nest a MultiCallRequest in a MultiCallOperation')
+			raise MultiCallException('Can\'t nest a MultiCallRequest in a MultiCallOperation')
 		self.requests.append(request)
 		return self
 
@@ -288,7 +415,7 @@ class MultiCallOperation:
 
 		:param requests: list[Request]
 		:returns: MultiCallOperation
-		:raises Exception:
+		:raises MultiCallException:
 		"""
 
 		self.requests = []
@@ -302,7 +429,7 @@ class MultiCallOperation:
 
 		:param requests: list[Request]
 		:returns: MultiCallOperation
-		:raises Exception:
+		:raises MultiCallException:
 		"""
 
 		for r in requests:
@@ -361,3 +488,47 @@ class MultiCallOperation:
 			data['Iterations'].append(r.to_dict())
 		return data
 
+
+'''
+MultiCallException
+'''
+
+
+class MultiCallException(Exception):
+	def __init__(self, message: str, request: MultiCallRequest = None, response: MultiCallResponse = None, other: Exception = None):
+		"""
+		Constructor
+		:param message:
+		:param request:
+		:param response:
+		:param other:
+		"""
+		super().__init__(message)
+		self.request = request
+		self.response = request
+		self.other = other
+
+	def get_request(self) -> MultiCallRequest:
+		"""
+		Get the MultiCallRequest object being sent, if applicable
+		:return: MultiCallRequest
+		"""
+
+		return self.request
+
+	def get_response(self) -> MultiCallResponse:
+		"""
+		Get the MultiCallResponse object at the state of the error, if applicable
+		:return: MultiCallResponse
+		"""
+
+		return self.response
+
+
+	def get_other(self) -> Exception:
+		"""
+		Get the passed Exception, if available
+		:return: Exception|None
+		"""
+
+		return self.other

@@ -5,8 +5,6 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
-
-$Id: model.py 77709 2019-08-30 16:41:54Z gidriss $
 """
 
 from merchantapi.abstract import Model
@@ -61,10 +59,9 @@ class Customer(Model):
 		super().__init__(data)
 		if self.has_field('CustomField_Values'):
 			value = self.get_field('CustomField_Values')
-			if isinstance(value, CustomFieldValues):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('CustomField_Values', CustomFieldValues(value))
+			if isinstance(value, dict):
+				if not isinstance(value, CustomFieldValues):
+					self.set_field('CustomField_Values', CustomFieldValues(value))
 			else:
 				raise Exception('Expected CustomFieldValues or a dict')
 
@@ -410,291 +407,6 @@ class Customer(Model):
 
 		return self.get_field('CustomField_Values', None)
 
-	def set_login(self, login: str) -> 'Customer':
-		"""
-		Set login.
-
-		:param login: string
-		:returns: Customer
-		"""
-
-		return self.set_field('login', login)
-
-	def set_password_email(self, password_email: str) -> 'Customer':
-		"""
-		Set pw_email.
-
-		:param password_email: string
-		:returns: Customer
-		"""
-
-		return self.set_field('pw_email', password_email)
-
-	def set_shipping_residential(self, shipping_residential: bool) -> 'Customer':
-		"""
-		Set ship_res.
-
-		:param shipping_residential: bool
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_res', shipping_residential)
-
-	def set_ship_first_name(self, ship_first_name: str) -> 'Customer':
-		"""
-		Set ship_fname.
-
-		:param ship_first_name: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_fname', ship_first_name)
-
-	def set_ship_last_name(self, ship_last_name: str) -> 'Customer':
-		"""
-		Set ship_lname.
-
-		:param ship_last_name: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_lname', ship_last_name)
-
-	def set_ship_email(self, ship_email: str) -> 'Customer':
-		"""
-		Set ship_email.
-
-		:param ship_email: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_email', ship_email)
-
-	def set_ship_company(self, ship_company: str) -> 'Customer':
-		"""
-		Set ship_comp.
-
-		:param ship_company: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_comp', ship_company)
-
-	def set_ship_phone(self, ship_phone: str) -> 'Customer':
-		"""
-		Set ship_phone.
-
-		:param ship_phone: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_phone', ship_phone)
-
-	def set_ship_fax(self, ship_fax: str) -> 'Customer':
-		"""
-		Set ship_fax.
-
-		:param ship_fax: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_fax', ship_fax)
-
-	def set_ship_address1(self, ship_address1: str) -> 'Customer':
-		"""
-		Set ship_addr1.
-
-		:param ship_address1: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_addr1', ship_address1)
-
-	def set_ship_address2(self, ship_address2: str) -> 'Customer':
-		"""
-		Set ship_addr2.
-
-		:param ship_address2: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_addr2', ship_address2)
-
-	def set_ship_city(self, ship_city: str) -> 'Customer':
-		"""
-		Set ship_city.
-
-		:param ship_city: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_city', ship_city)
-
-	def set_ship_state(self, ship_state: str) -> 'Customer':
-		"""
-		Set ship_state.
-
-		:param ship_state: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_state', ship_state)
-
-	def set_ship_zip(self, ship_zip: str) -> 'Customer':
-		"""
-		Set ship_zip.
-
-		:param ship_zip: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_zip', ship_zip)
-
-	def set_ship_country(self, ship_country: str) -> 'Customer':
-		"""
-		Set ship_cntry.
-
-		:param ship_country: string
-		:returns: Customer
-		"""
-
-		return self.set_field('ship_cntry', ship_country)
-
-	def set_bill_first_name(self, bill_first_name: str) -> 'Customer':
-		"""
-		Set bill_fname.
-
-		:param bill_first_name: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_fname', bill_first_name)
-
-	def set_bill_last_name(self, bill_last_name: str) -> 'Customer':
-		"""
-		Set bill_lname.
-
-		:param bill_last_name: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_lname', bill_last_name)
-
-	def set_bill_email(self, bill_email: str) -> 'Customer':
-		"""
-		Set bill_email.
-
-		:param bill_email: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_email', bill_email)
-
-	def set_bill_company(self, bill_company: str) -> 'Customer':
-		"""
-		Set bill_comp.
-
-		:param bill_company: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_comp', bill_company)
-
-	def set_bill_phone(self, bill_phone: str) -> 'Customer':
-		"""
-		Set bill_phone.
-
-		:param bill_phone: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_phone', bill_phone)
-
-	def set_bill_fax(self, bill_fax: str) -> 'Customer':
-		"""
-		Set bill_fax.
-
-		:param bill_fax: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_fax', bill_fax)
-
-	def set_bill_address1(self, bill_address1: str) -> 'Customer':
-		"""
-		Set bill_addr1.
-
-		:param bill_address1: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_addr1', bill_address1)
-
-	def set_bill_address2(self, bill_address2: str) -> 'Customer':
-		"""
-		Set bill_addr2.
-
-		:param bill_address2: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_addr2', bill_address2)
-
-	def set_bill_city(self, bill_city: str) -> 'Customer':
-		"""
-		Set bill_city.
-
-		:param bill_city: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_city', bill_city)
-
-	def set_bill_state(self, bill_state: str) -> 'Customer':
-		"""
-		Set bill_state.
-
-		:param bill_state: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_state', bill_state)
-
-	def set_bill_zip(self, bill_zip: str) -> 'Customer':
-		"""
-		Set bill_zip.
-
-		:param bill_zip: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_zip', bill_zip)
-
-	def set_bill_country(self, bill_country: str) -> 'Customer':
-		"""
-		Set bill_cntry.
-
-		:param bill_country: string
-		:returns: Customer
-		"""
-
-		return self.set_field('bill_cntry', bill_country)
-
-	def set_custom_field_values(self, custom_field_values) -> 'Customer':
-		"""
-		Set CustomField_Values.
-
-		:param custom_field_values: CustomFieldValues|dict
-		:returns: Customer
-		:raises Exception:
-		"""
-
-		if custom_field_values is None or isinstance(custom_field_values, CustomFieldValues):
-			return self.set_field('CustomField_Values', custom_field_values)
-		elif isinstance(custom_field_values, dict):
-			return self.set_field('CustomField_Values', CustomFieldValues(custom_field_values))
-		raise Exception('Expected instance of CustomFieldValues, Object, or None')
-
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -818,84 +530,6 @@ class Coupon(Model):
 
 		return self.get_field('use_count', 0)
 
-	def set_code(self, code: str) -> 'Coupon':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: Coupon
-		"""
-
-		return self.set_field('code', code)
-
-	def set_description(self, description: str) -> 'Coupon':
-		"""
-		Set descrip.
-
-		:param description: string
-		:returns: Coupon
-		"""
-
-		return self.set_field('descrip', description)
-
-	def set_customer_scope(self, customer_scope: str) -> 'Coupon':
-		"""
-		Set custscope.
-
-		:param customer_scope: string
-		:returns: Coupon
-		"""
-
-		return self.set_field('custscope', customer_scope)
-
-	def set_date_time_start(self, date_time_start):
-		"""
-		Set dt_start.
-
-		:param date_time_start: int
-		:returns: Coupon
-		"""
-		return self.set_field('dt_start', date_time_start)
-
-	def set_date_time_end(self, date_time_end):
-		"""
-		Set dt_end.
-
-		:param date_time_end: int
-		:returns: Coupon
-		"""
-		return self.set_field('dt_end', date_time_end)
-
-	def set_max_use(self, max_use: int) -> 'Coupon':
-		"""
-		Set max_use.
-
-		:param max_use: int
-		:returns: Coupon
-		"""
-
-		return self.set_field('max_use', max_use)
-
-	def set_max_per(self, max_per: int) -> 'Coupon':
-		"""
-		Set max_per.
-
-		:param max_per: int
-		:returns: Coupon
-		"""
-
-		return self.set_field('max_per', max_per)
-
-	def set_active(self, active: bool) -> 'Coupon':
-		"""
-		Set active.
-
-		:param active: bool
-		:returns: Coupon
-		"""
-
-		return self.set_field('active', active)
-
 
 """
 CustomFieldValues data model.
@@ -912,7 +546,7 @@ class CustomFieldValues(Model):
 
 		super().__init__(data)
 
-	def get_value(self, code: str, module: str = 'customfields'):
+	def get_value(self, code: str, module : str = 'customfields'):
 		"""
 		Get a value for a module by its code.
 
@@ -955,7 +589,7 @@ class CustomFieldValues(Model):
 
 		return self.get_field(module, {})
 
-	def set_value(self, field: str, value, module: str = 'customfields') -> 'CustomFieldValues':
+	def add_value(self, field: str, value, module: str = 'customfields') -> 'CustomFieldValues':
 		"""
 		Add a custom field value.
 
@@ -969,19 +603,6 @@ class CustomFieldValues(Model):
 			self.set_field(module, {})
 		self[module][field] = value
 		return self
-
-	def add_value(self, field: str, value, module: str = 'customfields') -> 'CustomFieldValues':
-		"""
-		Same as set_value. 
-
-		:param field: str
-		:param value: mixed
-		:param module: std
-		:returns: CustomFieldValues
-		"""
-
-		return self.set_value(field, value, module)
-
 
 
 """
@@ -1186,46 +807,6 @@ class Note(Model):
 
 		return self.get_field('admin_user')
 
-	def set_customer_id(self, customer_id: int) -> 'Note':
-		"""
-		Set cust_id.
-
-		:param customer_id: int
-		:returns: Note
-		"""
-
-		return self.set_field('cust_id', customer_id)
-
-	def set_account_id(self, account_id: int) -> 'Note':
-		"""
-		Set account_id.
-
-		:param account_id: int
-		:returns: Note
-		"""
-
-		return self.set_field('account_id', account_id)
-
-	def set_order_id(self, order_id: int) -> 'Note':
-		"""
-		Set order_id.
-
-		:param order_id: int
-		:returns: Note
-		"""
-
-		return self.set_field('order_id', order_id)
-
-	def set_note_text(self, note_text: str) -> 'Note':
-		"""
-		Set notetext.
-
-		:param note_text: string
-		:returns: Note
-		"""
-
-		return self.set_field('notetext', note_text)
-
 
 """
 PriceGroup data model.
@@ -1249,19 +830,17 @@ class PriceGroup(Model):
 		super().__init__(data)
 		if self.has_field('module'):
 			value = self.get_field('module')
-			if isinstance(value, Module):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('module', Module(value))
+			if isinstance(value, dict):
+				if not isinstance(value, Module):
+					self.set_field('module', Module(value))
 			else:
 				raise Exception('Expected Module or a dict')
 
 		if self.has_field('capabilities'):
 			value = self.get_field('capabilities')
-			if isinstance(value, DiscountModuleCapabilities):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('capabilities', DiscountModuleCapabilities(value))
+			if isinstance(value, dict):
+				if not isinstance(value, DiscountModuleCapabilities):
+					self.set_field('capabilities', DiscountModuleCapabilities(value))
 			else:
 				raise Exception('Expected DiscountModuleCapabilities or a dict')
 
@@ -1490,219 +1069,6 @@ class PriceGroup(Model):
 
 		return self.get_field('display', False)
 
-	def set_customer_scope(self, customer_scope: str) -> 'PriceGroup':
-		"""
-		Set custscope.
-
-		:param customer_scope: string
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('custscope', customer_scope)
-
-	def set_discount(self, discount: float) -> 'PriceGroup':
-		"""
-		Set discount.
-
-		:param discount: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('discount', discount)
-
-	def set_date_time_start(self, date_time_start):
-		"""
-		Set dt_start.
-
-		:param date_time_start: int
-		:returns: PriceGroup
-		"""
-		return self.set_field('dt_start', date_time_start)
-
-	def set_date_time_end(self, date_time_end):
-		"""
-		Set dt_end.
-
-		:param date_time_end: int
-		:returns: PriceGroup
-		"""
-		return self.set_field('dt_end', date_time_end)
-
-	def set_minimum_subtotal(self, minimum_subtotal: float) -> 'PriceGroup':
-		"""
-		Set qmn_subtot.
-
-		:param minimum_subtotal: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmn_subtot', minimum_subtotal)
-
-	def set_maximum_subtotal(self, maximum_subtotal: float) -> 'PriceGroup':
-		"""
-		Set qmx_subtot.
-
-		:param maximum_subtotal: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmx_subtot', maximum_subtotal)
-
-	def set_minimum_quantity(self, minimum_quantity: int) -> 'PriceGroup':
-		"""
-		Set qmn_quan.
-
-		:param minimum_quantity: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmn_quan', minimum_quantity)
-
-	def set_maximum_quantity(self, maximum_quantity: int) -> 'PriceGroup':
-		"""
-		Set qmx_quan.
-
-		:param maximum_quantity: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmx_quan', maximum_quantity)
-
-	def set_minimum_weight(self, minimum_weight: float) -> 'PriceGroup':
-		"""
-		Set qmn_weight.
-
-		:param minimum_weight: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmn_weight', minimum_weight)
-
-	def set_maximum_weight(self, maximum_weight: float) -> 'PriceGroup':
-		"""
-		Set qmx_weight.
-
-		:param maximum_weight: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('qmx_weight', maximum_weight)
-
-	def set_basket_minimum_subtotal(self, basket_minimum_subtotal: float) -> 'PriceGroup':
-		"""
-		Set bmn_subtot.
-
-		:param basket_minimum_subtotal: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmn_subtot', basket_minimum_subtotal)
-
-	def set_basket_maximum_subtotal(self, basket_maximum_subtotal: float) -> 'PriceGroup':
-		"""
-		Set bmx_subtot.
-
-		:param basket_maximum_subtotal: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmx_subtot', basket_maximum_subtotal)
-
-	def set_basket_minimum_quantity(self, basket_minimum_quantity: int) -> 'PriceGroup':
-		"""
-		Set bmn_quan.
-
-		:param basket_minimum_quantity: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmn_quan', basket_minimum_quantity)
-
-	def set_basket_maximum_quantity(self, basket_maximum_quantity: int) -> 'PriceGroup':
-		"""
-		Set bmx_quan.
-
-		:param basket_maximum_quantity: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmx_quan', basket_maximum_quantity)
-
-	def set_basket_minimum_weight(self, basket_minimum_weight: float) -> 'PriceGroup':
-		"""
-		Set bmn_weight.
-
-		:param basket_minimum_weight: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmn_weight', basket_minimum_weight)
-
-	def set_basket_maximum_weight(self, basket_maximum_weight: float) -> 'PriceGroup':
-		"""
-		Set bmx_weight.
-
-		:param basket_maximum_weight: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('bmx_weight', basket_maximum_weight)
-
-	def set_priority(self, priority: int) -> 'PriceGroup':
-		"""
-		Set priority.
-
-		:param priority: int
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('priority', priority)
-
-	def set_module(self, module) -> 'PriceGroup':
-		"""
-		Set module.
-
-		:param module: Module|dict
-		:returns: PriceGroup
-		:raises Exception:
-		"""
-
-		if module is None or isinstance(module, Module):
-			return self.set_field('module', module)
-		elif isinstance(module, dict):
-			return self.set_field('module', Module(module))
-		raise Exception('Expected instance of Module, Object, or None')
-
-	def set_exclusion(self, exclusion: bool) -> 'PriceGroup':
-		"""
-		Set exclusion.
-
-		:param exclusion: bool
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('exclusion', exclusion)
-
-	def set_description(self, description: str) -> 'PriceGroup':
-		"""
-		Set descrip.
-
-		:param description: string
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('descrip', description)
-
-	def set_display(self, display: bool) -> 'PriceGroup':
-		"""
-		Set display.
-
-		:param display: bool
-		:returns: PriceGroup
-		"""
-
-		return self.set_field('display', display)
-
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -1805,19 +1171,17 @@ class Product(Model):
 		super().__init__(data)
 		if self.has_field('productinventorysettings'):
 			value = self.get_field('productinventorysettings')
-			if isinstance(value, ProductInventorySettings):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('productinventorysettings', ProductInventorySettings(value))
+			if isinstance(value, dict):
+				if not isinstance(value, ProductInventorySettings):
+					self.set_field('productinventorysettings', ProductInventorySettings(value))
 			else:
 				raise Exception('Expected ProductInventorySettings or a dict')
 
 		if self.has_field('CustomField_Values'):
 			value = self.get_field('CustomField_Values')
-			if isinstance(value, CustomFieldValues):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('CustomField_Values', CustomFieldValues(value))
+			if isinstance(value, dict):
+				if not isinstance(value, CustomFieldValues):
+					self.set_field('CustomField_Values', CustomFieldValues(value))
 			else:
 				raise Exception('Expected CustomFieldValues or a dict')
 
@@ -1825,10 +1189,9 @@ class Product(Model):
 			value = self.get_field('uris')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, Uri):
-						pass
-					elif isinstance(e, dict):
-						value[i] = Uri(e)
+					if isinstance(e, dict):
+						if not isinstance(e, Uri):
+							value[i] = Uri(e)
 					else:
 						raise Exception('Expected list of Uri or dict')
 			else:
@@ -1838,10 +1201,9 @@ class Product(Model):
 			value = self.get_field('relatedproducts')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, RelatedProduct):
-						pass
-					elif isinstance(e, dict):
-						value[i] = RelatedProduct(e)
+					if isinstance(e, dict):
+						if not isinstance(e, RelatedProduct):
+							value[i] = RelatedProduct(e)
 					else:
 						raise Exception('Expected list of RelatedProduct or dict')
 			else:
@@ -1851,10 +1213,9 @@ class Product(Model):
 			value = self.get_field('categories')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, Category):
-						pass
-					elif isinstance(e, dict):
-						value[i] = Category(e)
+					if isinstance(e, dict):
+						if not isinstance(e, Category):
+							value[i] = Category(e)
 					else:
 						raise Exception('Expected list of Category or dict')
 			else:
@@ -1862,10 +1223,9 @@ class Product(Model):
 
 		if self.has_field('productshippingrules'):
 			value = self.get_field('productshippingrules')
-			if isinstance(value, ProductShippingRules):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('productshippingrules', ProductShippingRules(value))
+			if isinstance(value, dict):
+				if not isinstance(value, ProductShippingRules):
+					self.set_field('productshippingrules', ProductShippingRules(value))
 			else:
 				raise Exception('Expected ProductShippingRules or a dict')
 
@@ -1873,10 +1233,9 @@ class Product(Model):
 			value = self.get_field('productimagedata')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductImageData):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductImageData(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductImageData):
+							value[i] = ProductImageData(e)
 					else:
 						raise Exception('Expected list of ProductImageData or dict')
 			else:
@@ -1886,10 +1245,9 @@ class Product(Model):
 			value = self.get_field('attributes')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductAttribute):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductAttribute(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductAttribute):
+							value[i] = ProductAttribute(e)
 					else:
 						raise Exception('Expected list of ProductAttribute or dict')
 			else:
@@ -2138,7 +1496,7 @@ class Product(Model):
 
 		return self.get_field('categories', [])
 
-	def get_product_shupping_rules(self):
+	def get_product_shipping_rules(self):
 		"""
 		Get productshippingrules.
 
@@ -2164,171 +1522,6 @@ class Product(Model):
 		"""
 
 		return self.get_field('attributes', [])
-
-	def set_code(self, code: str) -> 'Product':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: Product
-		"""
-
-		return self.set_field('code', code)
-
-	def set_sku(self, sku: str) -> 'Product':
-		"""
-		Set sku.
-
-		:param sku: string
-		:returns: Product
-		"""
-
-		return self.set_field('sku', sku)
-
-	def set_name(self, name: str) -> 'Product':
-		"""
-		Set name.
-
-		:param name: string
-		:returns: Product
-		"""
-
-		return self.set_field('name', name)
-
-	def set_thumbnail(self, thumbnail: str) -> 'Product':
-		"""
-		Set thumbnail.
-
-		:param thumbnail: string
-		:returns: Product
-		"""
-
-		return self.set_field('thumbnail', thumbnail)
-
-	def set_image(self, image: str) -> 'Product':
-		"""
-		Set image.
-
-		:param image: string
-		:returns: Product
-		"""
-
-		return self.set_field('image', image)
-
-	def set_price(self, price: float) -> 'Product':
-		"""
-		Set price.
-
-		:param price: int
-		:returns: Product
-		"""
-
-		return self.set_field('price', price)
-
-	def set_cost(self, cost: float) -> 'Product':
-		"""
-		Set cost.
-
-		:param cost: int
-		:returns: Product
-		"""
-
-		return self.set_field('cost', cost)
-
-	def set_description(self, description: str) -> 'Product':
-		"""
-		Set descrip.
-
-		:param description: string
-		:returns: Product
-		"""
-
-		return self.set_field('descrip', description)
-
-	def set_weight(self, weight: float) -> 'Product':
-		"""
-		Set weight.
-
-		:param weight: int
-		:returns: Product
-		"""
-
-		return self.set_field('weight', weight)
-
-	def set_active(self, active: bool) -> 'Product':
-		"""
-		Set active.
-
-		:param active: bool
-		:returns: Product
-		"""
-
-		return self.set_field('active', active)
-
-	def set_page_title(self, page_title: str) -> 'Product':
-		"""
-		Set page_title.
-
-		:param page_title: string
-		:returns: Product
-		"""
-
-		return self.set_field('page_title', page_title)
-
-	def set_taxable(self, taxable: bool) -> 'Product':
-		"""
-		Set taxable.
-
-		:param taxable: bool
-		:returns: Product
-		"""
-
-		return self.set_field('taxable', taxable)
-
-	def set_product_inventory(self, product_inventory: int) -> 'Product':
-		"""
-		Set product_inventory.
-
-		:param product_inventory: int
-		:returns: Product
-		"""
-
-		return self.set_field('product_inventory', product_inventory)
-
-	def set_canonical_category_code(self, canonical_category_code: str) -> 'Product':
-		"""
-		Set cancat_code.
-
-		:param canonical_category_code: string
-		:returns: Product
-		"""
-
-		return self.set_field('cancat_code', canonical_category_code)
-
-	def set_page_code(self, page_code: str) -> 'Product':
-		"""
-		Set page_code.
-
-		:param page_code: string
-		:returns: Product
-		"""
-
-		return self.set_field('page_code', page_code)
-
-	def set_custom_field_values(self, custom_field_values) -> 'Product':
-		"""
-		Set CustomField_Values.
-
-		:param custom_field_values: CustomFieldValues|dict
-		:returns: Product
-		:raises Exception:
-		"""
-
-		if custom_field_values is None or isinstance(custom_field_values, CustomFieldValues):
-			return self.set_field('CustomField_Values', custom_field_values)
-		elif isinstance(custom_field_values, dict):
-			return self.set_field('CustomField_Values', CustomFieldValues(custom_field_values))
-		raise Exception('Expected instance of CustomFieldValues, Object, or None')
 
 	def to_dict(self) -> dict:
 		"""
@@ -2533,116 +1726,6 @@ class RelatedProduct(Model):
 
 		return self.get_field('dt_updated', 0)
 
-	def set_code(self, code: str) -> 'RelatedProduct':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('code', code)
-
-	def set_sku(self, sku: str) -> 'RelatedProduct':
-		"""
-		Set sku.
-
-		:param sku: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('sku', sku)
-
-	def set_name(self, name: str) -> 'RelatedProduct':
-		"""
-		Set name.
-
-		:param name: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('name', name)
-
-	def set_thumbnail(self, thumbnail: str) -> 'RelatedProduct':
-		"""
-		Set thumbnail.
-
-		:param thumbnail: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('thumbnail', thumbnail)
-
-	def set_image(self, image: str) -> 'RelatedProduct':
-		"""
-		Set image.
-
-		:param image: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('image', image)
-
-	def set_price(self, price: float) -> 'RelatedProduct':
-		"""
-		Set price.
-
-		:param price: int
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('price', price)
-
-	def set_cost(self, cost: float) -> 'RelatedProduct':
-		"""
-		Set cost.
-
-		:param cost: int
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('cost', cost)
-
-	def set_weight(self, weight: float) -> 'RelatedProduct':
-		"""
-		Set weight.
-
-		:param weight: int
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('weight', weight)
-
-	def set_active(self, active: bool) -> 'RelatedProduct':
-		"""
-		Set active.
-
-		:param active: bool
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('active', active)
-
-	def set_page_title(self, page_title: str) -> 'RelatedProduct':
-		"""
-		Set page_title.
-
-		:param page_title: string
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('page_title', page_title)
-
-	def set_taxable(self, taxable: bool) -> 'RelatedProduct':
-		"""
-		Set taxable.
-
-		:param taxable: bool
-		:returns: RelatedProduct
-		"""
-
-		return self.set_field('taxable', taxable)
-
 
 """
 ProductImageData data model.
@@ -2768,10 +1851,9 @@ class ProductAttribute(Model):
 			value = self.get_field('options')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductOption):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductOption(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductOption):
+							value[i] = ProductOption(e)
 					else:
 						raise Exception('Expected list of ProductOption or dict')
 			else:
@@ -3113,10 +2195,9 @@ class ProductShippingRules(Model):
 			value = self.get_field('methods')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductShippingMethod):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductShippingMethod(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductShippingMethod):
+							value[i] = ProductShippingMethod(e)
 					else:
 						raise Exception('Expected list of ProductShippingMethod or dict')
 			else:
@@ -3184,37 +2265,6 @@ class ProductShippingRules(Model):
 		"""
 
 		return self.get_field('methods', [])
-
-	def set_methods(self, methods: list) -> 'ProductShippingRules':
-		"""
-		Set methods.
-
-		:param methods: List of ProductShippingMethod
-		:raises Exception:
-		:returns: ProductShippingRules
-		"""
-
-		for i, e in enumerate(methods, 0):
-			if isinstance(e, ProductShippingMethod):
-				continue
-			elif isinstance(e, dict):
-				methods[i] = ProductShippingMethod(e)
-			else:
-				raise Exception('Expected instance of ProductShippingMethod or dict')
-		return self.set_field('methods', methods)
-
-	def add_method(self, method: ProductShippingMethod) -> 'ProductShippingRules':
-		"""
-		Add a ProductShippingMethod.
-
-		:param method: ProductShippingMethod
-		:returns: ProductShippingRules
-		"""
-
-		if 'methods' not in self:
-			self['methods'] = []
-		self['methods'].append(method)
-		return self
 
 	def to_dict(self) -> dict:
 		"""
@@ -3355,10 +2405,9 @@ class ProductVariant(Model):
 			value = self.get_field('parts')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductVariantPart):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductVariantPart(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductVariantPart):
+							value[i] = ProductVariantPart(e)
 					else:
 						raise Exception('Expected list of ProductVariantPart or dict')
 			else:
@@ -3368,10 +2417,9 @@ class ProductVariant(Model):
 			value = self.get_field('dimensions')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, ProductVariantDimension):
-						pass
-					elif isinstance(e, dict):
-						value[i] = ProductVariantDimension(e)
+					if isinstance(e, dict):
+						if not isinstance(e, ProductVariantDimension):
+							value[i] = ProductVariantDimension(e)
 					else:
 						raise Exception('Expected list of ProductVariantDimension or dict')
 			else:
@@ -3447,12 +2495,23 @@ class Category(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('uris'):
+			value = self.get_field('uris')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, Uri):
+							value[i] = Uri(e)
+					else:
+						raise Exception('Expected list of Uri or dict')
+			else:
+				raise Exception('Expected list of Uri or dict')
+
 		if self.has_field('CustomField_Values'):
 			value = self.get_field('CustomField_Values')
-			if isinstance(value, CustomFieldValues):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('CustomField_Values', CustomFieldValues(value))
+			if isinstance(value, dict):
+				if not isinstance(value, CustomFieldValues):
+					self.set_field('CustomField_Values', CustomFieldValues(value))
 			else:
 				raise Exception('Expected CustomFieldValues or a dict')
 
@@ -3582,6 +2641,15 @@ class Category(Model):
 
 		return self.get_field('parent_category')
 
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: List of Uri
+		"""
+
+		return self.get_field('uris', [])
+
 	def get_custom_field_values(self):
 		"""
 		Get CustomField_Values.
@@ -3591,87 +2659,17 @@ class Category(Model):
 
 		return self.get_field('CustomField_Values', None)
 
-	def set_code(self, code: str) -> 'Category':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: Category
-		"""
-
-		return self.set_field('code', code)
-
-	def set_name(self, name: str) -> 'Category':
-		"""
-		Set name.
-
-		:param name: string
-		:returns: Category
-		"""
-
-		return self.set_field('name', name)
-
-	def set_page_title(self, page_title: str) -> 'Category':
-		"""
-		Set page_title.
-
-		:param page_title: string
-		:returns: Category
-		"""
-
-		return self.set_field('page_title', page_title)
-
-	def set_active(self, active: bool) -> 'Category':
-		"""
-		Set active.
-
-		:param active: bool
-		:returns: Category
-		"""
-
-		return self.set_field('active', active)
-
-	def set_page_code(self, page_code: str) -> 'Category':
-		"""
-		Set page_code.
-
-		:param page_code: string
-		:returns: Category
-		"""
-
-		return self.set_field('page_code', page_code)
-
-	def set_parent_category(self, parent_category: str) -> 'Category':
-		"""
-		Set parent_category.
-
-		:param parent_category: string
-		:returns: Category
-		"""
-
-		return self.set_field('parent_category', parent_category)
-
-	def set_custom_field_values(self, custom_field_values) -> 'Category':
-		"""
-		Set CustomField_Values.
-
-		:param custom_field_values: CustomFieldValues|dict
-		:returns: Category
-		:raises Exception:
-		"""
-
-		if custom_field_values is None or isinstance(custom_field_values, CustomFieldValues):
-			return self.set_field('CustomField_Values', custom_field_values)
-		elif isinstance(custom_field_values, dict):
-			return self.set_field('CustomField_Values', CustomFieldValues(custom_field_values))
-		raise Exception('Expected instance of CustomFieldValues, Object, or None')
-
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
 		"""
 
 		ret = self.copy()
+
+		if 'uris' in ret and isinstance(ret['uris'], list):
+			for i, e in enumerate(ret['uris']):
+				if isinstance(e, Uri):
+					ret['uris'][i] = ret['uris'][i].to_dict()
 
 		if 'CustomField_Values' in ret and isinstance(ret['CustomField_Values'], CustomFieldValues):
 			ret['CustomField_Values'] = ret['CustomField_Values'].to_dict()
@@ -3716,10 +2714,9 @@ class Order(Model):
 		super().__init__(data)
 		if self.has_field('customer'):
 			value = self.get_field('customer')
-			if isinstance(value, Customer):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('customer', Customer(value))
+			if isinstance(value, dict):
+				if not isinstance(value, Customer):
+					self.set_field('customer', Customer(value))
 			else:
 				raise Exception('Expected Customer or a dict')
 
@@ -3727,10 +2724,9 @@ class Order(Model):
 			value = self.get_field('items')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderItem):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderItem(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderItem):
+							value[i] = OrderItem(e)
 					else:
 						raise Exception('Expected list of OrderItem or dict')
 			else:
@@ -3740,10 +2736,9 @@ class Order(Model):
 			value = self.get_field('charges')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderCharge):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderCharge(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderCharge):
+							value[i] = OrderCharge(e)
 					else:
 						raise Exception('Expected list of OrderCharge or dict')
 			else:
@@ -3753,10 +2748,9 @@ class Order(Model):
 			value = self.get_field('coupons')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderCoupon):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderCoupon(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderCoupon):
+							value[i] = OrderCoupon(e)
 					else:
 						raise Exception('Expected list of OrderCoupon or dict')
 			else:
@@ -3766,10 +2760,9 @@ class Order(Model):
 			value = self.get_field('discounts')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderDiscountTotal):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderDiscountTotal(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderDiscountTotal):
+							value[i] = OrderDiscountTotal(e)
 					else:
 						raise Exception('Expected list of OrderDiscountTotal or dict')
 			else:
@@ -3779,10 +2772,9 @@ class Order(Model):
 			value = self.get_field('payments')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderPayment):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderPayment(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderPayment):
+							value[i] = OrderPayment(e)
 					else:
 						raise Exception('Expected list of OrderPayment or dict')
 			else:
@@ -3792,10 +2784,9 @@ class Order(Model):
 			value = self.get_field('notes')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderNote):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderNote(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderNote):
+							value[i] = OrderNote(e)
 					else:
 						raise Exception('Expected list of OrderNote or dict')
 			else:
@@ -3803,10 +2794,9 @@ class Order(Model):
 
 		if self.has_field('CustomField_Values'):
 			value = self.get_field('CustomField_Values')
-			if isinstance(value, CustomFieldValues):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('CustomField_Values', CustomFieldValues(value))
+			if isinstance(value, dict):
+				if not isinstance(value, CustomFieldValues):
+					self.set_field('CustomField_Values', CustomFieldValues(value))
 			else:
 				raise Exception('Expected CustomFieldValues or a dict')
 
@@ -4422,256 +3412,6 @@ class Order(Model):
 
 		return self.get_field('CustomField_Values', None)
 
-	def set_customer_id(self, customer_id: int) -> 'Order':
-		"""
-		Set cust_id.
-
-		:param customer_id: int
-		:returns: Order
-		"""
-
-		return self.set_field('cust_id', customer_id)
-
-	def set_ship_first_name(self, ship_first_name: str) -> 'Order':
-		"""
-		Set ship_fname.
-
-		:param ship_first_name: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_fname', ship_first_name)
-
-	def set_ship_last_name(self, ship_last_name: str) -> 'Order':
-		"""
-		Set ship_lname.
-
-		:param ship_last_name: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_lname', ship_last_name)
-
-	def set_ship_email(self, ship_email: str) -> 'Order':
-		"""
-		Set ship_email.
-
-		:param ship_email: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_email', ship_email)
-
-	def set_ship_company(self, ship_company: str) -> 'Order':
-		"""
-		Set ship_comp.
-
-		:param ship_company: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_comp', ship_company)
-
-	def set_ship_phone(self, ship_phone: str) -> 'Order':
-		"""
-		Set ship_phone.
-
-		:param ship_phone: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_phone', ship_phone)
-
-	def set_ship_fax(self, ship_fax: str) -> 'Order':
-		"""
-		Set ship_fax.
-
-		:param ship_fax: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_fax', ship_fax)
-
-	def set_ship_address1(self, ship_address1: str) -> 'Order':
-		"""
-		Set ship_addr1.
-
-		:param ship_address1: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_addr1', ship_address1)
-
-	def set_ship_address2(self, ship_address2: str) -> 'Order':
-		"""
-		Set ship_addr2.
-
-		:param ship_address2: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_addr2', ship_address2)
-
-	def set_ship_city(self, ship_city: str) -> 'Order':
-		"""
-		Set ship_city.
-
-		:param ship_city: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_city', ship_city)
-
-	def set_ship_state(self, ship_state: str) -> 'Order':
-		"""
-		Set ship_state.
-
-		:param ship_state: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_state', ship_state)
-
-	def set_ship_zip(self, ship_zip: str) -> 'Order':
-		"""
-		Set ship_zip.
-
-		:param ship_zip: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_zip', ship_zip)
-
-	def set_ship_country(self, ship_country: str) -> 'Order':
-		"""
-		Set ship_cntry.
-
-		:param ship_country: string
-		:returns: Order
-		"""
-
-		return self.set_field('ship_cntry', ship_country)
-
-	def set_bill_first_name(self, bill_first_name: str) -> 'Order':
-		"""
-		Set bill_fname.
-
-		:param bill_first_name: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_fname', bill_first_name)
-
-	def set_bill_last_name(self, bill_last_name: str) -> 'Order':
-		"""
-		Set bill_lname.
-
-		:param bill_last_name: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_lname', bill_last_name)
-
-	def set_bill_email(self, bill_email: str) -> 'Order':
-		"""
-		Set bill_email.
-
-		:param bill_email: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_email', bill_email)
-
-	def set_bill_company(self, bill_company: str) -> 'Order':
-		"""
-		Set bill_comp.
-
-		:param bill_company: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_comp', bill_company)
-
-	def set_bill_phone(self, bill_phone: str) -> 'Order':
-		"""
-		Set bill_phone.
-
-		:param bill_phone: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_phone', bill_phone)
-
-	def set_bill_fax(self, bill_fax: str) -> 'Order':
-		"""
-		Set bill_fax.
-
-		:param bill_fax: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_fax', bill_fax)
-
-	def set_bill_address1(self, bill_address1: str) -> 'Order':
-		"""
-		Set bill_addr1.
-
-		:param bill_address1: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_addr1', bill_address1)
-
-	def set_bill_address2(self, bill_address2: str) -> 'Order':
-		"""
-		Set bill_addr2.
-
-		:param bill_address2: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_addr2', bill_address2)
-
-	def set_bill_city(self, bill_city: str) -> 'Order':
-		"""
-		Set bill_city.
-
-		:param bill_city: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_city', bill_city)
-
-	def set_bill_state(self, bill_state: str) -> 'Order':
-		"""
-		Set bill_state.
-
-		:param bill_state: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_state', bill_state)
-
-	def set_bill_zip(self, bill_zip: str) -> 'Order':
-		"""
-		Set bill_zip.
-
-		:param bill_zip: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_zip', bill_zip)
-
-	def set_bill_country(self, bill_country: str) -> 'Order':
-		"""
-		Set bill_cntry.
-
-		:param bill_country: string
-		:returns: Order
-		"""
-
-		return self.set_field('bill_cntry', bill_country)
-
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -4855,126 +3595,6 @@ class OrderShipment(Model):
 
 		return self.get_field('formatted_cost')
 
-	def set_id(self, id: int) -> 'OrderShipment':
-		"""
-		Set id.
-
-		:param id: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('id', id)
-
-	def set_code(self, code: str) -> 'OrderShipment':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('code', code)
-
-	def set_batch_id(self, batch_id: int) -> 'OrderShipment':
-		"""
-		Set batch_id.
-
-		:param batch_id: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('batch_id', batch_id)
-
-	def set_order_id(self, order_id: int) -> 'OrderShipment':
-		"""
-		Set order_id.
-
-		:param order_id: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('order_id', order_id)
-
-	def set_status(self, status: int) -> 'OrderShipment':
-		"""
-		Set status.
-
-		:param status: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('status', status)
-
-	def set_label_count(self, label_count: int) -> 'OrderShipment':
-		"""
-		Set labelcount.
-
-		:param label_count: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('labelcount', label_count)
-
-	def set_ship_date(self, ship_date: int) -> 'OrderShipment':
-		"""
-		Set ship_date.
-
-		:param ship_date: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('ship_date', ship_date)
-
-	def set_tracking_number(self, tracking_number: str) -> 'OrderShipment':
-		"""
-		Set tracknum.
-
-		:param tracking_number: string
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('tracknum', tracking_number)
-
-	def set_tracking_type(self, tracking_type: str) -> 'OrderShipment':
-		"""
-		Set tracktype.
-
-		:param tracking_type: string
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('tracktype', tracking_type)
-
-	def set_tracking_link(self, tracking_link: str) -> 'OrderShipment':
-		"""
-		Set tracklink.
-
-		:param tracking_link: string
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('tracklink', tracking_link)
-
-	def set_weight(self, weight: float) -> 'OrderShipment':
-		"""
-		Set weight.
-
-		:param weight: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('weight', weight)
-
-	def set_cost(self, cost: float) -> 'OrderShipment':
-		"""
-		Set cost.
-
-		:param cost: int
-		:returns: OrderShipment
-		"""
-
-		return self.set_field('cost', cost)
-
 
 """
 OrderItemOption data model.
@@ -4991,14 +3611,77 @@ class OrderItemOption(Model):
 
 		super().__init__(data)
 
-	def get_attribute(self) -> str:
+	def get_id(self) -> int:
 		"""
-		Get attribute.
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_order_id(self) -> int:
+		"""
+		Get order_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('order_id', 0)
+
+	def get_line_id(self) -> int:
+		"""
+		Get line_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('line_id', 0)
+
+	def get_option_id(self) -> int:
+		"""
+		Get option_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('option_id', 0)
+
+	def get_option_code(self) -> str:
+		"""
+		Get opt_code.
 
 		:returns: string
 		"""
 
-		return self.get_field('attribute')
+		return self.get_field('opt_code')
+
+	def get_attribute_code(self) -> str:
+		"""
+		Get attr_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_code')
+
+	def get_attribute_id(self) -> int:
+		"""
+		Get attr_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attr_id', 0)
+
+	def get_attribute_template_attribute_id(self) -> int:
+		"""
+		Get attmpat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attmpat_id', 0)
 
 	def get_value(self) -> str:
 		"""
@@ -5045,15 +3728,71 @@ class OrderItemOption(Model):
 
 		return self.get_field('price', 0.00)
 
-	def set_attribute(self, attribute: str) -> 'OrderItemOption':
+	def get_option_data(self) -> str:
 		"""
-		Set attribute.
+		Get data.
 
-		:param attribute: string
+		:returns: string
+		"""
+
+		return self.get_field('data')
+
+	def get_option_data_long(self) -> str:
+		"""
+		Get data_long.
+
+		:returns: string
+		"""
+
+		return self.get_field('data_long')
+
+	def get_attribute_prompt(self) -> str:
+		"""
+		Get attr_prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_prompt')
+
+	def get_option_prompt(self) -> str:
+		"""
+		Get opt_prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('opt_prompt')
+
+	def set_attribute_code(self, attribute_code: str) -> 'OrderItemOption':
+		"""
+		Set attr_code.
+
+		:param attribute_code: string
 		:returns: OrderItemOption
 		"""
 
-		return self.set_field('attribute', attribute)
+		return self.set_field('attr_code', attribute_code)
+
+	def set_attribute_id(self, attribute_id: int) -> 'OrderItemOption':
+		"""
+		Set attr_id.
+
+		:param attribute_id: int
+		:returns: OrderItemOption
+		"""
+
+		return self.set_field('attr_id', attribute_id)
+
+	def set_attribute_template_attribute_id(self, attribute_template_attribute_id: int) -> 'OrderItemOption':
+		"""
+		Set attmpat_id.
+
+		:param attribute_template_attribute_id: int
+		:returns: OrderItemOption
+		"""
+
+		return self.set_field('attmpat_id', attribute_template_attribute_id)
 
 	def set_value(self, value: str) -> 'OrderItemOption':
 		"""
@@ -5075,6 +3814,26 @@ class OrderItemOption(Model):
 
 		return self.set_field('weight', weight)
 
+	def set_retail(self, retail: float) -> 'OrderItemOption':
+		"""
+		Set retail.
+
+		:param retail: int
+		:returns: OrderItemOption
+		"""
+
+		return self.set_field('retail', retail)
+
+	def set_base_price(self, base_price: float) -> 'OrderItemOption':
+		"""
+		Set base_price.
+
+		:param base_price: int
+		:returns: OrderItemOption
+		"""
+
+		return self.set_field('base_price', base_price)
+
 	def set_price(self, price: float) -> 'OrderItemOption':
 		"""
 		Set price.
@@ -5092,8 +3851,14 @@ class OrderItemOption(Model):
 
 		ret = {}
 
-		if self.has_field('attribute'):
-			ret['attr_code'] = self.get_field('attribute')
+		if self.has_field('attr_code'):
+			ret['attr_code'] = self.get_field('attr_code')
+
+		if self.has_field('attr_id'):
+			ret['attr_id'] = self.get_field('attr_id')
+
+		if self.has_field('attmpat_id'):
+			ret['attmpat_id'] = self.get_field('attmpat_id')
 
 		if self.has_field('value'):
 			ret['opt_code_or_data'] = self.get_field('value')
@@ -5137,10 +3902,9 @@ class OrderItem(Model):
 		super().__init__(data)
 		if self.has_field('shipment'):
 			value = self.get_field('shipment')
-			if isinstance(value, OrderShipment):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('shipment', OrderShipment(value))
+			if isinstance(value, dict):
+				if not isinstance(value, OrderShipment):
+					self.set_field('shipment', OrderShipment(value))
 			else:
 				raise Exception('Expected OrderShipment or a dict')
 
@@ -5148,10 +3912,9 @@ class OrderItem(Model):
 			value = self.get_field('discounts')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderItemDiscount):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderItemDiscount(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderItemDiscount):
+							value[i] = OrderItemDiscount(e)
 					else:
 						raise Exception('Expected list of OrderItemDiscount or dict')
 			else:
@@ -5161,10 +3924,9 @@ class OrderItem(Model):
 			value = self.get_field('options')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderItemOption):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderItemOption(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderItemOption):
+							value[i] = OrderItemOption(e)
 					else:
 						raise Exception('Expected list of OrderItemOption or dict')
 			else:
@@ -5172,10 +3934,9 @@ class OrderItem(Model):
 
 		if self.has_field('subscription'):
 			value = self.get_field('subscription')
-			if isinstance(value, OrderItemSubscription):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('subscription', OrderItemSubscription(value))
+			if isinstance(value, dict):
+				if not isinstance(value, OrderItemSubscription):
+					self.set_field('subscription', OrderItemSubscription(value))
 			else:
 				raise Exception('Expected OrderItemSubscription or a dict')
 
@@ -5422,16 +4183,6 @@ class OrderItem(Model):
 
 		return self.get_field('tracknum')
 
-	def set_status(self, status: int) -> 'OrderItem':
-		"""
-		Set status.
-
-		:param status: int
-		:returns: OrderItem
-		"""
-
-		return self.set_field('status', status)
-
 	def set_code(self, code: str) -> 'OrderItem':
 		"""
 		Set code.
@@ -5516,7 +4267,7 @@ class OrderItem(Model):
 		"""
 		Set options.
 
-		:param options: List of OrderItemOption
+		:param options: List of OrderItemOption 
 		:raises Exception:
 		:returns: OrderItem
 		"""
@@ -5549,11 +4300,11 @@ class OrderItem(Model):
 		"""
 
 		return self.set_field('tracknum', tracking_number)
-
-	def add_option(self, option: OrderItemOption) -> 'OrderItem':
+	
+	def add_option(self, option: 'OrderItemOption') -> 'OrderItem':
 		"""
 		Add a OrderItemOption.
-
+		
 		:param option: OrderItemOption
 		:returns: OrderItem
 		"""
@@ -5786,6 +4537,15 @@ class OrderCoupon(Model):
 		"""
 
 		return self.get_field('total', 0.00)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
 
 
 """
@@ -6347,16 +5107,6 @@ class Subscription(Model):
 
 		return self.get_field('formatted_total')
 
-	def set_cancel_date(self, cancel_date: str) -> 'Subscription':
-		"""
-		Set cncldate.
-
-		:param cancel_date: string
-		:returns: Subscription
-		"""
-
-		return self.set_field('cncldate', cancel_date)
-
 
 """
 ProductSubscriptionTerm data model.
@@ -6484,10 +5234,9 @@ class OrderCustomField(Model):
 		super().__init__(data)
 		if self.has_field('module'):
 			value = self.get_field('module')
-			if isinstance(value, Module):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('module', Module(value))
+			if isinstance(value, dict):
+				if not isinstance(value, Module):
+					self.set_field('module', Module(value))
 			else:
 				raise Exception('Expected Module or a dict')
 
@@ -6553,81 +5302,6 @@ class OrderCustomField(Model):
 		"""
 
 		return self.get_field('choices', {})
-
-	def set_code(self, code: str) -> 'OrderCustomField':
-		"""
-		Set code.
-
-		:param code: string
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('code', code)
-
-	def set_name(self, name: str) -> 'OrderCustomField':
-		"""
-		Set name.
-
-		:param name: string
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('name', name)
-
-	def set_type(self, type: str) -> 'OrderCustomField':
-		"""
-		Set type.
-
-		:param type: string
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('type', type)
-
-	def set_searchable(self, searchable: bool) -> 'OrderCustomField':
-		"""
-		Set searchable.
-
-		:param searchable: bool
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('searchable', searchable)
-
-	def set_sortable(self, sortable: bool) -> 'OrderCustomField':
-		"""
-		Set sortable.
-
-		:param sortable: bool
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('sortable', sortable)
-
-	def set_module(self, module) -> 'OrderCustomField':
-		"""
-		Set module.
-
-		:param module: Module|dict
-		:returns: OrderCustomField
-		:raises Exception:
-		"""
-
-		if module is None or isinstance(module, Module):
-			return self.set_field('module', module)
-		elif isinstance(module, dict):
-			return self.set_field('module', Module(module))
-		raise Exception('Expected instance of Module, Object, or None')
-
-	def set_choices(self, choices) -> 'OrderCustomField':
-		"""
-		Set choices.
-
-		:param choices: list
-		:returns: OrderCustomField
-		"""
-
-		return self.set_field('choices', choices)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6929,10 +5603,9 @@ class OrderProduct(Model):
 			value = self.get_field('attributes')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, OrderProductAttribute):
-						pass
-					elif isinstance(e, dict):
-						value[i] = OrderProductAttribute(e)
+					if isinstance(e, dict):
+						if not isinstance(e, OrderProductAttribute):
+							value[i] = OrderProductAttribute(e)
 					else:
 						raise Exception('Expected list of OrderProductAttribute or dict')
 			else:
@@ -7065,7 +5738,7 @@ class OrderProduct(Model):
 		"""
 		Set attributes.
 
-		:param attributes: List of OrderProductAttribute
+		:param attributes: List of OrderProductAttribute 
 		:raises Exception:
 		:returns: OrderProduct
 		"""
@@ -7078,11 +5751,11 @@ class OrderProduct(Model):
 			else:
 				raise Exception('Expected instance of OrderProductAttribute or dict')
 		return self.set_field('attributes', attributes)
-
-	def add_attribute(self, attribute: OrderProductAttribute) -> 'OrderProduct':
+	
+	def add_attribute(self, attribute: 'OrderProductAttribute') -> 'OrderProduct':
 		"""
 		Add a OrderProductAttribute.
-
+		
 		:param attribute: OrderProductAttribute
 		:returns: OrderProduct
 		"""
@@ -7378,10 +6051,9 @@ class OrderItemSubscription(Model):
 		super().__init__(data)
 		if self.has_field('productsubscriptionterm'):
 			value = self.get_field('productsubscriptionterm')
-			if isinstance(value, ProductSubscriptionTerm):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('productsubscriptionterm', ProductSubscriptionTerm(value))
+			if isinstance(value, dict):
+				if not isinstance(value, ProductSubscriptionTerm):
+					self.set_field('productsubscriptionterm', ProductSubscriptionTerm(value))
 			else:
 				raise Exception('Expected ProductSubscriptionTerm or a dict')
 
@@ -7389,10 +6061,9 @@ class OrderItemSubscription(Model):
 			value = self.get_field('options')
 			if isinstance(value, list):
 				for i, e in enumerate(value):
-					if isinstance(value, SubscriptionOption):
-						pass
-					elif isinstance(e, dict):
-						value[i] = SubscriptionOption(e)
+					if isinstance(e, dict):
+						if not isinstance(e, SubscriptionOption):
+							value[i] = SubscriptionOption(e)
 					else:
 						raise Exception('Expected list of SubscriptionOption or dict')
 			else:
@@ -7585,98 +6256,6 @@ class ProductInventoryAdjustment(Model):
 		"""
 
 		return self.set_field('adjustment', adjustment)
-
-
-"""
-OrderItemAttribute data model.
-"""
-
-
-class OrderItemAttribute(Model):
-	def __init__(self, data: dict = None):
-		"""
-		OrderItemAttribute Constructor
-
-		:param data: dict
-		"""
-
-		super().__init__(data)
-
-	def get_attribute_code(self) -> str:
-		"""
-		Get attr_code.
-
-		:returns: string
-		"""
-
-		return self.get_field('attr_code')
-
-	def get_option_code_or_data(self) -> str:
-		"""
-		Get opt_code_or_data.
-
-		:returns: string
-		"""
-
-		return self.get_field('opt_code_or_data')
-
-	def get_price(self) -> float:
-		"""
-		Get price.
-
-		:returns: float
-		"""
-
-		return self.get_field('price', 0.00)
-
-	def get_weight(self) -> float:
-		"""
-		Get weight.
-
-		:returns: float
-		"""
-
-		return self.get_field('weight', 0.00)
-
-	def set_attribute_code(self, attribute_code: str) -> 'OrderItemAttribute':
-		"""
-		Set attr_code.
-
-		:param attribute_code: string
-		:returns: OrderItemAttribute
-		"""
-
-		return self.set_field('attr_code', attribute_code)
-
-	def set_option_code_or_data(self, option_code_or_data: str) -> 'OrderItemAttribute':
-		"""
-		Set opt_code_or_data.
-
-		:param option_code_or_data: string
-		:returns: OrderItemAttribute
-		"""
-
-		return self.set_field('opt_code_or_data', option_code_or_data)
-
-	def set_price(self, price: float) -> 'OrderItemAttribute':
-		"""
-		Set price.
-
-		:param price: int
-		:returns: OrderItemAttribute
-		"""
-
-		return self.set_field('price', price)
-
-	def set_weight(self, weight: float) -> 'OrderItemAttribute':
-		"""
-		Set weight.
-
-		:param weight: int
-		:returns: OrderItemAttribute
-		"""
-
-		return self.set_field('weight', weight)
 
 
 """
@@ -8453,28 +7032,25 @@ class PaymentMethod(Model):
 		super().__init__(data)
 		if self.has_field('paymentcard'):
 			value = self.get_field('paymentcard')
-			if isinstance(value, CustomerPaymentCard):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('paymentcard', CustomerPaymentCard(value))
+			if isinstance(value, dict):
+				if not isinstance(value, CustomerPaymentCard):
+					self.set_field('paymentcard', CustomerPaymentCard(value))
 			else:
 				raise Exception('Expected CustomerPaymentCard or a dict')
 
 		if self.has_field('orderpaymentcard'):
 			value = self.get_field('orderpaymentcard')
-			if isinstance(value, OrderPaymentCard):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('orderpaymentcard', OrderPaymentCard(value))
+			if isinstance(value, dict):
+				if not isinstance(value, OrderPaymentCard):
+					self.set_field('orderpaymentcard', OrderPaymentCard(value))
 			else:
 				raise Exception('Expected OrderPaymentCard or a dict')
 
 		if self.has_field('paymentcardtype'):
 			value = self.get_field('paymentcardtype')
-			if isinstance(value, PaymentCardType):
-				pass
-			elif isinstance(value, dict):
-				self.set_field('paymentcardtype', PaymentCardType(value))
+			if isinstance(value, dict):
+				if not isinstance(value, PaymentCardType):
+					self.set_field('paymentcardtype', PaymentCardType(value))
 			else:
 				raise Exception('Expected PaymentCardType or a dict')
 
@@ -8728,6 +7304,3127 @@ class OrderPaymentAuthorize(Model):
 
 
 """
+Branch data model.
+"""
+
+
+class Branch(Model):
+	def __init__(self, data: dict = None):
+		"""
+		Branch Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_immutable(self) -> bool:
+		"""
+		Get immutable.
+
+		:returns: bool
+		"""
+
+		return self.get_field('immutable', False)
+
+	def get_branch_key(self) -> str:
+		"""
+		Get branchkey.
+
+		:returns: string
+		"""
+
+		return self.get_field('branchkey')
+
+	def get_name(self) -> str:
+		"""
+		Get name.
+
+		:returns: string
+		"""
+
+		return self.get_field('name')
+
+	def get_color(self) -> str:
+		"""
+		Get color.
+
+		:returns: string
+		"""
+
+		return self.get_field('color')
+
+	def get_framework(self) -> str:
+		"""
+		Get framework.
+
+		:returns: string
+		"""
+
+		return self.get_field('framework')
+
+	def get_is_primary(self) -> bool:
+		"""
+		Get is_primary.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_primary', False)
+
+	def get_is_working(self) -> bool:
+		"""
+		Get is_working.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_working', False)
+
+	def get_preview_url(self) -> str:
+		"""
+		Get preview_url.
+
+		:returns: string
+		"""
+
+		return self.get_field('preview_url')
+
+
+"""
+BranchTemplateVersion data model.
+"""
+
+
+class BranchTemplateVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		BranchTemplateVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('settings'):
+			value = self.get_field('settings')
+			if not isinstance(value, TemplateVersionSettings):
+				self.set_field('settings', TemplateVersionSettings(value))
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_parent_id(self) -> int:
+		"""
+		Get parent_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('parent_id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+	def get_user_icon(self) -> str:
+		"""
+		Get user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_icon')
+
+	def get_item_id(self) -> int:
+		"""
+		Get item_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('item_id', 0)
+
+	def get_property_id(self) -> int:
+		"""
+		Get prop_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('prop_id', 0)
+
+	def get_sync(self) -> bool:
+		"""
+		Get sync.
+
+		:returns: bool
+		"""
+
+		return self.get_field('sync', False)
+
+	def get_filename(self) -> str:
+		"""
+		Get filename.
+
+		:returns: string
+		"""
+
+		return self.get_field('filename')
+
+	def get_date_time_stamp(self) -> int:
+		"""
+		Get dtstamp.
+
+		:returns: int
+		"""
+
+		return self.get_field('dtstamp', 0)
+
+	def get_notes(self) -> str:
+		"""
+		Get notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('notes')
+
+	def get_source(self) -> str:
+		"""
+		Get source.
+
+		:returns: string
+		"""
+
+		return self.get_field('source')
+
+	def get_settings(self):
+		"""
+		Get settings.
+
+		:returns: TemplateVersionSettings|None
+		"""
+
+		return self.get_field('settings', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+			ret['settings'] = ret['settings'].to_dict()
+
+		return ret
+
+
+"""
+TemplateVersionSettings data model.
+"""
+
+
+class TemplateVersionSettings(Model):
+	def __init__(self, data: dict = None):
+		"""
+		TemplateVersionSettings Constructor
+
+		:param data: dict
+		"""
+
+		self.data = data
+	
+	def is_scalar(self) -> bool:
+		"""
+		Check if the underlying data is a scalar value
+
+		:returns: bool
+		"""
+
+		return not isinstance(self.data, dict) and not isinstance(self.data, list)
+
+	def is_list(self) -> bool:
+		"""
+		Check if the underlying data is a list
+
+		:returns: bool
+		"""
+
+		return isinstance(self.data, list)
+
+	def is_dict(self) -> bool:
+		"""
+		Check if the underlying data is a dictionary
+
+		:returns: bool
+		"""
+
+		return isinstance(self.data, dict)
+
+	def has_item(self, item: str) -> bool:
+		"""
+		Check if an item exists in the dictionary
+
+		:param item: {string}
+		:returns: bool
+		"""
+
+		return self.is_dict() and item in self.data;
+	
+	def item_has_property(self, item: str, item_property: str) -> bool:
+		"""
+		Check if an item has a property
+
+		:param item: {string}
+		:param item_property: {string}
+		:returns: bool
+		"""
+		
+		if not self.is_dict() or not self.has_item(item):
+			return False
+
+		return item_property in self.data[item];
+
+	def get_item(self, item: str):
+		"""
+		Get a items dictionary.
+
+		:param item: str
+		:returns: dict
+		"""
+
+		return self.data[item] if self.is_dict() and self.has_item(item) else None
+
+	def get_item_property(self, item: str, item_property: str):
+		"""
+		Get a items dictionary.
+
+		:param item: str
+		:param item_property: str
+		:returns: dict
+		"""
+
+		return self.data[item][item_property] if self.is_dict() and self.item_has_property(item, item_property) else None
+
+	def get_data(self):
+		"""
+		Get the underlying data
+
+		:returns: mixed
+		"""
+
+		return self.data
+
+	def to_dict(self):
+		"""
+		Reduce the model to a dict.
+		"""
+
+		return self.data
+
+
+	def set_item(self, item: str, value: dict) -> 'TemplateVersionSettings':
+		"""
+		Set a item settings dictionary
+
+		:param item: str
+		:param value: dict
+		:returns: TemplateVersionSettings
+		"""
+
+		self[item] = value		
+		return self
+
+	def set_item_property(self, item: str, item_property: str, value) -> 'TemplateVersionSettings':
+		"""
+		Set a item property value for a specific item
+
+		:param item: str
+		:param item_property: str
+		:param value: mixed
+		:returns: TemplateVersionSettings
+		"""
+
+		if not self.has_item(item):
+			self[item] = {}
+
+		self[item][item_property] = value
+
+
+"""
+Changeset data model.
+"""
+
+
+class Changeset(Model):
+	def __init__(self, data: dict = None):
+		"""
+		Changeset Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_branch_id(self) -> int:
+		"""
+		Get branch_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('branch_id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_date_time_stamp(self) -> int:
+		"""
+		Get dtstamp.
+
+		:returns: int
+		"""
+
+		return self.get_field('dtstamp', 0)
+
+	def get_notes(self) -> str:
+		"""
+		Get notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('notes')
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+	def get_user_icon(self) -> str:
+		"""
+		Get user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_icon')
+
+	def get_tags(self) -> dict:
+		"""
+		Get tags.
+
+		:returns: dict
+		"""
+
+		return self.get_field('tags', {})
+
+	def get_formatted_tags(self) -> str:
+		"""
+		Get formatted_tags.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_tags')
+
+
+"""
+TemplateChange data model.
+"""
+
+
+class TemplateChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		TemplateChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('Settings'):
+			value = self.get_field('Settings')
+			if not isinstance(value, TemplateVersionSettings):
+				self.set_field('Settings', TemplateVersionSettings(value))
+
+	def get_template_id(self) -> int:
+		"""
+		Get Template_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('Template_ID', 0)
+
+	def get_template_filename(self) -> str:
+		"""
+		Get Template_Filename.
+
+		:returns: string
+		"""
+
+		return self.get_field('Template_Filename')
+
+	def get_source(self) -> str:
+		"""
+		Get Source.
+
+		:returns: string
+		"""
+
+		return self.get_field('Source')
+
+	def get_settings(self):
+		"""
+		Get Settings.
+
+		:returns: TemplateVersionSettings|None
+		"""
+
+		return self.get_field('Settings', None)
+
+	def set_template_id(self, template_id: int) -> 'TemplateChange':
+		"""
+		Set Template_ID.
+
+		:param template_id: int
+		:returns: TemplateChange
+		"""
+
+		return self.set_field('Template_ID', template_id)
+
+	def set_template_filename(self, template_filename: str) -> 'TemplateChange':
+		"""
+		Set Template_Filename.
+
+		:param template_filename: string
+		:returns: TemplateChange
+		"""
+
+		return self.set_field('Template_Filename', template_filename)
+
+	def set_source(self, source: str) -> 'TemplateChange':
+		"""
+		Set Source.
+
+		:param source: string
+		:returns: TemplateChange
+		"""
+
+		return self.set_field('Source', source)
+
+	def set_settings(self, settings) -> 'TemplateChange':
+		"""
+		Set Settings.
+
+		:param settings: TemplateVersionSettings|dict
+		:returns: TemplateChange
+		:raises Exception:
+		"""
+
+		if settings is None or isinstance(settings, TemplateVersionSettings):
+			return self.set_field('Settings', settings)
+		return self.set_field('Settings', TemplateVersionSettings(settings))
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'Settings' in ret and isinstance(ret['Settings'], TemplateVersionSettings):
+			ret['Settings'] = ret['Settings'].to_dict()
+
+		return ret
+
+
+"""
+ResourceGroupChange data model.
+"""
+
+
+class ResourceGroupChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ResourceGroupChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_resource_group_id(self) -> int:
+		"""
+		Get ResourceGroup_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('ResourceGroup_ID', 0)
+
+	def get_resource_group_code(self) -> str:
+		"""
+		Get ResourceGroup_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('ResourceGroup_Code')
+
+	def get_linked_css_resources(self) -> dict:
+		"""
+		Get LinkedCSSResources.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedCSSResources', {})
+
+	def get_linked_java_script_resources(self) -> dict:
+		"""
+		Get LinkedJavaScriptResources.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedJavaScriptResources', {})
+
+	def set_resource_group_id(self, resource_group_id: int) -> 'ResourceGroupChange':
+		"""
+		Set ResourceGroup_ID.
+
+		:param resource_group_id: int
+		:returns: ResourceGroupChange
+		"""
+
+		return self.set_field('ResourceGroup_ID', resource_group_id)
+
+	def set_resource_group_code(self, resource_group_code: str) -> 'ResourceGroupChange':
+		"""
+		Set ResourceGroup_Code.
+
+		:param resource_group_code: string
+		:returns: ResourceGroupChange
+		"""
+
+		return self.set_field('ResourceGroup_Code', resource_group_code)
+
+	def set_linked_css_resources(self, linked_css_resources) -> 'ResourceGroupChange':
+		"""
+		Set LinkedCSSResources.
+
+		:param linked_css_resources: list
+		:returns: ResourceGroupChange
+		"""
+
+		return self.set_field('LinkedCSSResources', linked_css_resources)
+
+	def set_linked_java_script_resources(self, linked_java_script_resources) -> 'ResourceGroupChange':
+		"""
+		Set LinkedJavaScriptResources.
+
+		:param linked_java_script_resources: list
+		:returns: ResourceGroupChange
+		"""
+
+		return self.set_field('LinkedJavaScriptResources', linked_java_script_resources)
+
+
+"""
+CSSResourceChange data model.
+"""
+
+
+class CSSResourceChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		CSSResourceChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('Attributes'):
+			value = self.get_field('Attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CSSResourceVersionAttribute):
+							value[i] = CSSResourceVersionAttribute(e)
+					else:
+						raise Exception('Expected list of CSSResourceVersionAttribute or dict')
+			else:
+				raise Exception('Expected list of CSSResourceVersionAttribute or dict')
+
+	def get_css_resource_id(self) -> int:
+		"""
+		Get CSSResource_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('CSSResource_ID', 0)
+
+	def get_css_resource_code(self) -> str:
+		"""
+		Get CSSResource_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('CSSResource_Code')
+
+	def get_type(self) -> str:
+		"""
+		Get Type.
+
+		:returns: string
+		"""
+
+		return self.get_field('Type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get Global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('Global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get Active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('Active', False)
+
+	def get_file_path(self) -> str:
+		"""
+		Get File_Path.
+
+		:returns: string
+		"""
+
+		return self.get_field('File_Path')
+
+	def get_branchless_file_path(self) -> str:
+		"""
+		Get Branchless_File_Path.
+
+		:returns: string
+		"""
+
+		return self.get_field('Branchless_File_Path')
+
+	def get_source(self) -> str:
+		"""
+		Get Source.
+
+		:returns: string
+		"""
+
+		return self.get_field('Source')
+
+	def get_linked_pages(self) -> dict:
+		"""
+		Get LinkedPages.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedPages', {})
+
+	def get_linked_resources(self) -> dict:
+		"""
+		Get LinkedResources.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedResources', {})
+
+	def get_attributes(self):
+		"""
+		Get Attributes.
+
+		:returns: List of CSSResourceVersionAttribute
+		"""
+
+		return self.get_field('Attributes', [])
+
+	def set_css_resource_id(self, css_resource_id: int) -> 'CSSResourceChange':
+		"""
+		Set CSSResource_ID.
+
+		:param css_resource_id: int
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('CSSResource_ID', css_resource_id)
+
+	def set_css_resource_code(self, css_resource_code: str) -> 'CSSResourceChange':
+		"""
+		Set CSSResource_Code.
+
+		:param css_resource_code: string
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('CSSResource_Code', css_resource_code)
+
+	def set_type(self, type: str) -> 'CSSResourceChange':
+		"""
+		Set Type.
+
+		:param type: string
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('Type', type)
+
+	def set_is_global(self, is_global: bool) -> 'CSSResourceChange':
+		"""
+		Set Global.
+
+		:param is_global: bool
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('Global', is_global)
+
+	def set_active(self, active: bool) -> 'CSSResourceChange':
+		"""
+		Set Active.
+
+		:param active: bool
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('Active', active)
+
+	def set_file_path(self, file_path: str) -> 'CSSResourceChange':
+		"""
+		Set File_Path.
+
+		:param file_path: string
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('File_Path', file_path)
+
+	def set_branchless_file_path(self, branchless_file_path: str) -> 'CSSResourceChange':
+		"""
+		Set Branchless_File_Path.
+
+		:param branchless_file_path: string
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('Branchless_File_Path', branchless_file_path)
+
+	def set_source(self, source: str) -> 'CSSResourceChange':
+		"""
+		Set Source.
+
+		:param source: string
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('Source', source)
+
+	def set_linked_pages(self, linked_pages) -> 'CSSResourceChange':
+		"""
+		Set LinkedPages.
+
+		:param linked_pages: list
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('LinkedPages', linked_pages)
+
+	def set_linked_resources(self, linked_resources) -> 'CSSResourceChange':
+		"""
+		Set LinkedResources.
+
+		:param linked_resources: list
+		:returns: CSSResourceChange
+		"""
+
+		return self.set_field('LinkedResources', linked_resources)
+
+	def set_attributes(self, attributes: list) -> 'CSSResourceChange':
+		"""
+		Set Attributes.
+
+		:param attributes: List of CSSResourceVersionAttribute 
+		:raises Exception:
+		:returns: CSSResourceChange
+		"""
+
+		for i, e in enumerate(attributes, 0):
+			if isinstance(e, CSSResourceVersionAttribute):
+				continue
+			elif isinstance(e, dict):
+				attributes[i] = CSSResourceVersionAttribute(e)
+			else:
+				raise Exception('Expected instance of CSSResourceVersionAttribute or dict')
+		return self.set_field('Attributes', attributes)
+	
+	def add_attribute(self, attribute: 'CSSResourceVersionAttribute') -> 'CSSResourceChange':
+		"""
+		Add a CSSResourceVersionAttribute.
+		
+		:param attribute: CSSResourceVersionAttribute
+		:returns: CSSResourceChange
+		"""
+
+		if 'Attributes' not in self:
+			self['Attributes'] = []
+		self['Attributes'].append(attribute)
+		return self
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'Attributes' in ret and isinstance(ret['Attributes'], list):
+			for i, e in enumerate(ret['Attributes']):
+				if isinstance(e, CSSResourceVersionAttribute):
+					ret['Attributes'][i] = ret['Attributes'][i].to_dict()
+
+		return ret
+
+
+"""
+JavaScriptResourceChange data model.
+"""
+
+
+class JavaScriptResourceChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		JavaScriptResourceChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('Attributes'):
+			value = self.get_field('Attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, JavaScriptResourceVersionAttribute):
+							value[i] = JavaScriptResourceVersionAttribute(e)
+					else:
+						raise Exception('Expected list of JavaScriptResourceVersionAttribute or dict')
+			else:
+				raise Exception('Expected list of JavaScriptResourceVersionAttribute or dict')
+
+	def get_java_script_resource_id(self) -> int:
+		"""
+		Get JavaScriptResource_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('JavaScriptResource_ID', 0)
+
+	def get_java_script_resource_code(self) -> str:
+		"""
+		Get JavaScriptResource_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('JavaScriptResource_Code')
+
+	def get_type(self) -> str:
+		"""
+		Get Type.
+
+		:returns: string
+		"""
+
+		return self.get_field('Type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get Global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('Global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get Active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('Active', False)
+
+	def get_file_path(self) -> str:
+		"""
+		Get File_Path.
+
+		:returns: string
+		"""
+
+		return self.get_field('File_Path')
+
+	def get_branchless_file_path(self) -> str:
+		"""
+		Get Branchless_File_Path.
+
+		:returns: string
+		"""
+
+		return self.get_field('Branchless_File_Path')
+
+	def get_source(self) -> str:
+		"""
+		Get Source.
+
+		:returns: string
+		"""
+
+		return self.get_field('Source')
+
+	def get_linked_pages(self) -> dict:
+		"""
+		Get LinkedPages.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedPages', {})
+
+	def get_linked_resources(self) -> dict:
+		"""
+		Get LinkedResources.
+
+		:returns: dict
+		"""
+
+		return self.get_field('LinkedResources', {})
+
+	def get_attributes(self):
+		"""
+		Get Attributes.
+
+		:returns: List of JavaScriptResourceVersionAttribute
+		"""
+
+		return self.get_field('Attributes', [])
+
+	def set_java_script_resource_id(self, java_script_resource_id: int) -> 'JavaScriptResourceChange':
+		"""
+		Set JavaScriptResource_ID.
+
+		:param java_script_resource_id: int
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('JavaScriptResource_ID', java_script_resource_id)
+
+	def set_java_script_resource_code(self, java_script_resource_code: str) -> 'JavaScriptResourceChange':
+		"""
+		Set JavaScriptResource_Code.
+
+		:param java_script_resource_code: string
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('JavaScriptResource_Code', java_script_resource_code)
+
+	def set_type(self, type: str) -> 'JavaScriptResourceChange':
+		"""
+		Set Type.
+
+		:param type: string
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('Type', type)
+
+	def set_is_global(self, is_global: bool) -> 'JavaScriptResourceChange':
+		"""
+		Set Global.
+
+		:param is_global: bool
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('Global', is_global)
+
+	def set_active(self, active: bool) -> 'JavaScriptResourceChange':
+		"""
+		Set Active.
+
+		:param active: bool
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('Active', active)
+
+	def set_file_path(self, file_path: str) -> 'JavaScriptResourceChange':
+		"""
+		Set File_Path.
+
+		:param file_path: string
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('File_Path', file_path)
+
+	def set_branchless_file_path(self, branchless_file_path: str) -> 'JavaScriptResourceChange':
+		"""
+		Set Branchless_File_Path.
+
+		:param branchless_file_path: string
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('Branchless_File_Path', branchless_file_path)
+
+	def set_source(self, source: str) -> 'JavaScriptResourceChange':
+		"""
+		Set Source.
+
+		:param source: string
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('Source', source)
+
+	def set_linked_pages(self, linked_pages) -> 'JavaScriptResourceChange':
+		"""
+		Set LinkedPages.
+
+		:param linked_pages: list
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('LinkedPages', linked_pages)
+
+	def set_linked_resources(self, linked_resources) -> 'JavaScriptResourceChange':
+		"""
+		Set LinkedResources.
+
+		:param linked_resources: list
+		:returns: JavaScriptResourceChange
+		"""
+
+		return self.set_field('LinkedResources', linked_resources)
+
+	def set_attributes(self, attributes: list) -> 'JavaScriptResourceChange':
+		"""
+		Set Attributes.
+
+		:param attributes: List of JavaScriptResourceVersionAttribute 
+		:raises Exception:
+		:returns: JavaScriptResourceChange
+		"""
+
+		for i, e in enumerate(attributes, 0):
+			if isinstance(e, JavaScriptResourceVersionAttribute):
+				continue
+			elif isinstance(e, dict):
+				attributes[i] = JavaScriptResourceVersionAttribute(e)
+			else:
+				raise Exception('Expected instance of JavaScriptResourceVersionAttribute or dict')
+		return self.set_field('Attributes', attributes)
+	
+	def add_attribute(self, attribute: 'JavaScriptResourceVersionAttribute') -> 'JavaScriptResourceChange':
+		"""
+		Add a JavaScriptResourceVersionAttribute.
+		
+		:param attribute: JavaScriptResourceVersionAttribute
+		:returns: JavaScriptResourceChange
+		"""
+
+		if 'Attributes' not in self:
+			self['Attributes'] = []
+		self['Attributes'].append(attribute)
+		return self
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'Attributes' in ret and isinstance(ret['Attributes'], list):
+			for i, e in enumerate(ret['Attributes']):
+				if isinstance(e, JavaScriptResourceVersionAttribute):
+					ret['Attributes'][i] = ret['Attributes'][i].to_dict()
+
+		return ret
+
+
+"""
+ChangesetChange data model.
+"""
+
+
+class ChangesetChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_item_type(self) -> str:
+		"""
+		Get item_type.
+
+		:returns: string
+		"""
+
+		return self.get_field('item_type')
+
+	def get_item_id(self) -> int:
+		"""
+		Get item_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('item_id', 0)
+
+	def get_item_version_id(self) -> int:
+		"""
+		Get item_version_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('item_version_id', 0)
+
+	def get_item_identifier(self) -> str:
+		"""
+		Get item_identifier.
+
+		:returns: string
+		"""
+
+		return self.get_field('item_identifier')
+
+
+"""
+PropertyChange data model.
+"""
+
+
+class PropertyChange(Model):
+	def __init__(self, data: dict = None):
+		"""
+		PropertyChange Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('Settings'):
+			value = self.get_field('Settings')
+			if not isinstance(value, TemplateVersionSettings):
+				self.set_field('Settings', TemplateVersionSettings(value))
+
+	def get_property_id(self) -> int:
+		"""
+		Get Property_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('Property_ID', 0)
+
+	def get_property_type(self) -> str:
+		"""
+		Get Property_Type.
+
+		:returns: string
+		"""
+
+		return self.get_field('Property_Type')
+
+	def get_property_code(self) -> str:
+		"""
+		Get Property_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('Property_Code')
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('Product_ID', 0)
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('Product_Code')
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: string
+		"""
+
+		return self.get_field('Edit_Product')
+
+	def get_category_id(self) -> int:
+		"""
+		Get Category_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('Category_ID', 0)
+
+	def get_category_code(self) -> str:
+		"""
+		Get Category_Code.
+
+		:returns: string
+		"""
+
+		return self.get_field('Category_Code')
+
+	def get_edit_category(self) -> str:
+		"""
+		Get Edit_Category.
+
+		:returns: string
+		"""
+
+		return self.get_field('Edit_Category')
+
+	def get_source(self) -> str:
+		"""
+		Get Source.
+
+		:returns: string
+		"""
+
+		return self.get_field('Source')
+
+	def get_settings(self):
+		"""
+		Get Settings.
+
+		:returns: TemplateVersionSettings|None
+		"""
+
+		return self.get_field('Settings', None)
+
+	def set_property_id(self, property_id: int) -> 'PropertyChange':
+		"""
+		Set Property_ID.
+
+		:param property_id: int
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Property_ID', property_id)
+
+	def set_property_type(self, property_type: str) -> 'PropertyChange':
+		"""
+		Set Property_Type.
+
+		:param property_type: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Property_Type', property_type)
+
+	def set_property_code(self, property_code: str) -> 'PropertyChange':
+		"""
+		Set Property_Code.
+
+		:param property_code: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Property_Code', property_code)
+
+	def set_product_id(self, product_id: int) -> 'PropertyChange':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Product_ID', product_id)
+
+	def set_product_code(self, product_code: str) -> 'PropertyChange':
+		"""
+		Set Product_Code.
+
+		:param product_code: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Product_Code', product_code)
+
+	def set_edit_product(self, edit_product: str) -> 'PropertyChange':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Edit_Product', edit_product)
+
+	def set_category_id(self, category_id: int) -> 'PropertyChange':
+		"""
+		Set Category_ID.
+
+		:param category_id: int
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Category_ID', category_id)
+
+	def set_category_code(self, category_code: str) -> 'PropertyChange':
+		"""
+		Set Category_Code.
+
+		:param category_code: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Category_Code', category_code)
+
+	def set_edit_category(self, edit_category: str) -> 'PropertyChange':
+		"""
+		Set Edit_Category.
+
+		:param edit_category: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Edit_Category', edit_category)
+
+	def set_source(self, source: str) -> 'PropertyChange':
+		"""
+		Set Source.
+
+		:param source: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Source', source)
+
+	def set_settings(self, settings) -> 'PropertyChange':
+		"""
+		Set Settings.
+
+		:param settings: TemplateVersionSettings|dict
+		:returns: PropertyChange
+		:raises Exception:
+		"""
+
+		if settings is None or isinstance(settings, TemplateVersionSettings):
+			return self.set_field('Settings', settings)
+		return self.set_field('Settings', TemplateVersionSettings(settings))
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'Settings' in ret and isinstance(ret['Settings'], TemplateVersionSettings):
+			ret['Settings'] = ret['Settings'].to_dict()
+
+		return ret
+
+
+"""
+ChangesetTemplateVersion data model.
+"""
+
+
+class ChangesetTemplateVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetTemplateVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('settings'):
+			value = self.get_field('settings')
+			if not isinstance(value, TemplateVersionSettings):
+				self.set_field('settings', TemplateVersionSettings(value))
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_parent_id(self) -> int:
+		"""
+		Get parent_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('parent_id', 0)
+
+	def get_item_id(self) -> int:
+		"""
+		Get item_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('item_id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+	def get_user_icon(self) -> str:
+		"""
+		Get user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_icon')
+
+	def get_property_id(self) -> int:
+		"""
+		Get prop_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('prop_id', 0)
+
+	def get_sync(self) -> bool:
+		"""
+		Get sync.
+
+		:returns: bool
+		"""
+
+		return self.get_field('sync', False)
+
+	def get_filename(self) -> str:
+		"""
+		Get filename.
+
+		:returns: string
+		"""
+
+		return self.get_field('filename')
+
+	def get_date_time_stamp(self) -> int:
+		"""
+		Get dtstamp.
+
+		:returns: int
+		"""
+
+		return self.get_field('dtstamp', 0)
+
+	def get_notes(self) -> str:
+		"""
+		Get notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('notes')
+
+	def get_source(self) -> str:
+		"""
+		Get source.
+
+		:returns: string
+		"""
+
+		return self.get_field('source')
+
+	def get_settings(self):
+		"""
+		Get settings.
+
+		:returns: TemplateVersionSettings|None
+		"""
+
+		return self.get_field('settings', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+			ret['settings'] = ret['settings'].to_dict()
+
+		return ret
+
+
+"""
+CSSResourceVersion data model.
+"""
+
+
+class CSSResourceVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		CSSResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('attributes'):
+			value = self.get_field('attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CSSResourceVersionAttribute):
+							value[i] = CSSResourceVersionAttribute(e)
+					else:
+						raise Exception('Expected list of CSSResourceVersionAttribute or dict')
+			else:
+				raise Exception('Expected list of CSSResourceVersionAttribute or dict')
+
+		if self.has_field('linkedpages'):
+			value = self.get_field('linkedpages')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, Page):
+							value[i] = Page(e)
+					else:
+						raise Exception('Expected list of Page or dict')
+			else:
+				raise Exception('Expected list of Page or dict')
+
+		if self.has_field('linkedresources'):
+			value = self.get_field('linkedresources')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CSSResource):
+							value[i] = CSSResource(e)
+					else:
+						raise Exception('Expected list of CSSResource or dict')
+			else:
+				raise Exception('Expected list of CSSResource or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_resource_id(self) -> int:
+		"""
+		Get res_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('res_id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get is_global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('active', False)
+
+	def get_file(self) -> str:
+		"""
+		Get file.
+
+		:returns: string
+		"""
+
+		return self.get_field('file')
+
+	def get_branchless_file(self) -> str:
+		"""
+		Get branchless_file.
+
+		:returns: string
+		"""
+
+		return self.get_field('branchless_file')
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+	def get_user_icon(self) -> str:
+		"""
+		Get user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_icon')
+
+	def get_source_user_id(self) -> int:
+		"""
+		Get source_user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('source_user_id', 0)
+
+	def get_source_user_name(self) -> str:
+		"""
+		Get source_user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_name')
+
+	def get_source_user_icon(self) -> str:
+		"""
+		Get source_user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_icon')
+
+	def get_source(self) -> str:
+		"""
+		Get source.
+
+		:returns: string
+		"""
+
+		return self.get_field('source')
+
+	def get_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: List of CSSResourceVersionAttribute
+		"""
+
+		return self.get_field('attributes', [])
+
+	def get_linked_pages(self):
+		"""
+		Get linkedpages.
+
+		:returns: List of Page
+		"""
+
+		return self.get_field('linkedpages', [])
+
+	def get_linked_resources(self):
+		"""
+		Get linkedresources.
+
+		:returns: List of CSSResource
+		"""
+
+		return self.get_field('linkedresources', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'attributes' in ret and isinstance(ret['attributes'], list):
+			for i, e in enumerate(ret['attributes']):
+				if isinstance(e, CSSResourceVersionAttribute):
+					ret['attributes'][i] = ret['attributes'][i].to_dict()
+
+		if 'linkedpages' in ret and isinstance(ret['linkedpages'], list):
+			for i, e in enumerate(ret['linkedpages']):
+				if isinstance(e, Page):
+					ret['linkedpages'][i] = ret['linkedpages'][i].to_dict()
+
+		if 'linkedresources' in ret and isinstance(ret['linkedresources'], list):
+			for i, e in enumerate(ret['linkedresources']):
+				if isinstance(e, CSSResource):
+					ret['linkedresources'][i] = ret['linkedresources'][i].to_dict()
+
+		return ret
+
+
+"""
+CSSResource data model.
+"""
+
+
+class CSSResource(Model):
+	def __init__(self, data: dict = None):
+		"""
+		CSSResource Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('attributes'):
+			value = self.get_field('attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CSSResourceAttribute):
+							value[i] = CSSResourceAttribute(e)
+					else:
+						raise Exception('Expected list of CSSResourceAttribute or dict')
+			else:
+				raise Exception('Expected list of CSSResourceAttribute or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get is_global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('active', False)
+
+	def get_file(self) -> int:
+		"""
+		Get file.
+
+		:returns: int
+		"""
+
+		return self.get_field('file', 0)
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: List of CSSResourceAttribute
+		"""
+
+		return self.get_field('attributes', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'attributes' in ret and isinstance(ret['attributes'], list):
+			for i, e in enumerate(ret['attributes']):
+				if isinstance(e, CSSResourceAttribute):
+					ret['attributes'][i] = ret['attributes'][i].to_dict()
+
+		return ret
+
+
+"""
+Page data model.
+"""
+
+
+class Page(Model):
+	def __init__(self, data: dict = None):
+		"""
+		Page Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_secure(self) -> bool:
+		"""
+		Get secure.
+
+		:returns: bool
+		"""
+
+		return self.get_field('secure', False)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_name(self) -> str:
+		"""
+		Get name.
+
+		:returns: string
+		"""
+
+		return self.get_field('name')
+
+	def get_title(self) -> str:
+		"""
+		Get title.
+
+		:returns: string
+		"""
+
+		return self.get_field('title')
+
+	def get_ui_id(self) -> int:
+		"""
+		Get ui_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('ui_id', 0)
+
+
+"""
+JavaScriptResourceVersion data model.
+"""
+
+
+class JavaScriptResourceVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		JavaScriptResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('attributes'):
+			value = self.get_field('attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, JavaScriptResourceVersionAttribute):
+							value[i] = JavaScriptResourceVersionAttribute(e)
+					else:
+						raise Exception('Expected list of JavaScriptResourceVersionAttribute or dict')
+			else:
+				raise Exception('Expected list of JavaScriptResourceVersionAttribute or dict')
+
+		if self.has_field('linkedpages'):
+			value = self.get_field('linkedpages')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, Page):
+							value[i] = Page(e)
+					else:
+						raise Exception('Expected list of Page or dict')
+			else:
+				raise Exception('Expected list of Page or dict')
+
+		if self.has_field('linkedresources'):
+			value = self.get_field('linkedresources')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, JavaScriptResource):
+							value[i] = JavaScriptResource(e)
+					else:
+						raise Exception('Expected list of JavaScriptResource or dict')
+			else:
+				raise Exception('Expected list of JavaScriptResource or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_resource_id(self) -> int:
+		"""
+		Get res_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('res_id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get is_global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('active', False)
+
+	def get_file(self) -> str:
+		"""
+		Get file.
+
+		:returns: string
+		"""
+
+		return self.get_field('file')
+
+	def get_branchless_file(self) -> str:
+		"""
+		Get branchless_file.
+
+		:returns: string
+		"""
+
+		return self.get_field('branchless_file')
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+	def get_user_icon(self) -> str:
+		"""
+		Get user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_icon')
+
+	def get_source_user_id(self) -> int:
+		"""
+		Get source_user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('source_user_id', 0)
+
+	def get_source_user_name(self) -> str:
+		"""
+		Get source_user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_name')
+
+	def get_source_user_icon(self) -> str:
+		"""
+		Get source_user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_icon')
+
+	def get_source(self) -> str:
+		"""
+		Get source.
+
+		:returns: string
+		"""
+
+		return self.get_field('source')
+
+	def get_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: List of JavaScriptResourceVersionAttribute
+		"""
+
+		return self.get_field('attributes', [])
+
+	def get_linked_pages(self):
+		"""
+		Get linkedpages.
+
+		:returns: List of Page
+		"""
+
+		return self.get_field('linkedpages', [])
+
+	def get_linked_resources(self):
+		"""
+		Get linkedresources.
+
+		:returns: List of JavaScriptResource
+		"""
+
+		return self.get_field('linkedresources', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'attributes' in ret and isinstance(ret['attributes'], list):
+			for i, e in enumerate(ret['attributes']):
+				if isinstance(e, JavaScriptResourceVersionAttribute):
+					ret['attributes'][i] = ret['attributes'][i].to_dict()
+
+		if 'linkedpages' in ret and isinstance(ret['linkedpages'], list):
+			for i, e in enumerate(ret['linkedpages']):
+				if isinstance(e, Page):
+					ret['linkedpages'][i] = ret['linkedpages'][i].to_dict()
+
+		if 'linkedresources' in ret and isinstance(ret['linkedresources'], list):
+			for i, e in enumerate(ret['linkedresources']):
+				if isinstance(e, JavaScriptResource):
+					ret['linkedresources'][i] = ret['linkedresources'][i].to_dict()
+
+		return ret
+
+
+"""
+JavaScriptResource data model.
+"""
+
+
+class JavaScriptResource(Model):
+	def __init__(self, data: dict = None):
+		"""
+		JavaScriptResource Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('attributes'):
+			value = self.get_field('attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, JavaScriptResourceAttribute):
+							value[i] = JavaScriptResourceAttribute(e)
+					else:
+						raise Exception('Expected list of JavaScriptResourceAttribute or dict')
+			else:
+				raise Exception('Expected list of JavaScriptResourceAttribute or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_is_global(self) -> bool:
+		"""
+		Get is_global.
+
+		:returns: bool
+		"""
+
+		return self.get_field('is_global', False)
+
+	def get_active(self) -> bool:
+		"""
+		Get active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('active', False)
+
+	def get_file(self) -> int:
+		"""
+		Get file.
+
+		:returns: int
+		"""
+
+		return self.get_field('file', 0)
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: List of JavaScriptResourceAttribute
+		"""
+
+		return self.get_field('attributes', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'attributes' in ret and isinstance(ret['attributes'], list):
+			for i, e in enumerate(ret['attributes']):
+				if isinstance(e, JavaScriptResourceAttribute):
+					ret['attributes'][i] = ret['attributes'][i].to_dict()
+
+		return ret
+
+
+"""
+ResourceAttribute data model.
+"""
+
+
+class ResourceAttribute(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ResourceAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_name(self) -> str:
+		"""
+		Get name.
+
+		:returns: string
+		"""
+
+		return self.get_field('name')
+
+	def get_value(self) -> str:
+		"""
+		Get value.
+
+		:returns: string
+		"""
+
+		return self.get_field('value')
+
+	def set_name(self, name: str) -> 'ResourceAttribute':
+		"""
+		Set name.
+
+		:param name: string
+		:returns: ResourceAttribute
+		"""
+
+		return self.set_field('name', name)
+
+	def set_value(self, value: str) -> 'ResourceAttribute':
+		"""
+		Set value.
+
+		:param value: string
+		:returns: ResourceAttribute
+		"""
+
+		return self.set_field('value', value)
+
+
+"""
+CustomerCreditHistory data model.
+"""
+
+
+class CustomerCreditHistory(Model):
+	def __init__(self, data: dict = None):
+		"""
+		CustomerCreditHistory Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_user_id(self) -> int:
+		"""
+		Get user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('user_id', 0)
+
+	def get_customer_id(self) -> int:
+		"""
+		Get cust_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('cust_id', 0)
+
+	def get_order_id(self) -> int:
+		"""
+		Get order_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('order_id', 0)
+
+	def get_transaction_reference(self) -> str:
+		"""
+		Get txref.
+
+		:returns: string
+		"""
+
+		return self.get_field('txref')
+
+	def get_description(self) -> str:
+		"""
+		Get descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('descrip')
+
+	def get_amount(self) -> float:
+		"""
+		Get amount.
+
+		:returns: float
+		"""
+
+		return self.get_field('amount', 0.00)
+
+	def get_date_time_stamp(self) -> int:
+		"""
+		Get dtstamp.
+
+		:returns: int
+		"""
+
+		return self.get_field('dtstamp', 0)
+
+	def get_user_name(self) -> str:
+		"""
+		Get user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('user_name')
+
+
+"""
+OrderReturn data model.
+"""
+
+
+class OrderReturn(Model):
+	# ORDER_RETURN_STATUS constants.
+	ORDER_RETURN_STATUS_ISSUED = 500
+	ORDER_RETURN_STATUS_RECEIVED = 600
+
+	def __init__(self, data: dict = None):
+		"""
+		OrderReturn Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_order_id(self) -> int:
+		"""
+		Get order_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('order_id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_status(self) -> int:
+		"""
+		Get status.
+
+		:returns: int
+		"""
+
+		return self.get_field('status', 0)
+
+	def get_date_time_issued(self) -> int:
+		"""
+		Get dt_issued.
+
+		:returns: int
+		"""
+
+		return self.get_field('dt_issued', 0)
+
+	def get_date_time_received(self) -> int:
+		"""
+		Get dt_recvd.
+
+		:returns: int
+		"""
+
+		return self.get_field('dt_recvd', 0)
+
+
+"""
+ReceivedReturn data model.
+"""
+
+
+class ReceivedReturn(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ReceivedReturn Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_return_id(self) -> int:
+		"""
+		Get return_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('return_id', 0)
+
+	def get_adjust_inventory(self) -> int:
+		"""
+		Get adjust_inventory.
+
+		:returns: int
+		"""
+
+		return self.get_field('adjust_inventory', 0)
+
+	def set_return_id(self, return_id: int) -> 'ReceivedReturn':
+		"""
+		Set return_id.
+
+		:param return_id: int
+		:returns: ReceivedReturn
+		"""
+
+		return self.set_field('return_id', return_id)
+
+	def set_adjust_inventory(self, adjust_inventory: int) -> 'ReceivedReturn':
+		"""
+		Set adjust_inventory.
+
+		:param adjust_inventory: int
+		:returns: ReceivedReturn
+		"""
+
+		return self.set_field('adjust_inventory', adjust_inventory)
+
+
+"""
+PropertyVersion data model.
+"""
+
+
+class PropertyVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		PropertyVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('settings'):
+			value = self.get_field('settings')
+			if not isinstance(value, TemplateVersionSettings):
+				self.set_field('settings', TemplateVersionSettings(value))
+
+		if self.has_field('product'):
+			value = self.get_field('product')
+			if isinstance(value, dict):
+				if not isinstance(value, Product):
+					self.set_field('product', Product(value))
+			else:
+				raise Exception('Expected Product or a dict')
+
+		if self.has_field('category'):
+			value = self.get_field('category')
+			if isinstance(value, dict):
+				if not isinstance(value, Category):
+					self.set_field('category', Category(value))
+			else:
+				raise Exception('Expected Category or a dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_property_id(self) -> int:
+		"""
+		Get prop_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('prop_id', 0)
+
+	def get_version_id(self) -> int:
+		"""
+		Get version_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('version_id', 0)
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_product_id(self) -> int:
+		"""
+		Get product_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_id', 0)
+
+	def get_category_id(self) -> int:
+		"""
+		Get cat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('cat_id', 0)
+
+	def get_version_user_id(self) -> int:
+		"""
+		Get version_user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('version_user_id', 0)
+
+	def get_version_user_name(self) -> str:
+		"""
+		Get version_user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('version_user_name')
+
+	def get_version_user_icon(self) -> str:
+		"""
+		Get version_user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('version_user_icon')
+
+	def get_source_user_id(self) -> int:
+		"""
+		Get source_user_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('source_user_id', 0)
+
+	def get_source_user_name(self) -> str:
+		"""
+		Get source_user_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_name')
+
+	def get_source_user_icon(self) -> str:
+		"""
+		Get source_user_icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_user_icon')
+
+	def get_template_id(self) -> int:
+		"""
+		Get templ_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('templ_id', 0)
+
+	def get_settings(self):
+		"""
+		Get settings.
+
+		:returns: TemplateVersionSettings|None
+		"""
+
+		return self.get_field('settings', None)
+
+	def get_product(self):
+		"""
+		Get product.
+
+		:returns: Product|None
+		"""
+
+		return self.get_field('product', None)
+
+	def get_category(self):
+		"""
+		Get category.
+
+		:returns: Category|None
+		"""
+
+		return self.get_field('category', None)
+
+	def get_source(self) -> str:
+		"""
+		Get source.
+
+		:returns: string
+		"""
+
+		return self.get_field('source')
+
+	def get_sync(self) -> bool:
+		"""
+		Get sync.
+
+		:returns: bool
+		"""
+
+		return self.get_field('sync', False)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+			ret['settings'] = ret['settings'].to_dict()
+
+		if 'product' in ret and isinstance(ret['product'], Product):
+			ret['product'] = ret['product'].to_dict()
+
+		if 'category' in ret and isinstance(ret['category'], Category):
+			ret['category'] = ret['category'].to_dict()
+
+		return ret
+
+
+"""
+ResourceGroup data model.
+"""
+
+
+class ResourceGroup(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ResourceGroup Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('linkedcssresources'):
+			value = self.get_field('linkedcssresources')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CSSResource):
+							value[i] = CSSResource(e)
+					else:
+						raise Exception('Expected list of CSSResource or dict')
+			else:
+				raise Exception('Expected list of CSSResource or dict')
+
+		if self.has_field('linkedjavascriptresources'):
+			value = self.get_field('linkedjavascriptresources')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, JavaScriptResource):
+							value[i] = JavaScriptResource(e)
+					else:
+						raise Exception('Expected list of JavaScriptResource or dict')
+			else:
+				raise Exception('Expected list of JavaScriptResource or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_linked_css_resources(self):
+		"""
+		Get linkedcssresources.
+
+		:returns: List of CSSResource
+		"""
+
+		return self.get_field('linkedcssresources', [])
+
+	def get_linked_java_script_resources(self):
+		"""
+		Get linkedjavascriptresources.
+
+		:returns: List of JavaScriptResource
+		"""
+
+		return self.get_field('linkedjavascriptresources', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'linkedcssresources' in ret and isinstance(ret['linkedcssresources'], list):
+			for i, e in enumerate(ret['linkedcssresources']):
+				if isinstance(e, CSSResource):
+					ret['linkedcssresources'][i] = ret['linkedcssresources'][i].to_dict()
+
+		if 'linkedjavascriptresources' in ret and isinstance(ret['linkedjavascriptresources'], list):
+			for i, e in enumerate(ret['linkedjavascriptresources']):
+				if isinstance(e, JavaScriptResource):
+					ret['linkedjavascriptresources'][i] = ret['linkedjavascriptresources'][i].to_dict()
+
+		return ret
+
+
+"""
+MerchantVersion data model.
+"""
+
+
+class MerchantVersion(Model):
+	def __init__(self, data: dict = None):
+		"""
+		MerchantVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_version(self) -> str:
+		"""
+		Get version.
+
+		:returns: string
+		"""
+
+		return self.get_field('version')
+
+	def get_major(self) -> int:
+		"""
+		Get major.
+
+		:returns: int
+		"""
+
+		return self.get_field('major', 0)
+
+	def get_minor(self) -> int:
+		"""
+		Get minor.
+
+		:returns: int
+		"""
+
+		return self.get_field('minor', 0)
+
+	def get_bugfix(self) -> int:
+		"""
+		Get bugfix.
+
+		:returns: int
+		"""
+
+		return self.get_field('bugfix', 0)
+
+
+"""
 OrderNote data model.
 """
 
@@ -8882,3 +10579,220 @@ class CustomerPriceGroup(PriceGroup):
 		"""
 
 		return self.get_field('assigned', False)
+
+
+"""
+BranchCSSResourceVersion data model.
+"""
+
+
+class BranchCSSResourceVersion(CSSResourceVersion):
+	def __init__(self, data: dict = None):
+		"""
+		BranchCSSResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+ChangesetCSSResourceVersion data model.
+"""
+
+
+class ChangesetCSSResourceVersion(CSSResourceVersion):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetCSSResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+BranchCSSResource data model.
+"""
+
+
+class BranchCSSResource(CSSResource):
+	def __init__(self, data: dict = None):
+		"""
+		BranchCSSResource Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+ChangesetCSSResource data model.
+"""
+
+
+class ChangesetCSSResource(CSSResource):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetCSSResource Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+BranchJavaScriptResourceVersion data model.
+"""
+
+
+class BranchJavaScriptResourceVersion(JavaScriptResourceVersion):
+	def __init__(self, data: dict = None):
+		"""
+		BranchJavaScriptResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+ChangesetJavaScriptResourceVersion data model.
+"""
+
+
+class ChangesetJavaScriptResourceVersion(JavaScriptResourceVersion):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetJavaScriptResourceVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+CSSResourceVersionAttribute data model.
+"""
+
+
+class CSSResourceVersionAttribute(ResourceAttribute):
+	def __init__(self, data: dict = None):
+		"""
+		CSSResourceVersionAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+CSSResourceAttribute data model.
+"""
+
+
+class CSSResourceAttribute(ResourceAttribute):
+	def __init__(self, data: dict = None):
+		"""
+		CSSResourceAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+JavaScriptResourceVersionAttribute data model.
+"""
+
+
+class JavaScriptResourceVersionAttribute(ResourceAttribute):
+	def __init__(self, data: dict = None):
+		"""
+		JavaScriptResourceVersionAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+JavaScriptResourceAttribute data model.
+"""
+
+
+class JavaScriptResourceAttribute(ResourceAttribute):
+	def __init__(self, data: dict = None):
+		"""
+		JavaScriptResourceAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+OrderPriceGroup data model.
+"""
+
+
+class OrderPriceGroup(PriceGroup):
+	def __init__(self, data: dict = None):
+		"""
+		OrderPriceGroup Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+BranchPropertyVersion data model.
+"""
+
+
+class BranchPropertyVersion(PropertyVersion):
+	def __init__(self, data: dict = None):
+		"""
+		BranchPropertyVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+
+"""
+ChangesetPropertyVersion data model.
+"""
+
+
+class ChangesetPropertyVersion(PropertyVersion):
+	def __init__(self, data: dict = None):
+		"""
+		ChangesetPropertyVersion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)

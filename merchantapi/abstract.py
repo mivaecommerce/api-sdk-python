@@ -5,11 +5,10 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
-
-$Id: abstract.py 77675 2019-08-29 21:03:50Z gidriss $
 """
 
 import abc
+from requests.models import Response as HttpResponse
 
 
 '''
@@ -22,26 +21,6 @@ class Client(object):
 	def get_endpoint(self):
 		"""
 		Get the API endpoint URL.
-
-		:returns: str
-		"""
-
-		pass
-
-	@abc.abstractmethod
-	def get_api_token(self):
-		"""
-		Get the api token used to authenticate the request.
-
-		:returns: str
-		"""
-
-		pass
-
-	@abc.abstractmethod
-	def get_signing_key(self):
-		"""
-		Get the signing key used to sign requests. Base64 encoded.
 
 		:returns: str
 		"""
@@ -142,6 +121,9 @@ class Request(object):
 	SCOPE_STORE = 1
 	SCOPE_DOMAIN = 2
 
+	BINARY_ENCODING_DEFAULT = 'json'
+	BINARY_ENCODING_BASE64 = 'base64'
+
 	def __init__(self, client: Client = None):
 		"""
 		Request Constructor.
@@ -152,6 +134,7 @@ class Request(object):
 		self.client = client
 		self.store_code = ""
 		self.scope = Request.SCOPE_STORE
+		self.binary_encoding = Request.BINARY_ENCODING_DEFAULT
 
 	def get_function(self):
 		"""
@@ -210,7 +193,7 @@ class Request(object):
 
 		self.client = client
 		return self
-	
+
 	def send(self) -> 'Response':
 		"""
 		Send this object via the assigned client.
@@ -237,15 +220,52 @@ class Request(object):
 
 		return data
 
-	def create_response(self, data) -> 'Response':
+	def process_request_headers(self, headers: dict) -> dict:
+		"""
+		Allows manipulation of the request headers before sending.
+
+		:param headers: dict
+		:returns: dict
+		"""
+
+		return headers
+
+	def create_response(self, http_response: HttpResponse, data: dict) -> 'Response':
 		"""
 		Override this method to create a response for this request.
 
+		:param http_response: requests.models.Response
 		:param data: dict
 		:returns: Response
 		"""
 
-		return Response(self, data)
+		return Response(self, http_response, data)
+
+	def get_binary_encoding(self):
+		"""
+		Get the binary enocoding method this request should use
+
+		:return str:
+		"""
+		return self.binary_encoding
+
+	def set_binary_encoding(self, encoding: str) -> 'Request':
+		"""
+		Set the binary encoding this request should use. Must be one of Request.BINARY_ENCODING_XX
+		:param encoding:
+		:return Request:
+		"""
+		if not isinstance(encoding, str):
+			self.binary_encoding = Request.BINARY_ENCODING_DEFAULT
+			return self
+
+		encoding = encoding.lower()
+
+		if encoding not in [Request.BINARY_ENCODING_DEFAULT, Request.BINARY_ENCODING_BASE64]:
+			self.binary_encoding = Request.BINARY_ENCODING_DEFAULT
+			return self
+
+		self.binary_encoding = encoding
 
 
 '''
@@ -254,15 +274,17 @@ Response - Abstract response class
 
 
 class Response(object):
-	def __init__(self, request, data: dict):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
 		"""
 		Response constructor.
 
 		:param request: Request
+		:param http_response: requests.models.Response
 		:param data: dict
 		"""
 
 		self.request = request
+		self.http_response = http_response
 		self.data = data
 
 	def is_success(self):

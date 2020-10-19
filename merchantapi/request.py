@@ -6,17 +6,18 @@ This file is part of the MerchantAPI package.
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
-$Id: request.py 77709 2019-08-30 16:41:54Z gidriss $
+$Id$
 """
 
 import merchantapi.abstract
 import merchantapi.model
 import merchantapi.response
-from merchantapi.client import Client
+from merchantapi.client import BaseClient as Client
 from merchantapi.listquery import ListQueryRequest
+from requests.models import Response as HttpResponse
 
 """
-Handles API Request AvailabilityGroupBusinessAccount_Update_Assigned.
+Handles API Request AvailabilityGroupBusinessAccount_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygroupbusinessaccount_update_assigned
 """
@@ -177,15 +178,16 @@ class AvailabilityGroupBusinessAccountUpdateAssigned(merchantapi.abstract.Reques
 	def send(self) -> 'merchantapi.response.AvailabilityGroupBusinessAccountUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupBusinessAccountUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupBusinessAccountUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupBusinessAccountUpdateAssigned(self, data)
+		return merchantapi.response.AvailabilityGroupBusinessAccountUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -215,7 +217,7 @@ class AvailabilityGroupBusinessAccountUpdateAssigned(merchantapi.abstract.Reques
 
 
 """
-Handles API Request AvailabilityGroupCustomer_Update_Assigned.
+Handles API Request AvailabilityGroupCustomer_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygroupcustomer_update_assigned
 """
@@ -397,15 +399,16 @@ class AvailabilityGroupCustomerUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.AvailabilityGroupCustomerUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupCustomerUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupCustomerUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupCustomerUpdateAssigned(self, data)
+		return merchantapi.response.AvailabilityGroupCustomerUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -437,7 +440,7 @@ class AvailabilityGroupCustomerUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request AvailabilityGroupList_Load_Query.
+Handles API Request AvailabilityGroupList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygrouplist_load_query
 """
@@ -477,19 +480,20 @@ class AvailabilityGroupListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.AvailabilityGroupListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupListLoadQuery(self, data)
+		return merchantapi.response.AvailabilityGroupListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request AvailabilityGroupPaymentMethod_Update_Assigned.
+Handles API Request AvailabilityGroupPaymentMethod_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygrouppaymentmethod_update_assigned
 """
@@ -671,15 +675,16 @@ class AvailabilityGroupPaymentMethodUpdateAssigned(merchantapi.abstract.Request)
 	def send(self) -> 'merchantapi.response.AvailabilityGroupPaymentMethodUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupPaymentMethodUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupPaymentMethodUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupPaymentMethodUpdateAssigned(self, data)
+		return merchantapi.response.AvailabilityGroupPaymentMethodUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -707,7 +712,7 @@ class AvailabilityGroupPaymentMethodUpdateAssigned(merchantapi.abstract.Request)
 
 
 """
-Handles API Request AvailabilityGroupProduct_Update_Assigned.
+Handles API Request AvailabilityGroupProduct_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygroupproduct_update_assigned
 """
@@ -910,15 +915,16 @@ class AvailabilityGroupProductUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.AvailabilityGroupProductUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupProductUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupProductUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupProductUpdateAssigned(self, data)
+		return merchantapi.response.AvailabilityGroupProductUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -951,7 +957,7 @@ class AvailabilityGroupProductUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request AvailabilityGroupShippingMethod_Update_Assigned.
+Handles API Request AvailabilityGroupShippingMethod_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/availabilitygroupshippingmethod_update_assigned
 """
@@ -1112,15 +1118,16 @@ class AvailabilityGroupShippingMethodUpdateAssigned(merchantapi.abstract.Request
 	def send(self) -> 'merchantapi.response.AvailabilityGroupShippingMethodUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'AvailabilityGroupShippingMethodUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'AvailabilityGroupShippingMethodUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.AvailabilityGroupShippingMethodUpdateAssigned(self, data)
+		return merchantapi.response.AvailabilityGroupShippingMethodUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -1146,7 +1153,7 @@ class AvailabilityGroupShippingMethodUpdateAssigned(merchantapi.abstract.Request
 
 
 """
-Handles API Request CategoryList_Load_Parent.
+Handles API Request CategoryList_Load_Parent. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/categorylist_load_parent
 """
@@ -1199,15 +1206,16 @@ class CategoryListLoadParent(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CategoryListLoadParent':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryListLoadParent':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryListLoadParent':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryListLoadParent(self, data)
+		return merchantapi.response.CategoryListLoadParent(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -1225,7 +1233,7 @@ class CategoryListLoadParent(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CategoryList_Load_Query.
+Handles API Request CategoryList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/categorylist_load_query
 """
@@ -1262,6 +1270,10 @@ class CategoryListLoadQuery(ListQueryRequest):
 		'depth'
 	]
 
+	available_on_demand_columns = [
+		'uris'
+	]
+
 	available_custom_filters = {
 		'Category_Show': [
 			CATEGORY_SHOW_ALL,
@@ -1291,19 +1303,20 @@ class CategoryListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.CategoryListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryListLoadQuery(self, data)
+		return merchantapi.response.CategoryListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request CategoryProduct_Update_Assigned.
+Handles API Request CategoryProduct_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/categoryproduct_update_assigned
 """
@@ -1506,15 +1519,16 @@ class CategoryProductUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CategoryProductUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryProductUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryProductUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryProductUpdateAssigned(self, data)
+		return merchantapi.response.CategoryProductUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -1547,7 +1561,7 @@ class CategoryProductUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Category_Insert.
+Handles API Request Category_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/category_insert
 """
@@ -1736,15 +1750,16 @@ class CategoryInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CategoryInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryInsert(self, data)
+		return merchantapi.response.CategoryInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -1772,7 +1787,7 @@ class CategoryInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Category_Delete.
+Handles API Request Category_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/category_delete
 """
@@ -1870,15 +1885,16 @@ class CategoryDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CategoryDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryDelete(self, data)
+		return merchantapi.response.CategoryDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -1901,7 +1917,7 @@ class CategoryDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Category_Update.
+Handles API Request Category_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/category_update
 """
@@ -2138,15 +2154,16 @@ class CategoryUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CategoryUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryUpdate(self, data)
+		return merchantapi.response.CategoryUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -2181,7 +2198,7 @@ class CategoryUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CouponList_Delete.
+Handles API Request CouponList_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/couponlist_delete
 """
@@ -2215,7 +2232,7 @@ class CouponListDelete(merchantapi.abstract.Request):
 		"""
 
 		return self.coupon_ids
-
+	
 	def add_coupon_id(self, coupon_id) -> 'CouponListDelete':
 		"""
 		Add Coupon_IDs.
@@ -2247,15 +2264,16 @@ class CouponListDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CouponListDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponListDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponListDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponListDelete(self, data)
+		return merchantapi.response.CouponListDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -2272,7 +2290,7 @@ class CouponListDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CouponList_Load_Query.
+Handles API Request CouponList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/couponlist_load_query
 """
@@ -2328,19 +2346,20 @@ class CouponListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.CouponListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponListLoadQuery(self, data)
+		return merchantapi.response.CouponListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request CouponPriceGroup_Update_Assigned.
+Handles API Request CouponPriceGroup_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/couponpricegroup_update_assigned
 """
@@ -2501,15 +2520,16 @@ class CouponPriceGroupUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CouponPriceGroupUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponPriceGroupUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponPriceGroupUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponPriceGroupUpdateAssigned(self, data)
+		return merchantapi.response.CouponPriceGroupUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -2538,7 +2558,7 @@ class CouponPriceGroupUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Coupon_Insert.
+Handles API Request Coupon_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/coupon_insert
 """
@@ -2766,15 +2786,16 @@ class CouponInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CouponInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponInsert(self, data)
+		return merchantapi.response.CouponInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -2807,7 +2828,7 @@ class CouponInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Coupon_Update.
+Handles API Request Coupon_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/coupon_update
 """
@@ -3083,15 +3104,16 @@ class CouponUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CouponUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponUpdate(self, data)
+		return merchantapi.response.CouponUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -3130,7 +3152,7 @@ class CouponUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CustomerList_Load_Query.
+Handles API Request CustomerList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customerlist_load_query
 """
@@ -3232,19 +3254,20 @@ class CustomerListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.CustomerListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerListLoadQuery(self, data)
+		return merchantapi.response.CustomerListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request Customer_Delete.
+Handles API Request Customer_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customer_delete
 """
@@ -3342,15 +3365,16 @@ class CustomerDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CustomerDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerDelete(self, data)
+		return merchantapi.response.CustomerDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -3373,7 +3397,7 @@ class CustomerDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Customer_Insert.
+Handles API Request Customer_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customer_insert
 """
@@ -4089,15 +4113,16 @@ class CustomerInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CustomerInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerInsert(self, data)
+		return merchantapi.response.CustomerInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -4172,7 +4197,7 @@ class CustomerInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Customer_Update.
+Handles API Request Customer_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customer_update
 """
@@ -4935,15 +4960,16 @@ class CustomerUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CustomerUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerUpdate(self, data)
+		return merchantapi.response.CustomerUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5026,7 +5052,7 @@ class CustomerUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CustomerPaymentCard_Register.
+Handles API Request CustomerPaymentCard_Register. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customerpaymentcard_register
 """
@@ -5376,15 +5402,16 @@ class CustomerPaymentCardRegister(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.CustomerPaymentCardRegister':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerPaymentCardRegister':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerPaymentCardRegister':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerPaymentCardRegister(self, data)
+		return merchantapi.response.CustomerPaymentCardRegister(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5431,7 +5458,7 @@ class CustomerPaymentCardRegister(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Module.
+Handles API Request Module. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/module
 """
@@ -5535,15 +5562,16 @@ class Module(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.Module':
 		return super().send()
 
-	def create_response(self, data) -> 'Module':
+	def create_response(self, http_response: HttpResponse, data) -> 'Module':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.Module(self, data)
+		return merchantapi.response.Module(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5562,7 +5590,7 @@ class Module(merchantapi.abstract.Request):
 
 
 """
-Handles API Request NoteList_Load_Query.
+Handles API Request NoteList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/notelist_load_query
 """
@@ -5616,19 +5644,20 @@ class NoteListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.NoteListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'NoteListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'NoteListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.NoteListLoadQuery(self, data)
+		return merchantapi.response.NoteListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request Note_Delete.
+Handles API Request Note_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/note_delete
 """
@@ -5681,15 +5710,16 @@ class NoteDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.NoteDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'NoteDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'NoteDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.NoteDelete(self, data)
+		return merchantapi.response.NoteDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5706,7 +5736,7 @@ class NoteDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Note_Insert.
+Handles API Request Note_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/note_insert
 """
@@ -5819,15 +5849,16 @@ class NoteInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.NoteInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'NoteInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'NoteInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.NoteInsert(self, data)
+		return merchantapi.response.NoteInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5850,7 +5881,7 @@ class NoteInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Note_Update.
+Handles API Request Note_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/note_update
 """
@@ -5925,15 +5956,16 @@ class NoteUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.NoteUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'NoteUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'NoteUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.NoteUpdate(self, data)
+		return merchantapi.response.NoteUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -5952,7 +5984,7 @@ class NoteUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderCustomFieldList_Load.
+Handles API Request OrderCustomFieldList_Load. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/ordercustomfieldlist_load
 """
@@ -5981,19 +6013,20 @@ class OrderCustomFieldListLoad(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderCustomFieldListLoad':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderCustomFieldListLoad':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCustomFieldListLoad':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderCustomFieldListLoad(self, data)
+		return merchantapi.response.OrderCustomFieldListLoad(self, http_response, data)
 
 
 """
-Handles API Request OrderCustomFields_Update.
+Handles API Request OrderCustomFields_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/ordercustomfields_update
 """
@@ -6071,15 +6104,16 @@ class OrderCustomFieldsUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderCustomFieldsUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderCustomFieldsUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCustomFieldsUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderCustomFieldsUpdate(self, data)
+		return merchantapi.response.OrderCustomFieldsUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6100,7 +6134,7 @@ class OrderCustomFieldsUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItemList_BackOrder.
+Handles API Request OrderItemList_BackOrder. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitemlist_backorder
 """
@@ -6180,7 +6214,7 @@ class OrderItemListBackOrder(merchantapi.abstract.Request):
 
 		self.date_in_stock = date_in_stock
 		return self
-
+	
 	def add_line_id(self, line_id) -> 'OrderItemListBackOrder':
 		"""
 		Add Line_IDs.
@@ -6212,15 +6246,16 @@ class OrderItemListBackOrder(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemListBackOrder':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemListBackOrder':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemListBackOrder':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemListBackOrder(self, data)
+		return merchantapi.response.OrderItemListBackOrder(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6242,7 +6277,7 @@ class OrderItemListBackOrder(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItemList_Cancel.
+Handles API Request OrderItemList_Cancel. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitemlist_cancel
 """
@@ -6321,7 +6356,7 @@ class OrderItemListCancel(merchantapi.abstract.Request):
 
 		self.reason = reason
 		return self
-
+	
 	def add_line_id(self, line_id) -> 'OrderItemListCancel':
 		"""
 		Add Line_IDs.
@@ -6353,15 +6388,16 @@ class OrderItemListCancel(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemListCancel':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemListCancel':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemListCancel':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemListCancel(self, data)
+		return merchantapi.response.OrderItemListCancel(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6382,7 +6418,7 @@ class OrderItemListCancel(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItemList_CreateShipment.
+Handles API Request OrderItemList_CreateShipment. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitemlist_createshipment
 """
@@ -6440,7 +6476,7 @@ class OrderItemListCreateShipment(merchantapi.abstract.Request):
 
 		self.order_id = order_id
 		return self
-
+	
 	def add_line_id(self, line_id) -> 'OrderItemListCreateShipment':
 		"""
 		Add Line_IDs.
@@ -6472,15 +6508,16 @@ class OrderItemListCreateShipment(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemListCreateShipment':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemListCreateShipment':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemListCreateShipment':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemListCreateShipment(self, data)
+		return merchantapi.response.OrderItemListCreateShipment(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6499,7 +6536,7 @@ class OrderItemListCreateShipment(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItemList_Delete.
+Handles API Request OrderItemList_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitemlist_delete
 """
@@ -6557,7 +6594,7 @@ class OrderItemListDelete(merchantapi.abstract.Request):
 
 		self.order_id = order_id
 		return self
-
+	
 	def add_line_id(self, line_id) -> 'OrderItemListDelete':
 		"""
 		Add Line_IDs.
@@ -6589,15 +6626,16 @@ class OrderItemListDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemListDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemListDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemListDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemListDelete(self, data)
+		return merchantapi.response.OrderItemListDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6615,7 +6653,7 @@ class OrderItemListDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItem_Add.
+Handles API Request OrderItem_Add. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitem_add
 """
@@ -6835,12 +6873,12 @@ class OrderItemAdd(merchantapi.abstract.Request):
 				raise Exception("")
 		self.options = options
 		return self
-
+	
 	def add_option(self, option) -> 'OrderItemAdd':
 		"""
 		Add Options.
 
-		:param option: OrderItemOption
+		:param option: OrderItemOption 
 		:raises Exception:
 		:returns: {OrderItemAdd}
 		"""
@@ -6873,15 +6911,16 @@ class OrderItemAdd(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemAdd':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemAdd':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemAdd':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemAdd(self, data)
+		return merchantapi.response.OrderItemAdd(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -6915,7 +6954,7 @@ class OrderItemAdd(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderItem_Update.
+Handles API Request OrderItem_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderitem_update
 """
@@ -7167,12 +7206,12 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 				raise Exception("")
 		self.options = options
 		return self
-
+	
 	def add_option(self, option) -> 'OrderItemUpdate':
 		"""
 		Add Options.
 
-		:param option: OrderItemOption
+		:param option: OrderItemOption 
 		:raises Exception:
 		:returns: {OrderItemUpdate}
 		"""
@@ -7205,15 +7244,16 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderItemUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderItemUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderItemUpdate(self, data)
+		return merchantapi.response.OrderItemUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7252,7 +7292,7 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderList_Load_Query.
+Handles API Request OrderList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderlist_load_query
 """
@@ -7392,7 +7432,7 @@ class OrderListLoadQuery(ListQueryRequest):
 			PAY_STATUS_FILTER_CAPTURED_NOT_SHIPPED,
 			PAY_STATUS_FILTER_SHIPPED_NOT_CAPTURED
 		],
-		'product_code': 'str'
+		'product_code': 'string'
 	}
 
 	def __init__(self, client: Client = None):
@@ -7438,15 +7478,16 @@ class OrderListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.OrderListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderListLoadQuery(self, data)
+		return merchantapi.response.OrderListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7464,7 +7505,7 @@ class OrderListLoadQuery(ListQueryRequest):
 
 
 """
-Handles API Request OrderPayment_Capture.
+Handles API Request OrderPayment_Capture. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderpayment_capture
 """
@@ -7538,15 +7579,16 @@ class OrderPaymentCapture(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderPaymentCapture':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderPaymentCapture':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderPaymentCapture':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderPaymentCapture(self, data)
+		return merchantapi.response.OrderPaymentCapture(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7565,7 +7607,7 @@ class OrderPaymentCapture(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderPayment_Refund.
+Handles API Request OrderPayment_Refund. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderpayment_refund
 """
@@ -7639,15 +7681,16 @@ class OrderPaymentRefund(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderPaymentRefund':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderPaymentRefund':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderPaymentRefund':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderPaymentRefund(self, data)
+		return merchantapi.response.OrderPaymentRefund(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7666,7 +7709,7 @@ class OrderPaymentRefund(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderPayment_VOID.
+Handles API Request OrderPayment_VOID. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/orderpayment_void
 """
@@ -7740,15 +7783,16 @@ class OrderPaymentVoid(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderPaymentVoid':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderPaymentVoid':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderPaymentVoid':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderPaymentVoid(self, data)
+		return merchantapi.response.OrderPaymentVoid(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7767,7 +7811,7 @@ class OrderPaymentVoid(merchantapi.abstract.Request):
 
 
 """
-Handles API Request OrderShipmentList_Update.
+Handles API Request OrderShipmentList_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/ordershipmentlist_update
 """
@@ -7816,12 +7860,12 @@ class OrderShipmentListUpdate(merchantapi.abstract.Request):
 				raise Exception("")
 		self.shipment_updates = shipment_updates
 		return self
-
+	
 	def add_shipment_update(self, shipment_update) -> 'OrderShipmentListUpdate':
 		"""
 		Add Shipment_Updates.
 
-		:param shipment_update: OrderShipmentUpdate
+		:param shipment_update: OrderShipmentUpdate 
 		:raises Exception:
 		:returns: {OrderShipmentListUpdate}
 		"""
@@ -7854,15 +7898,16 @@ class OrderShipmentListUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderShipmentListUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderShipmentListUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderShipmentListUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderShipmentListUpdate(self, data)
+		return merchantapi.response.OrderShipmentListUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -7883,7 +7928,7 @@ class OrderShipmentListUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Order_Create.
+Handles API Request Order_Create. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/order_create
 """
@@ -8663,12 +8708,12 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		self.trigger_fulfillment_modules = trigger_fulfillment_modules
 		return self
-
+	
 	def add_item(self, item) -> 'OrderCreate':
 		"""
 		Add Items.
 
-		:param item: OrderItem
+		:param item: OrderItem 
 		:raises Exception:
 		:returns: {OrderCreate}
 		"""
@@ -8696,12 +8741,12 @@ class OrderCreate(merchantapi.abstract.Request):
 			self.items.append(e)
 
 		return self
-
+	
 	def add_product(self, product) -> 'OrderCreate':
 		"""
 		Add Products.
 
-		:param product: OrderProduct
+		:param product: OrderProduct 
 		:raises Exception:
 		:returns: {OrderCreate}
 		"""
@@ -8729,12 +8774,12 @@ class OrderCreate(merchantapi.abstract.Request):
 			self.products.append(e)
 
 		return self
-
+	
 	def add_charge(self, charge) -> 'OrderCreate':
 		"""
 		Add Charges.
 
-		:param charge: OrderCharge
+		:param charge: OrderCharge 
 		:raises Exception:
 		:returns: {OrderCreate}
 		"""
@@ -8767,15 +8812,16 @@ class OrderCreate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderCreate':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderCreate':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCreate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderCreate(self, data)
+		return merchantapi.response.OrderCreate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -8871,7 +8917,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Order_Delete.
+Handles API Request Order_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/order_delete
 """
@@ -8924,15 +8970,16 @@ class OrderDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderDelete(self, data)
+		return merchantapi.response.OrderDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -8949,7 +8996,7 @@ class OrderDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Order_Update_Customer_Information.
+Handles API Request Order_Update_Customer_Information. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/order_update_customer_information
 """
@@ -9548,15 +9595,16 @@ class OrderUpdateCustomerInformation(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderUpdateCustomerInformation':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderUpdateCustomerInformation':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderUpdateCustomerInformation':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderUpdateCustomerInformation(self, data)
+		return merchantapi.response.OrderUpdateCustomerInformation(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -9625,7 +9673,7 @@ class OrderUpdateCustomerInformation(merchantapi.abstract.Request):
 
 
 """
-Handles API Request PriceGroupCustomer_Update_Assigned.
+Handles API Request PriceGroupCustomer_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/pricegroupcustomer_update_assigned
 """
@@ -9786,15 +9834,16 @@ class PriceGroupCustomerUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PriceGroupCustomerUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'PriceGroupCustomerUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'PriceGroupCustomerUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PriceGroupCustomerUpdateAssigned(self, data)
+		return merchantapi.response.PriceGroupCustomerUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -9824,7 +9873,7 @@ class PriceGroupCustomerUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request PriceGroupList_Load_Query.
+Handles API Request PriceGroupList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/pricegrouplist_load_query
 """
@@ -9912,19 +9961,20 @@ class PriceGroupListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.PriceGroupListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'PriceGroupListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'PriceGroupListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PriceGroupListLoadQuery(self, data)
+		return merchantapi.response.PriceGroupListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request PriceGroupProduct_Update_Assigned.
+Handles API Request PriceGroupProduct_Update_Assigned. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/pricegroupproduct_update_assigned
 """
@@ -10108,15 +10158,16 @@ class PriceGroupProductUpdateAssigned(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PriceGroupProductUpdateAssigned':
 		return super().send()
 
-	def create_response(self, data) -> 'PriceGroupProductUpdateAssigned':
+	def create_response(self, http_response: HttpResponse, data) -> 'PriceGroupProductUpdateAssigned':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PriceGroupProductUpdateAssigned(self, data)
+		return merchantapi.response.PriceGroupProductUpdateAssigned(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -10152,7 +10203,7 @@ class PriceGroupProductUpdateAssigned(merchantapi.abstract.Request):
 
 
 """
-Handles API Request ProductImage_Add.
+Handles API Request ProductImage_Add. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productimage_add
 """
@@ -10315,15 +10366,16 @@ class ProductImageAdd(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductImageAdd':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductImageAdd':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductImageAdd':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductImageAdd(self, data)
+		return merchantapi.response.ProductImageAdd(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -10350,7 +10402,7 @@ class ProductImageAdd(merchantapi.abstract.Request):
 
 
 """
-Handles API Request ProductImage_Delete.
+Handles API Request ProductImage_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productimage_delete
 """
@@ -10403,15 +10455,16 @@ class ProductImageDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductImageDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductImageDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductImageDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductImageDelete(self, data)
+		return merchantapi.response.ProductImageDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -10428,7 +10481,7 @@ class ProductImageDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request ProductList_Adjust_Inventory.
+Handles API Request ProductList_Adjust_Inventory. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productlist_adjust_inventory
 """
@@ -10477,12 +10530,12 @@ class ProductListAdjustInventory(merchantapi.abstract.Request):
 				raise Exception("")
 		self.inventory_adjustments = inventory_adjustments
 		return self
-
+	
 	def add_inventory_adjustment(self, inventory_adjustment) -> 'ProductListAdjustInventory':
 		"""
 		Add Inventory_Adjustments.
 
-		:param inventory_adjustment: ProductInventoryAdjustment
+		:param inventory_adjustment: ProductInventoryAdjustment 
 		:raises Exception:
 		:returns: {ProductListAdjustInventory}
 		"""
@@ -10515,15 +10568,16 @@ class ProductListAdjustInventory(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductListAdjustInventory':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductListAdjustInventory':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductListAdjustInventory':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductListAdjustInventory(self, data)
+		return merchantapi.response.ProductListAdjustInventory(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -10544,7 +10598,7 @@ class ProductListAdjustInventory(merchantapi.abstract.Request):
 
 
 """
-Handles API Request ProductList_Load_Query.
+Handles API Request ProductList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productlist_load_query
 """
@@ -10601,6 +10655,9 @@ class ProductListLoadQuery(ListQueryRequest):
 	available_on_demand_columns = [
 		'descrip',
 		'catcount',
+		'cancat_code',
+		'page_code',
+		'product_inventory',
 		'productinventorysettings',
 		'attributes',
 		'productimagedata',
@@ -10640,19 +10697,20 @@ class ProductListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.ProductListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductListLoadQuery(self, data)
+		return merchantapi.response.ProductListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request ProductVariantList_Load_Product.
+Handles API Request ProductVariantList_Load_Product. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productvariantlist_load_product
 """
@@ -10839,12 +10897,12 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 				raise Exception("")
 		self.exclusions = exclusions
 		return self
-
+	
 	def add_limit(self, limit) -> 'ProductVariantListLoadProduct':
 		"""
 		Add Limits.
 
-		:param limit: ProductVariantLimit
+		:param limit: ProductVariantLimit 
 		:raises Exception:
 		:returns: {ProductVariantListLoadProduct}
 		"""
@@ -10872,12 +10930,12 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 			self.limits.append(e)
 
 		return self
-
+	
 	def add_exclusion(self, exclusion) -> 'ProductVariantListLoadProduct':
 		"""
 		Add Exclusions.
 
-		:param exclusion: ProductVariantExclusion
+		:param exclusion: ProductVariantExclusion 
 		:raises Exception:
 		:returns: {ProductVariantListLoadProduct}
 		"""
@@ -10910,15 +10968,16 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductVariantListLoadProduct':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductVariantListLoadProduct':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductVariantListLoadProduct':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductVariantListLoadProduct(self, data)
+		return merchantapi.response.ProductVariantListLoadProduct(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -10955,7 +11014,7 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Product_Insert.
+Handles API Request Product_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/product_insert
 """
@@ -11343,15 +11402,16 @@ class ProductInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductInsert(self, data)
+		return merchantapi.response.ProductInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -11396,7 +11456,7 @@ class ProductInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Product_Delete.
+Handles API Request Product_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/product_delete
 """
@@ -11517,15 +11577,16 @@ class ProductDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductDelete(self, data)
+		return merchantapi.response.ProductDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -11550,7 +11611,7 @@ class ProductDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Product_Update.
+Handles API Request Product_Update. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/product_update
 """
@@ -11985,15 +12046,16 @@ class ProductUpdate(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProductUpdate':
 		return super().send()
 
-	def create_response(self, data) -> 'ProductUpdate':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductUpdate':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProductUpdate(self, data)
+		return merchantapi.response.ProductUpdate(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12046,7 +12108,7 @@ class ProductUpdate(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Provision_Domain.
+Handles API Request Provision_Domain. 
 Scope: Domain.
 :see: https://docs.miva.com/json-api/functions/provision_domain
 """
@@ -12061,6 +12123,7 @@ class ProvisionDomain(merchantapi.abstract.Request):
 		"""
 
 		super().__init__(client)
+		self.scope = merchantapi.abstract.Request.SCOPE_DOMAIN
 		self.xml = None
 
 	def get_function(self):
@@ -12096,15 +12159,16 @@ class ProvisionDomain(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProvisionDomain':
 		return super().send()
 
-	def create_response(self, data) -> 'ProvisionDomain':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProvisionDomain':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProvisionDomain(self, data)
+		return merchantapi.response.ProvisionDomain(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12121,7 +12185,7 @@ class ProvisionDomain(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Provision_Store.
+Handles API Request Provision_Store. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/provision_store
 """
@@ -12171,15 +12235,16 @@ class ProvisionStore(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.ProvisionStore':
 		return super().send()
 
-	def create_response(self, data) -> 'ProvisionStore':
+	def create_response(self, http_response: HttpResponse, data) -> 'ProvisionStore':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.ProvisionStore(self, data)
+		return merchantapi.response.ProvisionStore(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12196,7 +12261,7 @@ class ProvisionStore(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CustomerAddressList_Load_Query.
+Handles API Request CustomerAddressList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customeraddresslist_load_query
 """
@@ -12333,15 +12398,16 @@ class CustomerAddressListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.CustomerAddressListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerAddressListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerAddressListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerAddressListLoadQuery(self, data)
+		return merchantapi.response.CustomerAddressListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12364,7 +12430,7 @@ class CustomerAddressListLoadQuery(ListQueryRequest):
 
 
 """
-Handles API Request PrintQueueList_Load_Query.
+Handles API Request PrintQueueList_Load_Query. 
 Scope: Domain.
 :see: https://docs.miva.com/json-api/functions/printqueuelist_load_query
 """
@@ -12388,6 +12454,7 @@ class PrintQueueListLoadQuery(ListQueryRequest):
 		"""
 
 		super().__init__(client)
+		self.scope = merchantapi.abstract.Request.SCOPE_DOMAIN
 
 	def get_function(self):
 		"""
@@ -12402,19 +12469,20 @@ class PrintQueueListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.PrintQueueListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'PrintQueueListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'PrintQueueListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PrintQueueListLoadQuery(self, data)
+		return merchantapi.response.PrintQueueListLoadQuery(self, http_response, data)
 
 
 """
-Handles API Request PrintQueueJobList_Load_Query.
+Handles API Request PrintQueueJobList_Load_Query. 
 Scope: Domain.
 :see: https://docs.miva.com/json-api/functions/printqueuejoblist_load_query
 """
@@ -12457,6 +12525,7 @@ class PrintQueueJobListLoadQuery(ListQueryRequest):
 		"""
 
 		super().__init__(client)
+		self.scope = merchantapi.abstract.Request.SCOPE_DOMAIN
 		self.print_queue_id = None
 		self.edit_print_queue = None
 		self.print_queue_description = None
@@ -12539,15 +12608,16 @@ class PrintQueueJobListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.PrintQueueJobListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'PrintQueueJobListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'PrintQueueJobListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PrintQueueJobListLoadQuery(self, data)
+		return merchantapi.response.PrintQueueJobListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12570,7 +12640,7 @@ class PrintQueueJobListLoadQuery(ListQueryRequest):
 
 
 """
-Handles API Request PrintQueueJob_Delete.
+Handles API Request PrintQueueJob_Delete. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/printqueuejob_delete
 """
@@ -12624,15 +12694,16 @@ class PrintQueueJobDelete(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PrintQueueJobDelete':
 		return super().send()
 
-	def create_response(self, data) -> 'PrintQueueJobDelete':
+	def create_response(self, http_response: HttpResponse, data) -> 'PrintQueueJobDelete':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PrintQueueJobDelete(self, data)
+		return merchantapi.response.PrintQueueJobDelete(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12651,7 +12722,7 @@ class PrintQueueJobDelete(merchantapi.abstract.Request):
 
 
 """
-Handles API Request PrintQueueJob_Insert.
+Handles API Request PrintQueueJob_Insert. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/printqueuejob_insert
 """
@@ -12812,15 +12883,16 @@ class PrintQueueJobInsert(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PrintQueueJobInsert':
 		return super().send()
 
-	def create_response(self, data) -> 'PrintQueueJobInsert':
+	def create_response(self, http_response: HttpResponse, data) -> 'PrintQueueJobInsert':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PrintQueueJobInsert(self, data)
+		return merchantapi.response.PrintQueueJobInsert(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12849,7 +12921,7 @@ class PrintQueueJobInsert(merchantapi.abstract.Request):
 
 
 """
-Handles API Request PrintQueueJob_Status.
+Handles API Request PrintQueueJob_Status. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/printqueuejob_status
 """
@@ -12903,15 +12975,16 @@ class PrintQueueJobStatus(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PrintQueueJobStatus':
 		return super().send()
 
-	def create_response(self, data) -> 'PrintQueueJobStatus':
+	def create_response(self, http_response: HttpResponse, data) -> 'PrintQueueJobStatus':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PrintQueueJobStatus(self, data)
+		return merchantapi.response.PrintQueueJobStatus(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -12930,7 +13003,7 @@ class PrintQueueJobStatus(merchantapi.abstract.Request):
 
 
 """
-Handles API Request PaymentMethodList_Load.
+Handles API Request PaymentMethodList_Load. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/paymentmethodlist_load
 """
@@ -12983,15 +13056,16 @@ class PaymentMethodListLoad(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.PaymentMethodListLoad':
 		return super().send()
 
-	def create_response(self, data) -> 'PaymentMethodListLoad':
+	def create_response(self, http_response: HttpResponse, data) -> 'PaymentMethodListLoad':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PaymentMethodListLoad(self, data)
+		return merchantapi.response.PaymentMethodListLoad(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13009,7 +13083,7 @@ class PaymentMethodListLoad(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Order_Create_FromOrder.
+Handles API Request Order_Create_FromOrder. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/order_create_fromorder
 """
@@ -13063,15 +13137,16 @@ class OrderCreateFromOrder(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderCreateFromOrder':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderCreateFromOrder':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCreateFromOrder':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderCreateFromOrder(self, data)
+		return merchantapi.response.OrderCreateFromOrder(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13090,7 +13165,7 @@ class OrderCreateFromOrder(merchantapi.abstract.Request):
 
 
 """
-Handles API Request Order_Authorize.
+Handles API Request Order_Authorize. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/order_authorize
 """
@@ -13240,15 +13315,16 @@ class OrderAuthorize(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.OrderAuthorize':
 		return super().send()
 
-	def create_response(self, data) -> 'OrderAuthorize':
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderAuthorize':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.OrderAuthorize(self, data)
+		return merchantapi.response.OrderAuthorize(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13273,7 +13349,7 @@ class OrderAuthorize(merchantapi.abstract.Request):
 
 
 """
-Handles API Request CustomerPaymentCardList_Load_Query.
+Handles API Request CustomerPaymentCardList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customerpaymentcardlist_load_query
 """
@@ -13411,15 +13487,16 @@ class CustomerPaymentCardListLoadQuery(ListQueryRequest):
 	def send(self) -> 'merchantapi.response.CustomerPaymentCardListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerPaymentCardListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerPaymentCardListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerPaymentCardListLoadQuery(self, data)
+		return merchantapi.response.CustomerPaymentCardListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13442,7 +13519,3887 @@ class CustomerPaymentCardListLoadQuery(ListQueryRequest):
 
 
 """
-Handles API Request CategoryProductList_Load_Query.
+Handles API Request Branch_Copy. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branch_copy
+"""
+
+
+class BranchCopy(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchCopy Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.source_branch_id = None
+		self.destination_branch_id = None
+		self.notes = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_source_branch_id(branch.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Branch_Copy'
+
+	def get_source_branch_id(self) -> int:
+		"""
+		Get Source_Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.source_branch_id
+
+	def get_destination_branch_id(self) -> int:
+		"""
+		Get Destination_Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.destination_branch_id
+
+	def get_notes(self) -> str:
+		"""
+		Get Notes.
+
+		:returns: str
+		"""
+
+		return self.notes
+
+	def set_source_branch_id(self, source_branch_id: int) -> 'BranchCopy':
+		"""
+		Set Source_Branch_ID.
+
+		:param source_branch_id: int
+		:returns: BranchCopy
+		"""
+
+		self.source_branch_id = source_branch_id
+		return self
+
+	def set_destination_branch_id(self, destination_branch_id: int) -> 'BranchCopy':
+		"""
+		Set Destination_Branch_ID.
+
+		:param destination_branch_id: int
+		:returns: BranchCopy
+		"""
+
+		self.destination_branch_id = destination_branch_id
+		return self
+
+	def set_notes(self, notes: str) -> 'BranchCopy':
+		"""
+		Set Notes.
+
+		:param notes: str
+		:returns: BranchCopy
+		"""
+
+		self.notes = notes
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchCopy':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchCopy':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchCopy(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.source_branch_id is not None:
+			data['Source_Branch_ID'] = self.source_branch_id
+
+		if self.destination_branch_id is not None:
+			data['Destination_Branch_ID'] = self.destination_branch_id
+
+		if self.notes is not None:
+			data['Notes'] = self.notes
+		return data
+
+
+"""
+Handles API Request Branch_Create. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branch_create
+"""
+
+
+class BranchCreate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchCreate Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.parent_branch_id = None
+		self.name = None
+		self.color = None
+		self.changeset_id = None
+		self.tags = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_parent_branch_id(branch.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Branch_Create'
+
+	def get_parent_branch_id(self) -> int:
+		"""
+		Get Parent_Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.parent_branch_id
+
+	def get_name(self) -> str:
+		"""
+		Get Name.
+
+		:returns: str
+		"""
+
+		return self.name
+
+	def get_color(self) -> str:
+		"""
+		Get Color.
+
+		:returns: str
+		"""
+
+		return self.color
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def get_tags(self) -> str:
+		"""
+		Get Tags.
+
+		:returns: str
+		"""
+
+		return self.tags
+
+	def set_parent_branch_id(self, parent_branch_id: int) -> 'BranchCreate':
+		"""
+		Set Parent_Branch_ID.
+
+		:param parent_branch_id: int
+		:returns: BranchCreate
+		"""
+
+		self.parent_branch_id = parent_branch_id
+		return self
+
+	def set_name(self, name: str) -> 'BranchCreate':
+		"""
+		Set Name.
+
+		:param name: str
+		:returns: BranchCreate
+		"""
+
+		self.name = name
+		return self
+
+	def set_color(self, color: str) -> 'BranchCreate':
+		"""
+		Set Color.
+
+		:param color: str
+		:returns: BranchCreate
+		"""
+
+		self.color = color
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'BranchCreate':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: BranchCreate
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	def set_tags(self, tags: str) -> 'BranchCreate':
+		"""
+		Set Tags.
+
+		:param tags: str
+		:returns: BranchCreate
+		"""
+
+		self.tags = tags
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchCreate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchCreate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchCreate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.parent_branch_id is not None:
+			data['Parent_Branch_ID'] = self.parent_branch_id
+
+		if self.name is not None:
+			data['Name'] = self.name
+		if self.color is not None:
+			data['Color'] = self.color
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		if self.tags is not None:
+			data['Tags'] = self.tags
+		return data
+
+
+"""
+Handles API Request Branch_Delete. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branch_delete
+"""
+
+
+class BranchDelete(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchDelete Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Branch_Delete'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def set_branch_id(self, branch_id: int) -> 'BranchDelete':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: BranchDelete
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'BranchDelete':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: BranchDelete
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchDelete':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchDelete':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchDelete(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		return data
+
+
+"""
+Handles API Request Changeset_Create. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changeset_create
+"""
+
+
+class ChangesetCreate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		ChangesetCreate Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.notes = None
+		self.tags = None
+		self.template_changes = []
+		self.resource_group_changes = []
+		self.css_resource_changes = []
+		self.java_script_resource_changes = []
+		self.property_changes = []
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Changeset_Create'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_notes(self) -> str:
+		"""
+		Get Notes.
+
+		:returns: str
+		"""
+
+		return self.notes
+
+	def get_tags(self) -> str:
+		"""
+		Get Tags.
+
+		:returns: str
+		"""
+
+		return self.tags
+
+	def get_template_changes(self) -> list:
+		"""
+		Get Template_Changes.
+
+		:returns: List of TemplateChange
+		"""
+
+		return self.template_changes
+
+	def get_resource_group_changes(self) -> list:
+		"""
+		Get ResourceGroup_Changes.
+
+		:returns: List of ResourceGroupChange
+		"""
+
+		return self.resource_group_changes
+
+	def get_css_resource_changes(self) -> list:
+		"""
+		Get CSSResource_Changes.
+
+		:returns: List of CSSResourceChange
+		"""
+
+		return self.css_resource_changes
+
+	def get_java_script_resource_changes(self) -> list:
+		"""
+		Get JavaScriptResource_Changes.
+
+		:returns: List of JavaScriptResourceChange
+		"""
+
+		return self.java_script_resource_changes
+
+	def get_property_changes(self) -> list:
+		"""
+		Get Property_Changes.
+
+		:returns: List of PropertyChange
+		"""
+
+		return self.property_changes
+
+	def set_branch_id(self, branch_id: int) -> 'ChangesetCreate':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: ChangesetCreate
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'ChangesetCreate':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: ChangesetCreate
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'ChangesetCreate':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: ChangesetCreate
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_notes(self, notes: str) -> 'ChangesetCreate':
+		"""
+		Set Notes.
+
+		:param notes: str
+		:returns: ChangesetCreate
+		"""
+
+		self.notes = notes
+		return self
+
+	def set_tags(self, tags: str) -> 'ChangesetCreate':
+		"""
+		Set Tags.
+
+		:param tags: str
+		:returns: ChangesetCreate
+		"""
+
+		self.tags = tags
+		return self
+
+	def set_template_changes(self, template_changes: list) -> 'ChangesetCreate':
+		"""
+		Set Template_Changes.
+
+		:param template_changes: {TemplateChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in template_changes:
+			if not isinstance(e, merchantapi.model.TemplateChange):
+				raise Exception("")
+		self.template_changes = template_changes
+		return self
+
+	def set_resource_group_changes(self, resource_group_changes: list) -> 'ChangesetCreate':
+		"""
+		Set ResourceGroup_Changes.
+
+		:param resource_group_changes: {ResourceGroupChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in resource_group_changes:
+			if not isinstance(e, merchantapi.model.ResourceGroupChange):
+				raise Exception("")
+		self.resource_group_changes = resource_group_changes
+		return self
+
+	def set_css_resource_changes(self, css_resource_changes: list) -> 'ChangesetCreate':
+		"""
+		Set CSSResource_Changes.
+
+		:param css_resource_changes: {CSSResourceChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in css_resource_changes:
+			if not isinstance(e, merchantapi.model.CSSResourceChange):
+				raise Exception("")
+		self.css_resource_changes = css_resource_changes
+		return self
+
+	def set_java_script_resource_changes(self, java_script_resource_changes: list) -> 'ChangesetCreate':
+		"""
+		Set JavaScriptResource_Changes.
+
+		:param java_script_resource_changes: {JavaScriptResourceChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in java_script_resource_changes:
+			if not isinstance(e, merchantapi.model.JavaScriptResourceChange):
+				raise Exception("")
+		self.java_script_resource_changes = java_script_resource_changes
+		return self
+
+	def set_property_changes(self, property_changes: list) -> 'ChangesetCreate':
+		"""
+		Set Property_Changes.
+
+		:param property_changes: {PropertyChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in property_changes:
+			if not isinstance(e, merchantapi.model.PropertyChange):
+				raise Exception("")
+		self.property_changes = property_changes
+		return self
+	
+	def add_template_change(self, template_change) -> 'ChangesetCreate':
+		"""
+		Add Template_Changes.
+
+		:param template_change: TemplateChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(template_change, merchantapi.model.TemplateChange):
+			self.template_changes.append(template_change)
+		elif isinstance(template_change, dict):
+			self.template_changes.append(merchantapi.model.TemplateChange(template_change))
+		else:
+			raise Exception('Expected instance of TemplateChange or dict')
+		return self
+
+	def add_template_changes(self, template_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many TemplateChange.
+
+		:param template_changes: List of TemplateChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in template_changes:
+			if not isinstance(e, merchantapi.model.TemplateChange):
+				raise Exception('')
+			self.template_changes.append(e)
+
+		return self
+	
+	def add_resource_group_change(self, resource_group_change) -> 'ChangesetCreate':
+		"""
+		Add ResourceGroup_Changes.
+
+		:param resource_group_change: ResourceGroupChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(resource_group_change, merchantapi.model.ResourceGroupChange):
+			self.resource_group_changes.append(resource_group_change)
+		elif isinstance(resource_group_change, dict):
+			self.resource_group_changes.append(merchantapi.model.ResourceGroupChange(resource_group_change))
+		else:
+			raise Exception('Expected instance of ResourceGroupChange or dict')
+		return self
+
+	def add_resource_group_changes(self, resource_group_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many ResourceGroupChange.
+
+		:param resource_group_changes: List of ResourceGroupChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in resource_group_changes:
+			if not isinstance(e, merchantapi.model.ResourceGroupChange):
+				raise Exception('')
+			self.resource_group_changes.append(e)
+
+		return self
+	
+	def add_css_resource_change(self, css_resource_change) -> 'ChangesetCreate':
+		"""
+		Add CSSResource_Changes.
+
+		:param css_resource_change: CSSResourceChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(css_resource_change, merchantapi.model.CSSResourceChange):
+			self.css_resource_changes.append(css_resource_change)
+		elif isinstance(css_resource_change, dict):
+			self.css_resource_changes.append(merchantapi.model.CSSResourceChange(css_resource_change))
+		else:
+			raise Exception('Expected instance of CSSResourceChange or dict')
+		return self
+
+	def add_css_resource_changes(self, css_resource_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many CSSResourceChange.
+
+		:param css_resource_changes: List of CSSResourceChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in css_resource_changes:
+			if not isinstance(e, merchantapi.model.CSSResourceChange):
+				raise Exception('')
+			self.css_resource_changes.append(e)
+
+		return self
+	
+	def add_java_script_resource_change(self, java_script_resource_change) -> 'ChangesetCreate':
+		"""
+		Add JavaScriptResource_Changes.
+
+		:param java_script_resource_change: JavaScriptResourceChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(java_script_resource_change, merchantapi.model.JavaScriptResourceChange):
+			self.java_script_resource_changes.append(java_script_resource_change)
+		elif isinstance(java_script_resource_change, dict):
+			self.java_script_resource_changes.append(merchantapi.model.JavaScriptResourceChange(java_script_resource_change))
+		else:
+			raise Exception('Expected instance of JavaScriptResourceChange or dict')
+		return self
+
+	def add_java_script_resource_changes(self, java_script_resource_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many JavaScriptResourceChange.
+
+		:param java_script_resource_changes: List of JavaScriptResourceChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in java_script_resource_changes:
+			if not isinstance(e, merchantapi.model.JavaScriptResourceChange):
+				raise Exception('')
+			self.java_script_resource_changes.append(e)
+
+		return self
+	
+	def add_property_change(self, property_change) -> 'ChangesetCreate':
+		"""
+		Add Property_Changes.
+
+		:param property_change: PropertyChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(property_change, merchantapi.model.PropertyChange):
+			self.property_changes.append(property_change)
+		elif isinstance(property_change, dict):
+			self.property_changes.append(merchantapi.model.PropertyChange(property_change))
+		else:
+			raise Exception('Expected instance of PropertyChange or dict')
+		return self
+
+	def add_property_changes(self, property_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many PropertyChange.
+
+		:param property_changes: List of PropertyChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in property_changes:
+			if not isinstance(e, merchantapi.model.PropertyChange):
+				raise Exception('')
+			self.property_changes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetCreate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetCreate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetCreate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.notes is not None:
+			data['Notes'] = self.notes
+		if self.tags is not None:
+			data['Tags'] = self.tags
+		if len(self.template_changes):
+			data['Template_Changes'] = []
+
+			for f in self.template_changes:
+				data['Template_Changes'].append(f.to_dict())
+		if len(self.resource_group_changes):
+			data['ResourceGroup_Changes'] = []
+
+			for f in self.resource_group_changes:
+				data['ResourceGroup_Changes'].append(f.to_dict())
+		if len(self.css_resource_changes):
+			data['CSSResource_Changes'] = []
+
+			for f in self.css_resource_changes:
+				data['CSSResource_Changes'].append(f.to_dict())
+		if len(self.java_script_resource_changes):
+			data['JavaScriptResource_Changes'] = []
+
+			for f in self.java_script_resource_changes:
+				data['JavaScriptResource_Changes'].append(f.to_dict())
+		if len(self.property_changes):
+			data['Property_Changes'] = []
+
+			for f in self.property_changes:
+				data['Property_Changes'].append(f.to_dict())
+		return data
+
+
+"""
+Handles API Request ChangesetList_Merge. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetlist_merge
+"""
+
+
+class ChangesetListMerge(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		ChangesetListMerge Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.source_changeset_ids = []
+		self.destination_branch_id = None
+		self.notes = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_destination_branch_id(branch.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetList_Merge'
+
+	def get_source_changeset_ids(self):
+		"""
+		Get Source_Changeset_IDs.
+
+		:returns: list
+		"""
+
+		return self.source_changeset_ids
+
+	def get_destination_branch_id(self) -> int:
+		"""
+		Get Destination_Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.destination_branch_id
+
+	def get_notes(self) -> str:
+		"""
+		Get Notes.
+
+		:returns: str
+		"""
+
+		return self.notes
+
+	def set_destination_branch_id(self, destination_branch_id: int) -> 'ChangesetListMerge':
+		"""
+		Set Destination_Branch_ID.
+
+		:param destination_branch_id: int
+		:returns: ChangesetListMerge
+		"""
+
+		self.destination_branch_id = destination_branch_id
+		return self
+
+	def set_notes(self, notes: str) -> 'ChangesetListMerge':
+		"""
+		Set Notes.
+
+		:param notes: str
+		:returns: ChangesetListMerge
+		"""
+
+		self.notes = notes
+		return self
+	
+	def add_source_changeset_id(self, source_changeset_id) -> 'ChangesetListMerge':
+		"""
+		Add Source_Changeset_IDs.
+
+		:param source_changeset_id: int
+		:returns: {ChangesetListMerge}
+		"""
+
+		self.source_changeset_ids.append(source_changeset_id)
+		return self
+
+	def add_changeset(self, changeset: merchantapi.model.Changeset) -> 'ChangesetListMerge':
+		"""
+		Add Changeset model.
+
+		:param changeset: Changeset
+		:raises Exception:
+		:returns: ChangesetListMerge
+		"""
+		if not isinstance(changeset, merchantapi.model.Changeset):
+			raise Exception('Expected an instance of Changeset')
+
+		if changeset.get_id():
+			self.source_changeset_ids.append(changeset.get_id())
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetListMerge':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetListMerge':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetListMerge(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.destination_branch_id is not None:
+			data['Destination_Branch_ID'] = self.destination_branch_id
+
+		data['Source_Changeset_IDs'] = self.source_changeset_ids
+		if self.notes is not None:
+			data['Notes'] = self.notes
+		return data
+
+
+"""
+Handles API Request ChangesetChangeList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetchangelist_load_query
+"""
+
+
+class ChangesetChangeListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'item_type',
+		'item_id',
+		'item_version_id',
+		'item_identifier'
+	]
+
+	available_sort_fields = [
+		'item_type',
+		'item_id',
+		'item_version_id',
+		'item_identifier'
+	]
+
+	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
+		"""
+		ChangesetChangeListLoadQuery Constructor.
+
+		:param client: Client
+		:param changeset: Changeset
+		"""
+
+		super().__init__(client)
+		self.changeset_id = None
+		if isinstance(changeset, merchantapi.model.Changeset):
+			self.set_changeset_id(changeset.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetChangeList_Load_Query'
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_changeset_id(self, changeset_id: int) -> 'ChangesetChangeListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ChangesetChangeListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetChangeListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetChangeListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetChangeListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Changeset_ID'] = self.get_changeset_id()
+
+		return data
+
+
+"""
+Handles API Request BranchList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchlist_load_query
+"""
+
+
+class BranchListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'immutable',
+		'branchkey',
+		'name',
+		'framework'
+	]
+
+	available_sort_fields = [
+		'id',
+		'immutable',
+		'branchkey',
+		'name',
+		'framework'
+	]
+
+	def __init__(self, client: Client = None):
+		"""
+		BranchListLoadQuery Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchList_Load_Query'
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchListLoadQuery(self, http_response, data)
+
+
+"""
+Handles API Request BranchTemplateVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchtemplateversionlist_load_query
+"""
+
+
+class BranchTemplateVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'templ_id',
+		'parent_id',
+		'item_id',
+		'prop_id',
+		'sync',
+		'filename',
+		'dtstamp',
+		'user_id',
+		'user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'templ_id',
+		'parent_id',
+		'item_id',
+		'prop_id',
+		'sync',
+		'filename',
+		'dtstamp',
+		'user_id',
+		'user_name'
+	]
+
+	available_on_demand_columns = [
+		'notes',
+		'source',
+		'settings'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchTemplateVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.changeset_id = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchTemplateVersionList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_branch_id(self, branch_id: int) -> 'BranchTemplateVersionListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: BranchTemplateVersionListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'BranchTemplateVersionListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: BranchTemplateVersionListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'BranchTemplateVersionListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: BranchTemplateVersionListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'BranchTemplateVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: BranchTemplateVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchTemplateVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchTemplateVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchTemplateVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		return data
+
+
+"""
+Handles API Request BranchCSSResourceVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchcssresourceversionlist_load_query
+"""
+
+
+class BranchCSSResourceVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'source',
+		'linkedpages',
+		'linkedresources'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchCSSResourceVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.changeset_id = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchCSSResourceVersionList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_branch_id(self, branch_id: int) -> 'BranchCSSResourceVersionListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: BranchCSSResourceVersionListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'BranchCSSResourceVersionListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: BranchCSSResourceVersionListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'BranchCSSResourceVersionListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: BranchCSSResourceVersionListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'BranchCSSResourceVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: BranchCSSResourceVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchCSSResourceVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchCSSResourceVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchCSSResourceVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		return data
+
+
+"""
+Handles API Request BranchJavaScriptResourceVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchjavascriptresourceversionlist_load_query
+"""
+
+
+class BranchJavaScriptResourceVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'source',
+		'linkedpages',
+		'linkedresources'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchJavaScriptResourceVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.changeset_id = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchJavaScriptResourceVersionList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_branch_id(self, branch_id: int) -> 'BranchJavaScriptResourceVersionListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: BranchJavaScriptResourceVersionListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'BranchJavaScriptResourceVersionListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: BranchJavaScriptResourceVersionListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'BranchJavaScriptResourceVersionListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: BranchJavaScriptResourceVersionListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'BranchJavaScriptResourceVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: BranchJavaScriptResourceVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchJavaScriptResourceVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchJavaScriptResourceVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchJavaScriptResourceVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		return data
+
+
+"""
+Handles API Request ChangesetList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetlist_load_query
+"""
+
+
+class ChangesetListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'branch_id',
+		'user_id',
+		'user_name',
+		'dtstamp',
+		'notes',
+		'user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'branch_id',
+		'user_id',
+		'user_name',
+		'dtstamp',
+		'notes',
+		'user_name'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		ChangesetListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def set_branch_id(self, branch_id: int) -> 'ChangesetListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: ChangesetListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'ChangesetListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: ChangesetListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'ChangesetListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: ChangesetListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		return data
+
+
+"""
+Handles API Request ChangesetTemplateVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesettemplateversionlist_load_query
+"""
+
+
+class ChangesetTemplateVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'templ_id',
+		'parent_id',
+		'item_id',
+		'prop_id',
+		'sync',
+		'filename',
+		'dtstamp',
+		'user_id',
+		'user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'templ_id',
+		'parent_id',
+		'item_id',
+		'prop_id',
+		'sync',
+		'filename',
+		'dtstamp',
+		'user_id',
+		'user_name'
+	]
+
+	available_on_demand_columns = [
+		'notes',
+		'source',
+		'settings'
+	]
+
+	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
+		"""
+		ChangesetTemplateVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param changeset: Changeset
+		"""
+
+		super().__init__(client)
+		self.changeset_id = None
+		if isinstance(changeset, merchantapi.model.Changeset):
+			if changeset.get_id():
+				self.set_changeset_id(changeset.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetTemplateVersionList_Load_Query'
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_changeset_id(self, changeset_id: int) -> 'ChangesetTemplateVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ChangesetTemplateVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetTemplateVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetTemplateVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetTemplateVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+
+		return data
+
+
+"""
+Handles API Request ChangesetCSSResourceVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetcssresourceversionlist_load_query
+"""
+
+
+class ChangesetCSSResourceVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'source'
+	]
+
+	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
+		"""
+		ChangesetCSSResourceVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param changeset: Changeset
+		"""
+
+		super().__init__(client)
+		self.changeset_id = None
+		if isinstance(changeset, merchantapi.model.Changeset):
+			self.set_changeset_id(changeset.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetCSSResourceVersionList_Load_Query'
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_changeset_id(self, changeset_id: int) -> 'ChangesetCSSResourceVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ChangesetCSSResourceVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetCSSResourceVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetCSSResourceVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetCSSResourceVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Changeset_ID'] = self.get_changeset_id()
+
+		return data
+
+
+"""
+Handles API Request ChangesetJavaScriptResourceVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetjavascriptresourceversionlist_load_query
+"""
+
+
+class ChangesetJavaScriptResourceVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'res_id',
+		'code',
+		'type',
+		'is_global',
+		'active',
+		'file',
+		'templ_id',
+		'user_id',
+		'user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'source'
+	]
+
+	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
+		"""
+		ChangesetJavaScriptResourceVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param changeset: Changeset
+		"""
+
+		super().__init__(client)
+		self.changeset_id = None
+		if isinstance(changeset, merchantapi.model.Changeset):
+			self.set_changeset_id(changeset.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetJavaScriptResourceVersionList_Load_Query'
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_changeset_id(self, changeset_id: int) -> 'ChangesetJavaScriptResourceVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ChangesetJavaScriptResourceVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetJavaScriptResourceVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetJavaScriptResourceVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetJavaScriptResourceVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Changeset_ID'] = self.get_changeset_id()
+
+		return data
+
+
+"""
+Handles API Request CustomerCreditHistoryList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/customercredithistorylist_load_query
+"""
+
+
+class CustomerCreditHistoryListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'user_name',
+		'order_id',
+		'txref',
+		'descrip',
+		'amount',
+		'dtstamp',
+		'id'
+	]
+
+	available_sort_fields = [
+		'user_name',
+		'order_id',
+		'txref',
+		'descrip',
+		'amount',
+		'dtstamp',
+		'id'
+	]
+
+	available_on_demand_columns = [
+		'source'
+	]
+
+	def __init__(self, client: Client = None, customer: merchantapi.model.Customer = None):
+		"""
+		CustomerCreditHistoryListLoadQuery Constructor.
+
+		:param client: Client
+		:param customer: Customer
+		"""
+
+		super().__init__(client)
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		if isinstance(customer, merchantapi.model.Customer):
+			if customer.get_id():
+				self.set_customer_id(customer.get_id())
+			elif customer.get_login():
+				self.set_edit_customer(customer.get_login())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'CustomerCreditHistoryList_Load_Query'
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def set_customer_id(self, customer_id: int) -> 'CustomerCreditHistoryListLoadQuery':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: CustomerCreditHistoryListLoadQuery
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'CustomerCreditHistoryListLoadQuery':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: CustomerCreditHistoryListLoadQuery
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'CustomerCreditHistoryListLoadQuery':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: CustomerCreditHistoryListLoadQuery
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.CustomerCreditHistoryListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerCreditHistoryListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.CustomerCreditHistoryListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		return data
+
+
+"""
+Handles API Request CustomerCreditHistory_Insert. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/customercredithistory_insert
+"""
+
+
+class CustomerCreditHistoryInsert(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, customer: merchantapi.model.Customer = None):
+		"""
+		CustomerCreditHistoryInsert Constructor.
+
+		:param client: Client
+		:param customer: Customer
+		"""
+
+		super().__init__(client)
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.amount = None
+		self.description = None
+		self.transaction_reference = None
+		if isinstance(customer, merchantapi.model.Customer):
+			if customer.get_id():
+				self.set_customer_id(customer.get_id())
+			elif customer.get_login():
+				self.set_edit_customer(customer.get_login())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'CustomerCreditHistory_Insert'
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_amount(self) -> float:
+		"""
+		Get Amount.
+
+		:returns: float
+		"""
+
+		return self.amount
+
+	def get_description(self) -> str:
+		"""
+		Get Description.
+
+		:returns: str
+		"""
+
+		return self.description
+
+	def get_transaction_reference(self) -> str:
+		"""
+		Get TransactionReference.
+
+		:returns: str
+		"""
+
+		return self.transaction_reference
+
+	def set_customer_id(self, customer_id: int) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_amount(self, amount: float) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set Amount.
+
+		:param amount: float
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.amount = amount
+		return self
+
+	def set_description(self, description: str) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set Description.
+
+		:param description: str
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.description = description
+		return self
+
+	def set_transaction_reference(self, transaction_reference: str) -> 'CustomerCreditHistoryInsert':
+		"""
+		Set TransactionReference.
+
+		:param transaction_reference: str
+		:returns: CustomerCreditHistoryInsert
+		"""
+
+		self.transaction_reference = transaction_reference
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.CustomerCreditHistoryInsert':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerCreditHistoryInsert':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.CustomerCreditHistoryInsert(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		data['Amount'] = self.amount
+		data['Description'] = self.description
+		if self.transaction_reference is not None:
+			data['TransactionReference'] = self.transaction_reference
+		return data
+
+
+"""
+Handles API Request CustomerCreditHistory_Delete. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/customercredithistory_delete
+"""
+
+
+class CustomerCreditHistoryDelete(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, customer_credit_history: merchantapi.model.CustomerCreditHistory = None):
+		"""
+		CustomerCreditHistoryDelete Constructor.
+
+		:param client: Client
+		:param customer_credit_history: CustomerCreditHistory
+		"""
+
+		super().__init__(client)
+		self.customer_credit_history_id = None
+		if isinstance(customer_credit_history, merchantapi.model.CustomerCreditHistory):
+			self.set_customer_credit_history_id(customer_credit_history.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'CustomerCreditHistory_Delete'
+
+	def get_customer_credit_history_id(self) -> int:
+		"""
+		Get CustomerCreditHistory_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_credit_history_id
+
+	def set_customer_credit_history_id(self, customer_credit_history_id: int) -> 'CustomerCreditHistoryDelete':
+		"""
+		Set CustomerCreditHistory_ID.
+
+		:param customer_credit_history_id: int
+		:returns: CustomerCreditHistoryDelete
+		"""
+
+		self.customer_credit_history_id = customer_credit_history_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.CustomerCreditHistoryDelete':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerCreditHistoryDelete':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.CustomerCreditHistoryDelete(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['CustomerCreditHistory_ID'] = self.customer_credit_history_id
+		return data
+
+
+"""
+Handles API Request OrderCoupon_Update_Assigned. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/ordercoupon_update_assigned
+"""
+
+
+class OrderCouponUpdateAssigned(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, order: merchantapi.model.Order = None):
+		"""
+		OrderCouponUpdateAssigned Constructor.
+
+		:param client: Client
+		:param order: Order
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.coupon_id = None
+		self.edit_coupon = None
+		self.coupon_code = None
+		self.assigned = False
+		if isinstance(order, merchantapi.model.Order):
+			if order.get_id():
+				self.set_order_id(order.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderCoupon_Update_Assigned'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_coupon_id(self) -> int:
+		"""
+		Get Coupon_ID.
+
+		:returns: int
+		"""
+
+		return self.coupon_id
+
+	def get_edit_coupon(self) -> str:
+		"""
+		Get Edit_Coupon.
+
+		:returns: str
+		"""
+
+		return self.edit_coupon
+
+	def get_coupon_code(self) -> str:
+		"""
+		Get Coupon_Code.
+
+		:returns: str
+		"""
+
+		return self.coupon_code
+
+	def get_assigned(self) -> bool:
+		"""
+		Get Assigned.
+
+		:returns: bool
+		"""
+
+		return self.assigned
+
+	def set_order_id(self, order_id: int) -> 'OrderCouponUpdateAssigned':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: OrderCouponUpdateAssigned
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_coupon_id(self, coupon_id: int) -> 'OrderCouponUpdateAssigned':
+		"""
+		Set Coupon_ID.
+
+		:param coupon_id: int
+		:returns: OrderCouponUpdateAssigned
+		"""
+
+		self.coupon_id = coupon_id
+		return self
+
+	def set_edit_coupon(self, edit_coupon: str) -> 'OrderCouponUpdateAssigned':
+		"""
+		Set Edit_Coupon.
+
+		:param edit_coupon: str
+		:returns: OrderCouponUpdateAssigned
+		"""
+
+		self.edit_coupon = edit_coupon
+		return self
+
+	def set_coupon_code(self, coupon_code: str) -> 'OrderCouponUpdateAssigned':
+		"""
+		Set Coupon_Code.
+
+		:param coupon_code: str
+		:returns: OrderCouponUpdateAssigned
+		"""
+
+		self.coupon_code = coupon_code
+		return self
+
+	def set_assigned(self, assigned: bool) -> 'OrderCouponUpdateAssigned':
+		"""
+		Set Assigned.
+
+		:param assigned: bool
+		:returns: OrderCouponUpdateAssigned
+		"""
+
+		self.assigned = assigned
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderCouponUpdateAssigned':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCouponUpdateAssigned':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderCouponUpdateAssigned(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		if self.coupon_id is not None:
+			data['Coupon_ID'] = self.coupon_id
+		elif self.edit_coupon is not None:
+			data['Edit_Coupon'] = self.edit_coupon
+		elif self.coupon_code is not None:
+			data['Coupon_Code'] = self.coupon_code
+
+		if self.assigned is not None:
+			data['Assigned'] = self.assigned
+		return data
+
+
+"""
+Handles API Request OrderPriceGroup_Update_Assigned. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/orderpricegroup_update_assigned
+"""
+
+
+class OrderPriceGroupUpdateAssigned(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, order: merchantapi.model.Order = None):
+		"""
+		OrderPriceGroupUpdateAssigned Constructor.
+
+		:param client: Client
+		:param order: Order
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.price_group_id = None
+		self.price_group_name = None
+		self.assigned = False
+		if isinstance(order, merchantapi.model.Order):
+			if order.get_id():
+				self.set_order_id(order.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderPriceGroup_Update_Assigned'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_price_group_id(self) -> int:
+		"""
+		Get PriceGroup_ID.
+
+		:returns: int
+		"""
+
+		return self.price_group_id
+
+	def get_price_group_name(self) -> str:
+		"""
+		Get PriceGroup_Name.
+
+		:returns: str
+		"""
+
+		return self.price_group_name
+
+	def get_assigned(self) -> bool:
+		"""
+		Get Assigned.
+
+		:returns: bool
+		"""
+
+		return self.assigned
+
+	def set_order_id(self, order_id: int) -> 'OrderPriceGroupUpdateAssigned':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: OrderPriceGroupUpdateAssigned
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_price_group_id(self, price_group_id: int) -> 'OrderPriceGroupUpdateAssigned':
+		"""
+		Set PriceGroup_ID.
+
+		:param price_group_id: int
+		:returns: OrderPriceGroupUpdateAssigned
+		"""
+
+		self.price_group_id = price_group_id
+		return self
+
+	def set_price_group_name(self, price_group_name: str) -> 'OrderPriceGroupUpdateAssigned':
+		"""
+		Set PriceGroup_Name.
+
+		:param price_group_name: str
+		:returns: OrderPriceGroupUpdateAssigned
+		"""
+
+		self.price_group_name = price_group_name
+		return self
+
+	def set_assigned(self, assigned: bool) -> 'OrderPriceGroupUpdateAssigned':
+		"""
+		Set Assigned.
+
+		:param assigned: bool
+		:returns: OrderPriceGroupUpdateAssigned
+		"""
+
+		self.assigned = assigned
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderPriceGroupUpdateAssigned':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderPriceGroupUpdateAssigned':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderPriceGroupUpdateAssigned(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		if self.price_group_id is not None:
+			data['PriceGroup_ID'] = self.price_group_id
+		elif self.price_group_name is not None:
+			data['PriceGroup_Name'] = self.price_group_name
+
+		if self.assigned is not None:
+			data['Assigned'] = self.assigned
+		return data
+
+
+"""
+Handles API Request OrderItemList_CreateReturn. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/orderitemlist_createreturn
+"""
+
+
+class OrderItemListCreateReturn(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, order: merchantapi.model.Order = None):
+		"""
+		OrderItemListCreateReturn Constructor.
+
+		:param client: Client
+		:param order: Order
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.line_ids = []
+		if isinstance(order, merchantapi.model.Order):
+			if order.get_id():
+				self.set_order_id(order.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderItemList_CreateReturn'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_line_ids(self):
+		"""
+		Get Line_IDs.
+
+		:returns: list
+		"""
+
+		return self.line_ids
+
+	def set_order_id(self, order_id: int) -> 'OrderItemListCreateReturn':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: OrderItemListCreateReturn
+		"""
+
+		self.order_id = order_id
+		return self
+	
+	def add_line_id(self, line_id) -> 'OrderItemListCreateReturn':
+		"""
+		Add Line_IDs.
+
+		:param line_id: int
+		:returns: {OrderItemListCreateReturn}
+		"""
+
+		self.line_ids.append(line_id)
+		return self
+
+	def add_order_item(self, order_item: merchantapi.model.OrderItem) -> 'OrderItemListCreateReturn':
+		"""
+		Add OrderItem model.
+
+		:param order_item: OrderItem
+		:raises Exception:
+		:returns: OrderItemListCreateReturn
+		"""
+		if not isinstance(order_item, merchantapi.model.OrderItem):
+			raise Exception('Expected an instance of OrderItem')
+
+		if order_item.get_line_id():
+			self.line_ids.append(order_item.get_line_id())
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderItemListCreateReturn':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderItemListCreateReturn':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderItemListCreateReturn(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		data['Line_IDs'] = self.line_ids
+		return data
+
+
+"""
+Handles API Request OrderReturnList_Received. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/orderreturnlist_received
+"""
+
+
+class OrderReturnListReceived(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		OrderReturnListReceived Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.returns = []
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderReturnList_Received'
+
+	def get_returns(self) -> list:
+		"""
+		Get Returns.
+
+		:returns: List of ReceivedReturn
+		"""
+
+		return self.returns
+
+	def set_returns(self, returns: list) -> 'OrderReturnListReceived':
+		"""
+		Set Returns.
+
+		:param returns: {ReceivedReturn[]}
+		:raises Exception:
+		:returns: OrderReturnListReceived
+		"""
+
+		for e in returns:
+			if not isinstance(e, merchantapi.model.ReceivedReturn):
+				raise Exception("")
+		self.returns = returns
+		return self
+	
+	def add_received_return(self, received_return) -> 'OrderReturnListReceived':
+		"""
+		Add Returns.
+
+		:param received_return: ReceivedReturn 
+		:raises Exception:
+		:returns: {OrderReturnListReceived}
+		"""
+
+		if isinstance(received_return, merchantapi.model.ReceivedReturn):
+			self.returns.append(received_return)
+		elif isinstance(received_return, dict):
+			self.returns.append(merchantapi.model.ReceivedReturn(received_return))
+		else:
+			raise Exception('Expected instance of ReceivedReturn or dict')
+		return self
+
+	def add_returns(self, returns: list) -> 'OrderReturnListReceived':
+		"""
+		Add many ReceivedReturn.
+
+		:param returns: List of ReceivedReturn
+		:raises Exception:
+		:returns: OrderReturnListReceived
+		"""
+
+		for e in returns:
+			if not isinstance(e, merchantapi.model.ReceivedReturn):
+				raise Exception('')
+			self.returns.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderReturnListReceived':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderReturnListReceived':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderReturnListReceived(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if len(self.returns):
+			data['Returns'] = []
+
+			for f in self.returns:
+				data['Returns'].append(f.to_dict())
+		return data
+
+
+"""
+Handles API Request BranchPropertyVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchpropertyversionlist_load_query
+"""
+
+
+class BranchPropertyVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'prop_id',
+		'type',
+		'code',
+		'product_id',
+		'cat_id',
+		'sync',
+		'templ_id',
+		'version_id',
+		'version_user_id',
+		'version_user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'prop_id',
+		'type',
+		'code',
+		'product_id',
+		'cat_id',
+		'sync',
+		'templ_id',
+		'version_id',
+		'version_user_id',
+		'version_user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'settings',
+		'product',
+		'category',
+		'source'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		BranchPropertyVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.changeset_id = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchPropertyVersionList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_branch_id(self, branch_id: int) -> 'BranchPropertyVersionListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: BranchPropertyVersionListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'BranchPropertyVersionListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: BranchPropertyVersionListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'BranchPropertyVersionListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: BranchPropertyVersionListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'BranchPropertyVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: BranchPropertyVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchPropertyVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchPropertyVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchPropertyVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		return data
+
+
+"""
+Handles API Request ChangesetPropertyVersionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/changesetpropertyversionlist_load_query
+"""
+
+
+class ChangesetPropertyVersionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'prop_id',
+		'type',
+		'code',
+		'product_id',
+		'cat_id',
+		'sync',
+		'version_id',
+		'version_user_id',
+		'version_user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_sort_fields = [
+		'id',
+		'prop_id',
+		'type',
+		'code',
+		'product_id',
+		'cat_id',
+		'sync',
+		'version_id',
+		'version_user_id',
+		'version_user_name',
+		'source_user_id',
+		'source_user_name'
+	]
+
+	available_on_demand_columns = [
+		'settings',
+		'product',
+		'category',
+		'source'
+	]
+
+	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
+		"""
+		ChangesetPropertyVersionListLoadQuery Constructor.
+
+		:param client: Client
+		:param changeset: Changeset
+		"""
+
+		super().__init__(client)
+		self.changeset_id = None
+		if isinstance(changeset, merchantapi.model.Changeset):
+			self.set_changeset_id(changeset.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ChangesetPropertyVersionList_Load_Query'
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_changeset_id(self, changeset_id: int) -> 'ChangesetPropertyVersionListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ChangesetPropertyVersionListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ChangesetPropertyVersionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ChangesetPropertyVersionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ChangesetPropertyVersionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Changeset_ID'] = self.get_changeset_id()
+
+		return data
+
+
+"""
+Handles API Request ResourceGroupList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/resourcegrouplist_load_query
+"""
+
+
+class ResourceGroupListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'code'
+	]
+
+	available_sort_fields = [
+		'id',
+		'code'
+	]
+
+	available_on_demand_columns = [
+		'linkedcssresources',
+		'linkedjavascriptresources'
+	]
+
+	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
+		"""
+		ResourceGroupListLoadQuery Constructor.
+
+		:param client: Client
+		:param branch: Branch
+		"""
+
+		super().__init__(client)
+		self.branch_id = None
+		self.branch_name = None
+		self.edit_branch = None
+		self.changeset_id = None
+		if isinstance(branch, merchantapi.model.Branch):
+			if branch.get_id():
+				self.set_branch_id(branch.get_id())
+
+			self.set_branch_name(branch.get_name())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ResourceGroupList_Load_Query'
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_changeset_id(self) -> int:
+		"""
+		Get Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.changeset_id
+
+	def set_branch_id(self, branch_id: int) -> 'ResourceGroupListLoadQuery':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: ResourceGroupListLoadQuery
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'ResourceGroupListLoadQuery':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: ResourceGroupListLoadQuery
+		"""
+
+		self.branch_name = branch_name
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'ResourceGroupListLoadQuery':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: ResourceGroupListLoadQuery
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_changeset_id(self, changeset_id: int) -> 'ResourceGroupListLoadQuery':
+		"""
+		Set Changeset_ID.
+
+		:param changeset_id: int
+		:returns: ResourceGroupListLoadQuery
+		"""
+
+		self.changeset_id = changeset_id
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ResourceGroupListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ResourceGroupListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ResourceGroupListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+
+		if self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
+		if self.changeset_id is not None:
+			data['Changeset_ID'] = self.changeset_id
+		return data
+
+
+"""
+Handles API Request BranchList_Delete. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/branchlist_delete
+"""
+
+
+class BranchListDelete(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		BranchListDelete Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.branch_ids = []
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'BranchList_Delete'
+
+	def get_branch_ids(self):
+		"""
+		Get Branch_IDs.
+
+		:returns: list
+		"""
+
+		return self.branch_ids
+	
+	def add_branch_id(self, branch_id) -> 'BranchListDelete':
+		"""
+		Add Branch_IDs.
+
+		:param branch_id: int
+		:returns: {BranchListDelete}
+		"""
+
+		self.branch_ids.append(branch_id)
+		return self
+
+	def add_branch(self, branch: merchantapi.model.Branch) -> 'BranchListDelete':
+		"""
+		Add Branch model.
+
+		:param branch: Branch
+		:raises Exception:
+		:returns: BranchListDelete
+		"""
+		if not isinstance(branch, merchantapi.model.Branch):
+			raise Exception('Expected an instance of Branch')
+
+		if branch.get_id():
+			self.branch_ids.append(branch.get_id())
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.BranchListDelete':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'BranchListDelete':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.BranchListDelete(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Branch_IDs'] = self.branch_ids
+		return data
+
+
+"""
+Handles API Request MivaMerchantVersion. 
+Scope: Domain.
+:see: https://docs.miva.com/json-api/functions/mivamerchantversion
+"""
+
+
+class MivaMerchantVersion(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		MivaMerchantVersion Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.scope = merchantapi.abstract.Request.SCOPE_DOMAIN
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'MivaMerchantVersion'
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.MivaMerchantVersion':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'MivaMerchantVersion':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.MivaMerchantVersion(self, http_response, data)
+
+
+"""
+Handles API Request CategoryProductList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/categoryproductlist_load_query
 """
@@ -13582,15 +17539,16 @@ class CategoryProductListLoadQuery(ProductListLoadQuery):
 	def send(self) -> 'merchantapi.response.CategoryProductListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CategoryProductListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CategoryProductListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CategoryProductListLoadQuery(self, data)
+		return merchantapi.response.CategoryProductListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13617,7 +17575,7 @@ class CategoryProductListLoadQuery(ProductListLoadQuery):
 
 
 """
-Handles API Request CouponPriceGroupList_Load_Query.
+Handles API Request CouponPriceGroupList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/couponpricegrouplist_load_query
 """
@@ -13757,15 +17715,16 @@ class CouponPriceGroupListLoadQuery(PriceGroupListLoadQuery):
 	def send(self) -> 'merchantapi.response.CouponPriceGroupListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CouponPriceGroupListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CouponPriceGroupListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CouponPriceGroupListLoadQuery(self, data)
+		return merchantapi.response.CouponPriceGroupListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13792,7 +17751,7 @@ class CouponPriceGroupListLoadQuery(PriceGroupListLoadQuery):
 
 
 """
-Handles API Request PriceGroupCustomerList_Load_Query.
+Handles API Request PriceGroupCustomerList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/pricegroupcustomerlist_load_query
 """
@@ -13911,15 +17870,16 @@ class PriceGroupCustomerListLoadQuery(CustomerListLoadQuery):
 	def send(self) -> 'merchantapi.response.PriceGroupCustomerListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'PriceGroupCustomerListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'PriceGroupCustomerListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PriceGroupCustomerListLoadQuery(self, data)
+		return merchantapi.response.PriceGroupCustomerListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -13944,7 +17904,7 @@ class PriceGroupCustomerListLoadQuery(CustomerListLoadQuery):
 
 
 """
-Handles API Request PriceGroupProductList_Load_Query.
+Handles API Request PriceGroupProductList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/pricegroupproductlist_load_query
 """
@@ -14063,15 +18023,16 @@ class PriceGroupProductListLoadQuery(ProductListLoadQuery):
 	def send(self) -> 'merchantapi.response.PriceGroupProductListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'PriceGroupProductListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'PriceGroupProductListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.PriceGroupProductListLoadQuery(self, data)
+		return merchantapi.response.PriceGroupProductListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -14096,7 +18057,7 @@ class PriceGroupProductListLoadQuery(ProductListLoadQuery):
 
 
 """
-Handles API Request CustomerPriceGroupList_Load_Query.
+Handles API Request CustomerPriceGroupList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/customerpricegrouplist_load_query
 """
@@ -14236,15 +18197,16 @@ class CustomerPriceGroupListLoadQuery(PriceGroupListLoadQuery):
 	def send(self) -> 'merchantapi.response.CustomerPriceGroupListLoadQuery':
 		return super().send()
 
-	def create_response(self, data) -> 'CustomerPriceGroupListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerPriceGroupListLoadQuery':
 		"""
 		Create a response object from the response data
 
+		:param http_response: requests.models.Response
 		:param data:
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerPriceGroupListLoadQuery(self, data)
+		return merchantapi.response.CustomerPriceGroupListLoadQuery(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -14271,6 +18233,260 @@ class CustomerPriceGroupListLoadQuery(PriceGroupListLoadQuery):
 
 
 """
+Handles API Request OrderPriceGroupList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/orderpricegrouplist_load_query
+"""
+
+
+class OrderPriceGroupListLoadQuery(PriceGroupListLoadQuery):
+	def __init__(self, client: Client = None, order: merchantapi.model.Order = None):
+		"""
+		OrderPriceGroupListLoadQuery Constructor.
+
+		:param client: Client
+		:param order: Order
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.assigned = False
+		self.unassigned = False
+		if isinstance(order, merchantapi.model.Order):
+			if order.get_id():
+				self.set_order_id(order.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderPriceGroupList_Load_Query'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_assigned(self) -> bool:
+		"""
+		Get Assigned.
+
+		:returns: bool
+		"""
+
+		return self.assigned
+
+	def get_unassigned(self) -> bool:
+		"""
+		Get Unassigned.
+
+		:returns: bool
+		"""
+
+		return self.unassigned
+
+	def set_order_id(self, order_id: int) -> 'OrderPriceGroupListLoadQuery':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: OrderPriceGroupListLoadQuery
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_assigned(self, assigned: bool) -> 'OrderPriceGroupListLoadQuery':
+		"""
+		Set Assigned.
+
+		:param assigned: bool
+		:returns: OrderPriceGroupListLoadQuery
+		"""
+
+		self.assigned = assigned
+		return self
+
+	def set_unassigned(self, unassigned: bool) -> 'OrderPriceGroupListLoadQuery':
+		"""
+		Set Unassigned.
+
+		:param unassigned: bool
+		:returns: OrderPriceGroupListLoadQuery
+		"""
+
+		self.unassigned = unassigned
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderPriceGroupListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderPriceGroupListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderPriceGroupListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		if self.assigned is not None:
+			data['Assigned'] = self.assigned
+		if self.unassigned is not None:
+			data['Unassigned'] = self.unassigned
+		return data
+
+
+"""
+Handles API Request OrderCouponList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/ordercouponlist_load_query
+"""
+
+
+class OrderCouponListLoadQuery(CouponListLoadQuery):
+	def __init__(self, client: Client = None, order: merchantapi.model.Order = None):
+		"""
+		OrderCouponListLoadQuery Constructor.
+
+		:param client: Client
+		:param order: Order
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.assigned = False
+		self.unassigned = False
+		if isinstance(order, merchantapi.model.Order):
+			self.set_order_id(order.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'OrderCouponList_Load_Query'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_assigned(self) -> bool:
+		"""
+		Get Assigned.
+
+		:returns: bool
+		"""
+
+		return self.assigned
+
+	def get_unassigned(self) -> bool:
+		"""
+		Get Unassigned.
+
+		:returns: bool
+		"""
+
+		return self.unassigned
+
+	def set_order_id(self, order_id: int) -> 'OrderCouponListLoadQuery':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: OrderCouponListLoadQuery
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_assigned(self, assigned: bool) -> 'OrderCouponListLoadQuery':
+		"""
+		Set Assigned.
+
+		:param assigned: bool
+		:returns: OrderCouponListLoadQuery
+		"""
+
+		self.assigned = assigned
+		return self
+
+	def set_unassigned(self, unassigned: bool) -> 'OrderCouponListLoadQuery':
+		"""
+		Set Unassigned.
+
+		:param unassigned: bool
+		:returns: OrderCouponListLoadQuery
+		"""
+
+		self.unassigned = unassigned
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.OrderCouponListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'OrderCouponListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.OrderCouponListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Order_ID'] = self.get_order_id()
+
+		if self.assigned is not None:
+			data['Assigned'] = self.assigned
+		if self.unassigned is not None:
+			data['Unassigned'] = self.unassigned
+		return data
+
+
+"""
 RequestBuilder can be used to build out custom request objects to send to the API
 """
 
@@ -14284,12 +18500,9 @@ class RequestBuilder(merchantapi.abstract.Request):
 		:param function: str
 		:param data: dict
 		"""
-		super().__init__(client)
 
-		if data is not dict:
+		if data is None:
 			data = {}
-
-		self.data = data
 		self.set_scope(merchantapi.abstract.Request.SCOPE_STORE)
 		self.set_function(function)
 

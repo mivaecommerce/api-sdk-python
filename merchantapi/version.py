@@ -5,8 +5,6 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with self source code.
-
-$Id: version.py 77666 2019-08-29 19:17:24Z gidriss $
 """
 
 
@@ -16,10 +14,10 @@ Holds Version information
 
 class Version:
 	# Version string
-	STRING = '1.0.0'
+	STRING = '2.0.0'
 
 	# Major Version
-	MAJOR = 1
+	MAJOR = 2
 
 	# Minor Version
 	MINOR = 0

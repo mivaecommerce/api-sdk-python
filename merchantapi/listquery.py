@@ -5,13 +5,12 @@ This file is part of the MerchantAPI package.
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with self source code.
-
-$Id: listquery.py 77682 2019-08-29 23:21:44Z gidriss $
 """
 
 from merchantapi.abstract import Request
 from merchantapi.abstract import Response
 from merchantapi.abstract import Client
+from requests.models import Response as HttpResponse
 
 """
 ListQueryRequest
@@ -223,7 +222,7 @@ class ListQueryRequest(Request):
 		"""
 
 		if not isinstance(filters, list) and not isinstance(filters, FilterExpression):
-			raise Exception('Expecting an array of instance of FilterExpression')
+			raise Exception('Expecting an array of instance or FilterExpression')
 
 		self.filters = filters
 
@@ -307,14 +306,14 @@ class ListQueryRequest(Request):
 
 		return FilterExpression(self)
 
-	def create_response(self, data) -> 'ListQueryResponse':
+	def create_response(self, http_response: HttpResponse, data: dict) -> 'ListQueryResponse':
 		"""
 		Creates a ListQueryResponse from an api response
 
 		:returns: ListQueryResponse
 		"""
 
-		return ListQueryResponse(self, data)
+		return ListQueryResponse(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -355,14 +354,14 @@ ListQueryResponse
 
 
 class ListQueryResponse(Response):
-	def __init__(self, request: ListQueryRequest, data: dict):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
 		"""
 		ListQueryResponse Constructor
 
 		:param request: ListQueryRequest
 		:param data: dict
 		"""
-		super().__init__(request, data)
+		super().__init__(request, http_response, data)
 
 	def get_total_count(self) -> int:
 		"""
@@ -444,14 +443,27 @@ class FilterExpressionEntry:
 		self.operator = operator
 		return self
 
-	def get_right(self) -> str:
+	def get_right(self) -> (str,list):
 		"""
 		Get the right side of the expression.
 
+		:return: str|list
+		"""
+		return self.right
+
+	def get_right_joined(self) -> str:
+		"""
+		Get the right side of the expression, as a string
+
 		:return: str
 		"""
-
-		return self.right
+		if isinstance(self.right, list):
+			ret = ''
+			for e in self.right:
+				ret = ret + ('' if len(ret) is 0 else ',') + str(e)
+			return ret
+				
+		return str(self.right)
 
 	def set_right(self, right) -> 'FilterExpressionEntry':
 		"""
@@ -1173,7 +1185,7 @@ class FilterExpression:
 						{
 							'field': e['entry'].get_left(),
 							'operator': e['entry'].get_operator(),
-							'value': ",".join(e['entry'].get_right()) if isinstance(e['entry'].get_right(), list) else e['entry'].get_right()
+							'value': e['entry'].get_right_joined()
 						},
 					]
 				}
@@ -1184,7 +1196,7 @@ class FilterExpression:
 						{
 							'field': e['entry'].get_left(),
 							'operator': e['entry'].get_operator(),
-							'value': ",".join(e['entry'].get_right()) if isinstance(e['entry'].get_right(), list) else e['entry'].get_right()
+							'value': e['entry'].get_right_joined()
 
 						}
 					]
