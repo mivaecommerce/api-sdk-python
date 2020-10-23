@@ -41,6 +41,7 @@ class BaseClient:
 		self.set_endpoint(endpoint)
 		self.logger = None
 		self.options = Client.DEFAULT_OPTIONS.copy()
+		self.global_headers = dict()
 
 		if isinstance(options, dict):
 			self.options.update(options)
@@ -100,6 +101,7 @@ class BaseClient:
 		:param logger: An instance of Logger or None.
 		:return:
 		"""
+
 		self.logger = logger
 		return self
 
@@ -110,18 +112,68 @@ class BaseClient:
 		:return: Client
 		:see: merchantapi.authenticator
 		"""
+
 		if not isinstance(authenticator, Authenticator):
 			raise Exception('Expected instance of Authenticator')
 		self.authenticator = authenticator
 		return self
 
-	def get_authenticator(self):
+	def get_authenticator(self) -> Authenticator:
 		"""
 		Get the clients authenticator. Default authenticator instance is a TokenAuthenticator
 		:return:
 		:see: merchantapi.authenticator
 		"""
+
 		return self.authenticator
+	
+	def get_global_headers(self) -> dict:
+		"""
+		Gets all currently set global headers
+		:return:
+		"""
+
+		return self.global_headers
+	
+	def set_global_header(self, key: str, value: str) -> 'BaseClient':
+		"""
+		Set a global header key and value to be sent with every request made
+		:param key: str
+		:param value: str
+		:return:
+		"""
+
+		self.global_headers[key] = value
+		return self
+
+	def has_global_header(self, key: str) -> bool:
+		"""
+		Check to see if a global header is defined
+		:param key: str
+		:return:
+		"""
+
+		return key in self.global_headers
+
+	def get_global_header(self, key: str) -> (str, None):
+		"""
+		Get a defined global header value or none if it does not exist
+		:param key: str
+		:return:
+		"""
+
+		return self.global_headers[key] if key in self.global_headers else None
+
+	def remove_global_header(self, key: str) -> 'BaseClient':
+		"""
+		Remove a defined global header if it exists
+		:param key: str
+		:return:
+		"""
+
+		if key in self.global_headers:
+			del self.global_headers[key]
+		return self
 
 	def send(self, request: Request) -> Response:
 		"""
@@ -161,11 +213,12 @@ class BaseClient:
 
 		data = json.dumps(data).encode('utf-8')
 
-		headers = {
+		headers = self.get_global_headers().copy()
+		headers.update({
 			'Content-Type': 'application/json',
 			'Content-Length': str(len(data)),
 			'X-Miva-API-Authorization': self.generate_auth_header(data)
-		}
+		})
 
 		if request.get_binary_encoding() == Request.BINARY_ENCODING_BASE64:
 			headers['X-Miva-API-Binary-Encoding'] = Request.BINARY_ENCODING_BASE64
@@ -176,21 +229,29 @@ class BaseClient:
 		if self.logger is not None:
 			self.logger.log_request(request, headers, data)
 
+		json_response = ''
+		http_response = None
+
 		try:
 			http_response = requests.post(self.endpoint, data=data, headers=request.process_request_headers(headers), verify=self.get_option('ssl_verify'))
+
+			if 200 <= http_response.status_code < 300:
+				json_response = http_response.json()
 			
-			response = request.create_response(http_response, http_response.json())
+			response = request.create_response(http_response, json_response)
 
 			if self.logger is not None:
 				self.logger.log_response(response, http_response.headers, http_response.content)
 
+			if http_response.status_code == 401:
+				raise ClientHttpAuthenticationError(request, http_response)
 			return response
 		except ConnectionError as e:
-			raise ClientException(request, response, e)
+			raise ClientException(request, http_response, e)
 		except HTTPError as e:
-			raise ClientException(request, response, e)
+			raise ClientException(request, http_response, e)
 		except ValueError as e:
-			raise ClientException(request, response, e)
+			raise ClientException(request, http_response, e)
 
 	def generate_auth_header(self, data: str) -> str:
 		"""
@@ -444,3 +505,8 @@ class ClientException(Exception):
 		"""
 
 		return self.other
+
+
+class ClientHttpAuthenticationError(ClientException):
+	pass
+

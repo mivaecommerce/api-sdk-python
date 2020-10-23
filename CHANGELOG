@@ -1,4 +1,6 @@
-v2.0.0 
+v2.0.1
+    MMAPI-12 - Client can now set global http headers to send with every request.
+v2.0.0
 	There are possible breaking changes in this release. Please consult the UPGRADING.md file included in this repository
 	for assistance in upgrading your existing code base from 1.x to 2.x
 

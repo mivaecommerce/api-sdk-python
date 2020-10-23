@@ -40,6 +40,26 @@ class Client(object):
 		pass
 
 	@abc.abstractmethod
+	def get_global_headers(self) -> dict:
+		"""
+		Gets the global headers to be sent with every request
+		:return:
+		"""
+
+		pass
+
+	@abc.abstractmethod
+	def set_global_header(self, key: str, value: str):
+		"""
+		Sets a header key and value to be sent with every request
+		:param key:
+		:param value:
+		:return:
+		"""
+
+		pass
+
+	@abc.abstractmethod
 	def generate_auth_header(self, data: str) -> str:
 		"""
 		Generates the authentication header value.
@@ -411,3 +431,12 @@ class Response(object):
 		"""
 
 		return self.request
+
+	def get_http_response(self) -> HttpResponse:
+		"""
+		Get the underlying http response object
+
+		:returns: Request
+		"""
+		return self.http_response
+
