@@ -42,6 +42,164 @@ class AvailabilityGroup(Model):
 
 		return self.get_field('name')
 
+	def get_tax_exempt(self) -> bool:
+		"""
+		Get tax_exempt.
+
+		:returns: bool
+		"""
+
+		return self.get_field('tax_exempt', False)
+
+
+"""
+AvailabilityGroupShippingMethod data model.
+"""
+
+
+class AvailabilityGroupShippingMethod(Model):
+	def __init__(self, data: dict = None):
+		"""
+		AvailabilityGroupShippingMethod Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_module_code(self) -> str:
+		"""
+		Get mod_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('mod_code')
+
+	def get_method_code(self) -> str:
+		"""
+		Get meth_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('meth_code')
+
+	def get_method_name(self) -> str:
+		"""
+		Get method_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('method_name')
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+BusinessAccount data model.
+"""
+
+
+class BusinessAccount(Model):
+	def __init__(self, data: dict = None):
+		"""
+		BusinessAccount Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_title(self) -> str:
+		"""
+		Get title.
+
+		:returns: string
+		"""
+
+		return self.get_field('title')
+
+	def get_tax_exempt(self) -> bool:
+		"""
+		Get tax_exempt.
+
+		:returns: bool
+		"""
+
+		return self.get_field('tax_exempt', False)
+
+	def get_order_count(self) -> int:
+		"""
+		Get order_cnt.
+
+		:returns: int
+		"""
+
+		return self.get_field('order_cnt', 0)
+
+	def get_order_average(self) -> float:
+		"""
+		Get order_avg.
+
+		:returns: float
+		"""
+
+		return self.get_field('order_avg', 0.00)
+
+	def get_formatted_order_average(self) -> str:
+		"""
+		Get formatted_order_avg.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_order_avg')
+
+	def get_order_total(self) -> float:
+		"""
+		Get order_tot.
+
+		:returns: float
+		"""
+
+		return self.get_field('order_tot', 0.00)
+
+	def get_formatted_order_total(self) -> str:
+		"""
+		Get formatted_order_tot.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_order_tot')
+
+	def get_note_count(self) -> int:
+		"""
+		Get note_count.
+
+		:returns: int
+		"""
+
+		return self.get_field('note_count', 0)
+
 
 """
 Customer data model.
@@ -820,6 +978,12 @@ class PriceGroup(Model):
 	ELIGIBILITY_CUSTOMER = 'X'
 	ELIGIBILITY_LOGGED_IN = 'L'
 
+	# DISCOUNT_TYPE constants.
+	DISCOUNT_TYPE_RETAIL = 'R'
+	DISCOUNT_TYPE_COST = 'C'
+	DISCOUNT_TYPE_DISCOUNT_RETAIL = 'D'
+	DISCOUNT_TYPE_MARKUP_COST = 'M'
+
 	def __init__(self, data: dict = None):
 		"""
 		PriceGroup Constructor
@@ -870,6 +1034,15 @@ class PriceGroup(Model):
 		"""
 
 		return self.get_field('custscope')
+
+	def get_rate(self) -> str:
+		"""
+		Get rate.
+
+		:returns: string
+		"""
+
+		return self.get_field('rate')
 
 	def get_discount(self) -> float:
 		"""
@@ -1726,6 +1899,15 @@ class RelatedProduct(Model):
 
 		return self.get_field('dt_updated', 0)
 
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
 
 """
 ProductImageData data model.
@@ -1839,6 +2021,15 @@ ProductAttribute data model.
 
 
 class ProductAttribute(Model):
+	# PRODUCT_ATTRIBUTE_TYPE constants.
+	PRODUCT_ATTRIBUTE_TYPE_CHECKBOX = 'checkbox'
+	PRODUCT_ATTRIBUTE_TYPE_RADIO = 'radio'
+	PRODUCT_ATTRIBUTE_TYPE_TEXT = 'text'
+	PRODUCT_ATTRIBUTE_TYPE_SELECT = 'select'
+	PRODUCT_ATTRIBUTE_TYPE_MEMO = 'memo'
+	PRODUCT_ATTRIBUTE_TYPE_TEMPLATE = 'template'
+	PRODUCT_ATTRIBUTE_TYPE_SWATCH_SELECT = 'swatch-select'
+
 	def __init__(self, data: dict = None):
 		"""
 		ProductAttribute Constructor
@@ -1847,6 +2038,18 @@ class ProductAttribute(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('attributes'):
+			value = self.get_field('attributes')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, ProductAttribute):
+							value[i] = ProductAttribute(e)
+					else:
+						raise Exception('Expected list of ProductAttribute or dict')
+			else:
+				raise Exception('Expected list of ProductAttribute or dict')
+
 		if self.has_field('options'):
 			value = self.get_field('options')
 			if isinstance(value, list):
@@ -1990,6 +2193,15 @@ class ProductAttribute(Model):
 
 		return self.get_field('image')
 
+	def get_template_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: List of ProductAttribute
+		"""
+
+		return self.get_field('attributes', [])
+
 	def get_options(self):
 		"""
 		Get options.
@@ -2005,6 +2217,11 @@ class ProductAttribute(Model):
 		"""
 
 		ret = self.copy()
+
+		if 'attributes' in ret and isinstance(ret['attributes'], list):
+			for i, e in enumerate(ret['attributes']):
+				if isinstance(e, ProductAttribute):
+					ret['attributes'][i] = ret['attributes'][i].to_dict()
 
 		if 'options' in ret and isinstance(ret['options'], list):
 			for i, e in enumerate(ret['options']):
@@ -2056,7 +2273,7 @@ class ProductOption(Model):
 
 		return self.get_field('attr_id', 0)
 
-	def get_attemp_id(self) -> int:
+	def get_attribute_template_id(self) -> int:
 		"""
 		Get attemp_id.
 
@@ -2065,7 +2282,7 @@ class ProductOption(Model):
 
 		return self.get_field('attemp_id', 0)
 
-	def get_attmpat_id(self) -> int:
+	def get_attribute_template_attribute_id(self) -> int:
 		"""
 		Get attmpat_id.
 
@@ -2141,6 +2358,24 @@ class ProductOption(Model):
 		"""
 
 		return self.get_field('image')
+
+	def get_formatted_price(self) -> str:
+		"""
+		Get formatted_price.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_price')
+
+	def get_formatted_cost(self) -> str:
+		"""
+		Get formatted_cost.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_cost')
 
 
 """
@@ -2287,6 +2522,13 @@ Uri data model.
 
 
 class Uri(Model):
+	# DESTINATION_TYPE constants.
+	DESTINATION_TYPE_SCREEN = 'screen'
+	DESTINATION_TYPE_PAGE = 'page'
+	DESTINATION_TYPE_CATEGORY = 'category'
+	DESTINATION_TYPE_PRODUCT = 'product'
+	DESTINATION_TYPE_FEED = 'feed'
+
 	def __init__(self, data: dict = None):
 		"""
 		Uri Constructor
@@ -2295,6 +2537,45 @@ class Uri(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('store'):
+			value = self.get_field('store')
+			if isinstance(value, dict):
+				if not isinstance(value, UriDetail):
+					self.set_field('store', UriDetail(value))
+			else:
+				raise Exception('Expected UriDetail or a dict')
+
+		if self.has_field('product'):
+			value = self.get_field('product')
+			if isinstance(value, dict):
+				if not isinstance(value, UriDetail):
+					self.set_field('product', UriDetail(value))
+			else:
+				raise Exception('Expected UriDetail or a dict')
+
+		if self.has_field('category'):
+			value = self.get_field('category')
+			if isinstance(value, dict):
+				if not isinstance(value, UriDetail):
+					self.set_field('category', UriDetail(value))
+			else:
+				raise Exception('Expected UriDetail or a dict')
+
+		if self.has_field('page'):
+			value = self.get_field('page')
+			if isinstance(value, dict):
+				if not isinstance(value, UriDetail):
+					self.set_field('page', UriDetail(value))
+			else:
+				raise Exception('Expected UriDetail or a dict')
+
+		if self.has_field('feed'):
+			value = self.get_field('feed')
+			if isinstance(value, dict):
+				if not isinstance(value, UriDetail):
+					self.set_field('feed', UriDetail(value))
+			else:
+				raise Exception('Expected UriDetail or a dict')
 
 	def get_id(self) -> int:
 		"""
@@ -2385,6 +2666,118 @@ class Uri(Model):
 		"""
 
 		return self.get_field('status', 0)
+
+	def get_store(self):
+		"""
+		Get store.
+
+		:returns: UriDetail|None
+		"""
+
+		return self.get_field('store', None)
+
+	def get_product(self):
+		"""
+		Get product.
+
+		:returns: UriDetail|None
+		"""
+
+		return self.get_field('product', None)
+
+	def get_category(self):
+		"""
+		Get category.
+
+		:returns: UriDetail|None
+		"""
+
+		return self.get_field('category', None)
+
+	def get_page(self):
+		"""
+		Get page.
+
+		:returns: UriDetail|None
+		"""
+
+		return self.get_field('page', None)
+
+	def get_feed(self):
+		"""
+		Get feed.
+
+		:returns: UriDetail|None
+		"""
+
+		return self.get_field('feed', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'store' in ret and isinstance(ret['store'], UriDetail):
+			ret['store'] = ret['store'].to_dict()
+
+		if 'product' in ret and isinstance(ret['product'], UriDetail):
+			ret['product'] = ret['product'].to_dict()
+
+		if 'category' in ret and isinstance(ret['category'], UriDetail):
+			ret['category'] = ret['category'].to_dict()
+
+		if 'page' in ret and isinstance(ret['page'], UriDetail):
+			ret['page'] = ret['page'].to_dict()
+
+		if 'feed' in ret and isinstance(ret['feed'], UriDetail):
+			ret['feed'] = ret['feed'].to_dict()
+
+		return ret
+
+
+"""
+UriDetail data model.
+"""
+
+
+class UriDetail(Model):
+	def __init__(self, data: dict = None):
+		"""
+		UriDetail Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_name(self) -> str:
+		"""
+		Get name.
+
+		:returns: string
+		"""
+
+		return self.get_field('name')
+
+	def get_sku(self) -> str:
+		"""
+		Get sku.
+
+		:returns: string
+		"""
+
+		return self.get_field('sku')
 
 
 """
@@ -2479,6 +2872,234 @@ class ProductVariant(Model):
 					ret['dimensions'][i] = ret['dimensions'][i].to_dict()
 
 		return ret
+
+
+"""
+ProductKit data model.
+"""
+
+
+class ProductKit(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ProductKit Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('parts'):
+			value = self.get_field('parts')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, ProductKitPart):
+							value[i] = ProductKitPart(e)
+					else:
+						raise Exception('Expected list of ProductKitPart or dict')
+			else:
+				raise Exception('Expected list of ProductKitPart or dict')
+
+	def get_attr_id(self) -> int:
+		"""
+		Get attr_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attr_id', 0)
+
+	def get_attr_type(self) -> str:
+		"""
+		Get attr_type.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_type')
+
+	def get_attr_code(self) -> str:
+		"""
+		Get attr_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_code')
+
+	def get_attr_prompt(self) -> str:
+		"""
+		Get attr_prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_prompt')
+
+	def get_attmpat_id(self) -> int:
+		"""
+		Get attmpat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attmpat_id', 0)
+
+	def get_option_id(self) -> int:
+		"""
+		Get option_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('option_id', 0)
+
+	def get_option_code(self) -> str:
+		"""
+		Get option_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('option_code')
+
+	def get_option_prompt(self) -> str:
+		"""
+		Get option_prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('option_prompt')
+
+	def get_parts(self):
+		"""
+		Get parts.
+
+		:returns: List of ProductKitPart
+		"""
+
+		return self.get_field('parts', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'parts' in ret and isinstance(ret['parts'], list):
+			for i, e in enumerate(ret['parts']):
+				if isinstance(e, ProductKitPart):
+					ret['parts'][i] = ret['parts'][i].to_dict()
+
+		return ret
+
+
+"""
+ProductKitPart data model.
+"""
+
+
+class ProductKitPart(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ProductKitPart Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_product_id(self) -> int:
+		"""
+		Get product_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_id', 0)
+
+	def get_product_code(self) -> str:
+		"""
+		Get product_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_code')
+
+	def get_product_name(self) -> str:
+		"""
+		Get product_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_name')
+
+	def get_quantity(self) -> int:
+		"""
+		Get quantity.
+
+		:returns: int
+		"""
+
+		return self.get_field('quantity', 0)
+
+
+"""
+KitPart data model.
+"""
+
+
+class KitPart(Model):
+	def __init__(self, data: dict = None):
+		"""
+		KitPart Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_part_id(self) -> int:
+		"""
+		Get part_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('part_id', 0)
+
+	def get_quantity(self) -> int:
+		"""
+		Get quantity.
+
+		:returns: int
+		"""
+
+		return self.get_field('quantity', 0)
+
+	def set_part_id(self, part_id: int) -> 'KitPart':
+		"""
+		Set part_id.
+
+		:param part_id: int
+		:returns: KitPart
+		"""
+
+		return self.set_field('part_id', part_id)
+
+	def set_quantity(self, quantity: int) -> 'KitPart':
+		"""
+		Set quantity.
+
+		:param quantity: int
+		:returns: KitPart
+		"""
+
+		return self.set_field('quantity', quantity)
 
 
 """
@@ -3477,6 +4098,25 @@ class OrderShipment(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('order'):
+			value = self.get_field('order')
+			if isinstance(value, dict):
+				if not isinstance(value, Order):
+					self.set_field('order', Order(value))
+			else:
+				raise Exception('Expected Order or a dict')
+
+		if self.has_field('items'):
+			value = self.get_field('items')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, OrderItem):
+							value[i] = OrderItem(e)
+					else:
+						raise Exception('Expected list of OrderItem or dict')
+			else:
+				raise Exception('Expected list of OrderItem or dict')
 
 	def get_id(self) -> int:
 		"""
@@ -3594,6 +4234,41 @@ class OrderShipment(Model):
 		"""
 
 		return self.get_field('formatted_cost')
+
+	def get_order(self):
+		"""
+		Get order.
+
+		:returns: Order|None
+		"""
+
+		return self.get_field('order', None)
+
+	def get_items(self):
+		"""
+		Get items.
+
+		:returns: List of OrderItem
+		"""
+
+		return self.get_field('items', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'order' in ret and isinstance(ret['order'], Order):
+			ret['order'] = ret['order'].to_dict()
+
+		if 'items' in ret and isinstance(ret['items'], list):
+			for i, e in enumerate(ret['items']):
+				if isinstance(e, OrderItem):
+					ret['items'][i] = ret['items'][i].to_dict()
+
+		return ret
 
 
 """
@@ -4084,6 +4759,24 @@ class OrderItem(Model):
 
 		return self.get_field('price', 0.00)
 
+	def get_tax(self) -> float:
+		"""
+		Get tax.
+
+		:returns: float
+		"""
+
+		return self.get_field('tax', 0.00)
+
+	def get_formatted_tax(self) -> str:
+		"""
+		Get formatted_tax.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_tax')
+
 	def get_weight(self) -> float:
 		"""
 		Get weight.
@@ -4182,6 +4875,15 @@ class OrderItem(Model):
 		"""
 
 		return self.get_field('tracknum')
+
+	def get_shipment_id(self) -> int:
+		"""
+		Get shpmnt_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('shpmnt_id', 0)
 
 	def set_code(self, code: str) -> 'OrderItem':
 		"""
@@ -4426,6 +5128,15 @@ class OrderCharge(Model):
 		"""
 
 		return self.get_field('tax_exempt', False)
+
+	def get_tax(self) -> float:
+		"""
+		Get tax.
+
+		:returns: float
+		"""
+
+		return self.get_field('tax', 0.00)
 
 	def set_type(self, type: str) -> 'OrderCharge':
 		"""
@@ -5973,6 +6684,15 @@ class ProductVariantPart(Model):
 
 		return self.get_field('product_name')
 
+	def get_product_sku(self) -> str:
+		"""
+		Get product_sku.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_sku')
+
 	def get_quantity(self) -> int:
 		"""
 		Get quantity.
@@ -5981,6 +6701,15 @@ class ProductVariantPart(Model):
 		"""
 
 		return self.get_field('quantity', 0)
+
+	def get_offset(self) -> int:
+		"""
+		Get offset.
+
+		:returns: int
+		"""
+
+		return self.get_field('offset', 0)
 
 
 """
@@ -9207,6 +9936,15 @@ class CSSResourceVersion(Model):
 
 		return self.get_field('linkedresources', [])
 
+	def get_source_notes(self) -> str:
+		"""
+		Get source_notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_notes')
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -9635,6 +10373,15 @@ class JavaScriptResourceVersion(Model):
 		"""
 
 		return self.get_field('linkedresources', [])
+
+	def get_source_notes(self) -> str:
+		"""
+		Get source_notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_notes')
 
 	def to_dict(self) -> dict:
 		"""
@@ -10259,6 +11006,15 @@ class PropertyVersion(Model):
 
 		return self.get_field('sync', False)
 
+	def get_source_notes(self) -> str:
+		"""
+		Get source_notes.
+
+		:returns: string
+		"""
+
+		return self.get_field('source_notes')
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -10425,6 +11181,1139 @@ class MerchantVersion(Model):
 
 
 """
+Store data model.
+"""
+
+
+class Store(Model):
+	def __init__(self, data: dict = None):
+		"""
+		Store Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_manager_id(self) -> int:
+		"""
+		Get manager_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('manager_id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_license(self) -> str:
+		"""
+		Get license.
+
+		:returns: string
+		"""
+
+		return self.get_field('license')
+
+	def get_name(self) -> str:
+		"""
+		Get name.
+
+		:returns: string
+		"""
+
+		return self.get_field('name')
+
+	def get_owner(self) -> str:
+		"""
+		Get owner.
+
+		:returns: string
+		"""
+
+		return self.get_field('owner')
+
+	def get_email(self) -> str:
+		"""
+		Get email.
+
+		:returns: string
+		"""
+
+		return self.get_field('email')
+
+	def get_company(self) -> str:
+		"""
+		Get company.
+
+		:returns: string
+		"""
+
+		return self.get_field('company')
+
+	def get_address(self) -> str:
+		"""
+		Get address.
+
+		:returns: string
+		"""
+
+		return self.get_field('address')
+
+	def get_city(self) -> str:
+		"""
+		Get city.
+
+		:returns: string
+		"""
+
+		return self.get_field('city')
+
+	def get_state(self) -> str:
+		"""
+		Get state.
+
+		:returns: string
+		"""
+
+		return self.get_field('state')
+
+	def get_zip(self) -> str:
+		"""
+		Get zip.
+
+		:returns: string
+		"""
+
+		return self.get_field('zip')
+
+	def get_phone(self) -> str:
+		"""
+		Get phone.
+
+		:returns: string
+		"""
+
+		return self.get_field('phone')
+
+	def get_fax(self) -> str:
+		"""
+		Get fax.
+
+		:returns: string
+		"""
+
+		return self.get_field('fax')
+
+	def get_country(self) -> str:
+		"""
+		Get country.
+
+		:returns: string
+		"""
+
+		return self.get_field('country')
+
+	def get_weight_units(self) -> str:
+		"""
+		Get wtunits.
+
+		:returns: string
+		"""
+
+		return self.get_field('wtunits')
+
+	def get_weight_unit_code(self) -> str:
+		"""
+		Get wtunitcode.
+
+		:returns: string
+		"""
+
+		return self.get_field('wtunitcode')
+
+	def get_dimension_units(self) -> str:
+		"""
+		Get dmunitcode.
+
+		:returns: string
+		"""
+
+		return self.get_field('dmunitcode')
+
+	def get_basket_expiration(self) -> int:
+		"""
+		Get baskexp.
+
+		:returns: int
+		"""
+
+		return self.get_field('baskexp', 0)
+
+	def get_price_group_overlap_resolution(self) -> str:
+		"""
+		Get pgrp_ovlp.
+
+		:returns: string
+		"""
+
+		return self.get_field('pgrp_ovlp')
+
+	def get_user_interface_id(self) -> int:
+		"""
+		Get ui_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('ui_id', 0)
+
+	def get_tax_id(self) -> int:
+		"""
+		Get tax_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('tax_id', 0)
+
+	def get_currency_id(self) -> int:
+		"""
+		Get currncy_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('currncy_id', 0)
+
+	def get_maintenance_warning_message(self) -> str:
+		"""
+		Get mnt_warn.
+
+		:returns: string
+		"""
+
+		return self.get_field('mnt_warn')
+
+	def get_maintenance_closed_message(self) -> str:
+		"""
+		Get mnt_close.
+
+		:returns: string
+		"""
+
+		return self.get_field('mnt_close')
+
+	def get_maintenance_time(self) -> int:
+		"""
+		Get mnt_time.
+
+		:returns: int
+		"""
+
+		return self.get_field('mnt_time', 0)
+
+	def get_maintenance_no_new_customers_before(self) -> int:
+		"""
+		Get mnt_no_new.
+
+		:returns: int
+		"""
+
+		return self.get_field('mnt_no_new', 0)
+
+	def get_order_minimum_quantity(self) -> int:
+		"""
+		Get omin_quant.
+
+		:returns: int
+		"""
+
+		return self.get_field('omin_quant', 0)
+
+	def get_order_minimum_price(self):
+		"""
+		Get omin_price.
+
+		:returns: foat
+		"""
+
+		# Missing foat
+
+	def get_order_minimum_required_all(self) -> bool:
+		"""
+		Get omin_all.
+
+		:returns: bool
+		"""
+
+		return self.get_field('omin_all', False)
+
+	def get_order_minimum_message(self) -> str:
+		"""
+		Get omin_msg.
+
+		:returns: string
+		"""
+
+		return self.get_field('omin_msg')
+
+	def get_crypt_id(self) -> int:
+		"""
+		Get crypt_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('crypt_id', 0)
+
+	def get_require_shipping(self) -> bool:
+		"""
+		Get req_ship.
+
+		:returns: bool
+		"""
+
+		return self.get_field('req_ship', False)
+
+	def get_require_tax(self) -> bool:
+		"""
+		Get req_tax.
+
+		:returns: bool
+		"""
+
+		return self.get_field('req_tax', False)
+
+	def get_require_free_order_shipping(self) -> bool:
+		"""
+		Get req_frship.
+
+		:returns: bool
+		"""
+
+		return self.get_field('req_frship', False)
+
+	def get_item_module_uninstallable(self) -> bool:
+		"""
+		Get item_adel.
+
+		:returns: bool
+		"""
+
+		return self.get_field('item_adel', False)
+
+
+"""
+CustomerAddressList data model.
+"""
+
+
+class CustomerAddressList(Model):
+	def __init__(self, data: dict = None):
+		"""
+		CustomerAddressList Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('addresses'):
+			value = self.get_field('addresses')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, CustomerAddress):
+							value[i] = CustomerAddress(e)
+					else:
+						raise Exception('Expected list of CustomerAddress or dict')
+			else:
+				raise Exception('Expected list of CustomerAddress or dict')
+
+	def get_ship_id(self) -> int:
+		"""
+		Get ship_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('ship_id', 0)
+
+	def get_bill_id(self) -> int:
+		"""
+		Get bill_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('bill_id', 0)
+
+	def get_addresses(self):
+		"""
+		Get addresses.
+
+		:returns: List of CustomerAddress
+		"""
+
+		return self.get_field('addresses', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'addresses' in ret and isinstance(ret['addresses'], list):
+			for i, e in enumerate(ret['addresses']):
+				if isinstance(e, CustomerAddress):
+					ret['addresses'][i] = ret['addresses'][i].to_dict()
+
+		return ret
+
+
+"""
+VariantAttribute data model.
+"""
+
+
+class VariantAttribute(Model):
+	def __init__(self, data: dict = None):
+		"""
+		VariantAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_attribute_id(self) -> int:
+		"""
+		Get attr_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attr_id', 0)
+
+	def get_attribute_template_attribute_id(self) -> int:
+		"""
+		Get attmpat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attmpat_id', 0)
+
+	def get_option_id(self) -> int:
+		"""
+		Get option_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('option_id', 0)
+
+	def set_attribute_id(self, attribute_id: int) -> 'VariantAttribute':
+		"""
+		Set attr_id.
+
+		:param attribute_id: int
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('attr_id', attribute_id)
+
+	def set_attribute_template_attribute_id(self, attribute_template_attribute_id: int) -> 'VariantAttribute':
+		"""
+		Set attmpat_id.
+
+		:param attribute_template_attribute_id: int
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('attmpat_id', attribute_template_attribute_id)
+
+	def set_option_id(self, option_id: int) -> 'VariantAttribute':
+		"""
+		Set option_id.
+
+		:param option_id: int
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('option_id', option_id)
+
+
+"""
+VariantPart data model.
+"""
+
+
+class VariantPart(Model):
+	def __init__(self, data: dict = None):
+		"""
+		VariantPart Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_part_id(self) -> int:
+		"""
+		Get part_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('part_id', 0)
+
+	def get_quantity(self) -> int:
+		"""
+		Get quantity.
+
+		:returns: int
+		"""
+
+		return self.get_field('quantity', 0)
+
+	def set_part_id(self, part_id: int) -> 'VariantPart':
+		"""
+		Set part_id.
+
+		:param part_id: int
+		:returns: VariantPart
+		"""
+
+		return self.set_field('part_id', part_id)
+
+	def set_quantity(self, quantity: int) -> 'VariantPart':
+		"""
+		Set quantity.
+
+		:param quantity: int
+		:returns: VariantPart
+		"""
+
+		return self.set_field('quantity', quantity)
+
+
+"""
+ImageType data model.
+"""
+
+
+class ImageType(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ImageType Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_description(self) -> str:
+		"""
+		Get descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('descrip')
+
+
+"""
+PriceGroupExclusion data model.
+"""
+
+
+class PriceGroupExclusion(Model):
+	# EXCLUSION_SCOPE constants.
+	EXCLUSION_SCOPE_BASKET = 'basket'
+	EXCLUSION_SCOPE_GROUP = 'group'
+	EXCLUSION_SCOPE_ITEM = 'item'
+
+	def __init__(self, data: dict = None):
+		"""
+		PriceGroupExclusion Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_scope(self) -> str:
+		"""
+		Get scope.
+
+		:returns: string
+		"""
+
+		return self.get_field('scope')
+
+	def set_id(self, id: int) -> 'PriceGroupExclusion':
+		"""
+		Set id.
+
+		:param id: int
+		:returns: PriceGroupExclusion
+		"""
+
+		return self.set_field('id', id)
+
+	def set_scope(self, scope: str) -> 'PriceGroupExclusion':
+		"""
+		Set scope.
+
+		:param scope: string
+		:returns: PriceGroupExclusion
+		"""
+
+		return self.set_field('scope', scope)
+
+
+"""
+AttributeTemplate data model.
+"""
+
+
+class AttributeTemplate(Model):
+	def __init__(self, data: dict = None):
+		"""
+		AttributeTemplate Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_prompt(self) -> str:
+		"""
+		Get prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('prompt')
+
+	def get_refcount(self) -> int:
+		"""
+		Get refcount.
+
+		:returns: int
+		"""
+
+		return self.get_field('refcount', 0)
+
+
+"""
+AttributeTemplateAttribute data model.
+"""
+
+
+class AttributeTemplateAttribute(Model):
+	# TEMPLATE_ATTRIBUTE_TYPE constants.
+	TEMPLATE_ATTRIBUTE_TYPE_CHECKBOX = 'checkbox'
+	TEMPLATE_ATTRIBUTE_TYPE_RADIO = 'radio'
+	TEMPLATE_ATTRIBUTE_TYPE_TEXT = 'text'
+	TEMPLATE_ATTRIBUTE_TYPE_SELECT = 'select'
+	TEMPLATE_ATTRIBUTE_TYPE_MEMO = 'memo'
+	TEMPLATE_ATTRIBUTE_TYPE_TEMPLATE = 'template'
+	TEMPLATE_ATTRIBUTE_TYPE_SWATCH_SELECT = 'swatch-select'
+
+	def __init__(self, data: dict = None):
+		"""
+		AttributeTemplateAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('options'):
+			value = self.get_field('options')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, AttributeTemplateOption):
+							value[i] = AttributeTemplateOption(e)
+					else:
+						raise Exception('Expected list of AttributeTemplateOption or dict')
+			else:
+				raise Exception('Expected list of AttributeTemplateOption or dict')
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_attribute_template_id(self) -> int:
+		"""
+		Get attemp_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attemp_id', 0)
+
+	def get_default_id(self) -> int:
+		"""
+		Get default_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('default_id', 0)
+
+	def get_display_order(self) -> int:
+		"""
+		Get disp_order.
+
+		:returns: int
+		"""
+
+		if self.has_field('disp_order'):
+			return self.get_field('disp_order', 0)
+		elif self.has_field('disporder'):
+			return self.get_field('disporder', 0)
+
+		return 0
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_type(self) -> str:
+		"""
+		Get type.
+
+		:returns: string
+		"""
+
+		return self.get_field('type')
+
+	def get_prompt(self) -> str:
+		"""
+		Get prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('prompt')
+
+	def get_price(self) -> float:
+		"""
+		Get price.
+
+		:returns: float
+		"""
+
+		return self.get_field('price', 0.00)
+
+	def get_cost(self) -> float:
+		"""
+		Get cost.
+
+		:returns: float
+		"""
+
+		return self.get_field('cost', 0.00)
+
+	def get_weight(self) -> float:
+		"""
+		Get weight.
+
+		:returns: float
+		"""
+
+		return self.get_field('weight', 0.00)
+
+	def get_required(self) -> bool:
+		"""
+		Get required.
+
+		:returns: bool
+		"""
+
+		return self.get_field('required', False)
+
+	def get_inventory(self) -> bool:
+		"""
+		Get inventory.
+
+		:returns: bool
+		"""
+
+		return self.get_field('inventory', False)
+
+	def get_image(self) -> str:
+		"""
+		Get image.
+
+		:returns: string
+		"""
+
+		return self.get_field('image')
+
+	def get_options(self):
+		"""
+		Get options.
+
+		:returns: List of AttributeTemplateOption
+		"""
+
+		return self.get_field('options', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'options' in ret and isinstance(ret['options'], list):
+			for i, e in enumerate(ret['options']):
+				if isinstance(e, AttributeTemplateOption):
+					ret['options'][i] = ret['options'][i].to_dict()
+
+		return ret
+
+
+"""
+AttributeTemplateOption data model.
+"""
+
+
+class AttributeTemplateOption(Model):
+	def __init__(self, data: dict = None):
+		"""
+		AttributeTemplateOption Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_id(self) -> int:
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		return self.get_field('id', 0)
+
+	def get_attribute_template_id(self):
+		"""
+		Get attemp_id.
+
+		:returns: 
+		"""
+
+		# Missing 
+
+	def get_attribute_template_attribute_id(self) -> int:
+		"""
+		Get attmpat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attmpat_id', 0)
+
+	def get_display_order(self) -> int:
+		"""
+		Get disporder.
+
+		:returns: int
+		"""
+
+		if self.has_field('disporder'):
+			return self.get_field('disporder', 0)
+		elif self.has_field('disp_order'):
+			return self.get_field('disp_order', 0)
+
+		return 0
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_prompt(self) -> str:
+		"""
+		Get prompt.
+
+		:returns: string
+		"""
+
+		return self.get_field('prompt')
+
+	def get_price(self) -> float:
+		"""
+		Get price.
+
+		:returns: float
+		"""
+
+		return self.get_field('price', 0.00)
+
+	def get_cost(self) -> float:
+		"""
+		Get cost.
+
+		:returns: float
+		"""
+
+		return self.get_field('cost', 0.00)
+
+	def get_weight(self) -> float:
+		"""
+		Get weight.
+
+		:returns: float
+		"""
+
+		return self.get_field('weight', 0.00)
+
+	def get_image(self) -> str:
+		"""
+		Get image.
+
+		:returns: string
+		"""
+
+		return self.get_field('image')
+
+	def get_formatted_price(self) -> str:
+		"""
+		Get formatted_price.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_price')
+
+	def get_formatted_cost(self) -> str:
+		"""
+		Get formatted_cost.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_cost')
+
+	def get_default_opt(self) -> bool:
+		"""
+		Get default_opt.
+
+		:returns: bool
+		"""
+
+		return self.get_field('default_opt', False)
+
+
+"""
+AvailabilityGroupCustomer data model.
+"""
+
+
+class AvailabilityGroupCustomer(Customer):
+	def __init__(self, data: dict = None):
+		"""
+		AvailabilityGroupCustomer Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+AvailabilityGroupCategory data model.
+"""
+
+
+class AvailabilityGroupCategory(Category):
+	def __init__(self, data: dict = None):
+		"""
+		AvailabilityGroupCategory Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+AvailabilityGroupProduct data model.
+"""
+
+
+class AvailabilityGroupProduct(Product):
+	def __init__(self, data: dict = None):
+		"""
+		AvailabilityGroupProduct Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+AvailabilityGroupBusinessAccount data model.
+"""
+
+
+class AvailabilityGroupBusinessAccount(BusinessAccount):
+	def __init__(self, data: dict = None):
+		"""
+		AvailabilityGroupBusinessAccount Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+BusinessAccountCustomer data model.
+"""
+
+
+class BusinessAccountCustomer(Customer):
+	def __init__(self, data: dict = None):
+		"""
+		BusinessAccountCustomer Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
 OrderNote data model.
 """
 
@@ -10466,6 +12355,31 @@ class CategoryProduct(Product):
 
 
 """
+AttributeTemplateProduct data model.
+"""
+
+
+class AttributeTemplateProduct(Product):
+	def __init__(self, data: dict = None):
+		"""
+		AttributeTemplateProduct Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
 CouponPriceGroup data model.
 """
 
@@ -10474,6 +12388,31 @@ class CouponPriceGroup(PriceGroup):
 	def __init__(self, data: dict = None):
 		"""
 		CouponPriceGroup Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+CouponCustomer data model.
+"""
+
+
+class CouponCustomer(Customer):
+	def __init__(self, data: dict = None):
+		"""
+		CouponCustomer Constructor
 
 		:param data: dict
 		"""
@@ -10540,6 +12479,56 @@ class PriceGroupProduct(Product):
 	def __init__(self, data: dict = None):
 		"""
 		PriceGroupProduct Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+PriceGroupCategory data model.
+"""
+
+
+class PriceGroupCategory(Category):
+	def __init__(self, data: dict = None):
+		"""
+		PriceGroupCategory Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)
+
+
+"""
+PriceGroupBusinessAccount data model.
+"""
+
+
+class PriceGroupBusinessAccount(BusinessAccount):
+	def __init__(self, data: dict = None):
+		"""
+		PriceGroupBusinessAccount Constructor
 
 		:param data: dict
 		"""

@@ -73,3 +73,25 @@ client = SSHAgentClient('https://www.mystore.com/mm5/json.mvc', 'Username', '/pa
 key = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDI7jEct+R0jfRTAH+OkBzv4kzgLIkfFBed9MG7FBPIuS5bZ134it+Cjkqmvb6DnH0bPumgDis9zrevIelg6UdLGAZnUt7qg8JjSjaGPCnZ5vlrcVO3PjeOlmnFUMl2g0eCFP9fdyXThwOFzrSrNlLMkngMtQ8yVlMcelmTq3LCm6Rt6c5ZJXIrTOV+msqUPKAOnYNcl2/ddTW5FuoH22p7kDDmZm1hjwCi2GXvgsmgOoXSqyRW0+52hOKiUOixLL3HUXyCrL9cKhcwwRdaK8lJKKAY3WGKHnwyFcoxgqy4Hg3KZRpjNEPasb0yt8E/tKFVKvpfnj0m7AjBHMhoj/PUJLZwY0/0a81Ua7ANGH73I7zDmRCYyHr0lJcAFeVI99t4t7/bmpEZBN9KVRbPEonkk331Z9jPj03aA+Kr9ZUgWgki1x3gJRsKgOOAtO75Zy1L9kn4iWIO/LdljQRCTVUY/3zyyaXztgKiR249Aw5LTrA+Kq+HdIGVNumhOjsc9t8= user@domain'
 client = SSHAgentClient('https://www.mystore.com/mm5/json.mvc', 'Username', '', SSHAgentAuthenticator.DIGEST_SSH_RSA_SHA256, options)
 client.set_public_key_string(key)
+
+
+'''
+Request Logging
+
+Logging can be enabled by assigning a Logger instance to the client
+
+Currently, we provide two logger types:
+    FileLogger - logs to a local file
+    ConsoleLogger - logs to std out/err
+'''
+
+from merchantapi.logging import FileLogger, ConsoleLogger
+
+# Setting up a FileLogger
+client.set_logger(FileLogger("/path/to/my/logfile.log"))
+
+# Setting up a ConsoleLogger to log to stdout
+client.set_logger(ConsoleLogger('stdout'))
+
+# Setting up a ConsoleLogger to log to stderr
+client.set_logger(ConsoleLogger('stderr'))

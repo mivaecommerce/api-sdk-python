@@ -14,7 +14,7 @@ Holds Version information
 
 class Version:
 	# Version string
-	STRING = '2.0.1'
+	STRING = '2.0.2'
 
 	# Major Version
 	MAJOR = 2
@@ -23,4 +23,4 @@ class Version:
 	MINOR = 0
 
 	# Patch Version
-	PATCH = 1
+	PATCH = 2

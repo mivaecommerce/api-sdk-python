@@ -43,11 +43,12 @@ class Logger:
 		:param content:
 		:return:
 		"""
-		self.write_line(f'\r\n============= Response: {response.request.get_function()} [HEADERS] =============\r\n')
+		func = response.request.get_function() if response is not None else ''
+		self.write_line(f'\r\n============= Response: {func} [HEADERS] =============\r\n')
 		for k, v in headers.items():
 			self.write_line(f"{k} = {v}")
 
-		self.write_line(f'\r\n============= Response: {response.request.get_function()} [BODY] =============\r\n')
+		self.write_line(f'\r\n============= Response: {func} [BODY] =============\r\n')
 		self.write_line(content.decode('utf-8'))
 
 	@abc.abstractmethod

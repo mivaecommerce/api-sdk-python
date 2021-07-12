@@ -140,6 +140,7 @@ Request - Abstract request class
 class Request(object):
 	SCOPE_STORE = 1
 	SCOPE_DOMAIN = 2
+	SCOPE_DOMAIN_OPTIONAL_STORE = 3
 
 	BINARY_ENCODING_DEFAULT = 'json'
 	BINARY_ENCODING_BASE64 = 'base64'

@@ -240,9 +240,6 @@ class BaseClient:
 			
 			response = request.create_response(http_response, json_response)
 
-			if self.logger is not None:
-				self.logger.log_response(response, http_response.headers, http_response.content)
-
 			if http_response.status_code == 401:
 				raise ClientHttpAuthenticationError(request, http_response)
 			return response
@@ -252,6 +249,9 @@ class BaseClient:
 			raise ClientException(request, http_response, e)
 		except ValueError as e:
 			raise ClientException(request, http_response, e)
+		finally:
+			if self.logger is not None and http_response is not None:
+				self.logger.log_response(response, http_response.headers, http_response.content)
 
 	def generate_auth_header(self, data: str) -> str:
 		"""

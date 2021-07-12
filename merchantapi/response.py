@@ -2581,6 +2581,2375 @@ class MivaMerchantVersion(Response):
 
 
 """
+API Response for Attribute_Load_Code.
+
+:see: https://docs.miva.com/json-api/functions/attribute_load_code
+"""
+
+class AttributeLoadCode(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeLoadCode Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.ProductAttribute(self.data['data'])
+
+	def get_product_attribute(self) -> merchantapi.model.ProductAttribute:
+		"""
+		Get product_attribute.
+
+		:returns: ProductAttribute
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
+
+
+"""
+API Response for Attribute_Insert.
+
+:see: https://docs.miva.com/json-api/functions/attribute_insert
+"""
+
+class AttributeInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Attribute_Update.
+
+:see: https://docs.miva.com/json-api/functions/attribute_update
+"""
+
+class AttributeUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Attribute_Delete.
+
+:see: https://docs.miva.com/json-api/functions/attribute_delete
+"""
+
+class AttributeDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for OptionList_Load_Attribute.
+
+:see: https://docs.miva.com/json-api/functions/optionlist_load_attribute
+"""
+
+class OptionListLoadAttribute(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionListLoadAttribute Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.ProductOption(e)
+
+	def get_product_options(self):
+		"""
+		Get product_options.
+
+		:returns: list of ProductOption
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for Option_Delete.
+
+:see: https://docs.miva.com/json-api/functions/option_delete
+"""
+
+class OptionDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Option_Insert.
+
+:see: https://docs.miva.com/json-api/functions/option_insert
+"""
+
+class OptionInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Option_Update.
+
+:see: https://docs.miva.com/json-api/functions/option_update
+"""
+
+class OptionUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Option_Load_Code.
+
+:see: https://docs.miva.com/json-api/functions/option_load_code
+"""
+
+class OptionLoadCode(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionLoadCode Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.ProductOption(self.data['data'])
+
+	def get_product_option(self) -> merchantapi.model.ProductOption:
+		"""
+		Get product_option.
+
+		:returns: ProductOption
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
+
+
+"""
+API Response for Option_Set_Default.
+
+:see: https://docs.miva.com/json-api/functions/option_set_default
+"""
+
+class OptionSetDefault(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OptionSetDefault Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeAndOptionList_Load_Product.
+
+:see: https://docs.miva.com/json-api/functions/attributeandoptionlist_load_product
+"""
+
+class AttributeAndOptionListLoadProduct(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeAndOptionListLoadProduct Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.ProductAttribute(e)
+
+	def get_product_attributes(self):
+		"""
+		Get product_attributes.
+
+		:returns: list of ProductAttribute
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for OrderShipmentList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/ordershipmentlist_load_query
+"""
+
+class OrderShipmentListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		OrderShipmentListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.OrderShipment(e)
+
+	def get_order_shipments(self):
+		"""
+		Get order_shipments.
+
+		:returns: list of OrderShipment
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for OrderItem_Split.
+
+:see: https://docs.miva.com/json-api/functions/orderitem_split
+"""
+
+class OrderItemSplit(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OrderItemSplit Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for OrderItemList_RemoveFromShipment.
+
+:see: https://docs.miva.com/json-api/functions/orderitemlist_removefromshipment
+"""
+
+class OrderItemListRemoveFromShipment(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		OrderItemListRemoveFromShipment Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CustomerAddress_Insert.
+
+:see: https://docs.miva.com/json-api/functions/customeraddress_insert
+"""
+
+class CustomerAddressInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerAddressInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CustomerAddress_Update.
+
+:see: https://docs.miva.com/json-api/functions/customeraddress_update
+"""
+
+class CustomerAddressUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerAddressUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CustomerAddress_Delete.
+
+:see: https://docs.miva.com/json-api/functions/customeraddress_delete
+"""
+
+class CustomerAddressDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerAddressDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CustomerAddressList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/customeraddresslist_delete
+"""
+
+class CustomerAddressListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerAddressListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CustomerAddress_Update_Residential.
+
+:see: https://docs.miva.com/json-api/functions/customeraddress_update_residential
+"""
+
+class CustomerAddressUpdateResidential(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerAddressUpdateResidential Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for URIList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/urilist_load_query
+"""
+
+class URIListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		URIListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for URI_Insert.
+
+:see: https://docs.miva.com/json-api/functions/uri_insert
+"""
+
+class URIInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		URIInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductURI_Insert.
+
+:see: https://docs.miva.com/json-api/functions/producturi_insert
+"""
+
+class ProductURIInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductURIInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CategoryURI_Insert.
+
+:see: https://docs.miva.com/json-api/functions/categoryuri_insert
+"""
+
+class CategoryURIInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CategoryURIInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PageURI_Insert.
+
+:see: https://docs.miva.com/json-api/functions/pageuri_insert
+"""
+
+class PageURIInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PageURIInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for FeedURI_Insert.
+
+:see: https://docs.miva.com/json-api/functions/feeduri_insert
+"""
+
+class FeedURIInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		FeedURIInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for URI_Update.
+
+:see: https://docs.miva.com/json-api/functions/uri_update
+"""
+
+class URIUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		URIUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductURI_Update.
+
+:see: https://docs.miva.com/json-api/functions/producturi_update
+"""
+
+class ProductURIUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductURIUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CategoryURI_Update.
+
+:see: https://docs.miva.com/json-api/functions/categoryuri_update
+"""
+
+class CategoryURIUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CategoryURIUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PageURI_Update.
+
+:see: https://docs.miva.com/json-api/functions/pageuri_update
+"""
+
+class PageURIUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PageURIUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for FeedURI_Update.
+
+:see: https://docs.miva.com/json-api/functions/feeduri_update
+"""
+
+class FeedURIUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		FeedURIUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for URI_Delete.
+
+:see: https://docs.miva.com/json-api/functions/uri_delete
+"""
+
+class URIDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		URIDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductURIList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/producturilist_load_query
+"""
+
+class ProductURIListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductURIListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for CategoryURIList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/categoryurilist_load_query
+"""
+
+class CategoryURIListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		CategoryURIListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PageURIList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pageurilist_load_query
+"""
+
+class PageURIListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		PageURIListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for FeedURIList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/feedurilist_load_query
+"""
+
+class FeedURIListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		FeedURIListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductURIList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/producturilist_delete
+"""
+
+class ProductURIListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductURIListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for PageURIList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/pageurilist_delete
+"""
+
+class PageURIListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PageURIListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for CategoryURIList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/categoryurilist_delete
+"""
+
+class CategoryURIListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CategoryURIListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for FeedURIList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/feedurilist_delete
+"""
+
+class FeedURIListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		FeedURIListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for URIList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/urilist_delete
+"""
+
+class URIListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		URIListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for PageURI_Redirect.
+
+:see: https://docs.miva.com/json-api/functions/pageuri_redirect
+"""
+
+class PageURIRedirect(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		PageURIRedirect Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductURI_Redirect.
+
+:see: https://docs.miva.com/json-api/functions/producturi_redirect
+"""
+
+class ProductURIRedirect(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductURIRedirect Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for CategoryURI_Redirect.
+
+:see: https://docs.miva.com/json-api/functions/categoryuri_redirect
+"""
+
+class CategoryURIRedirect(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		CategoryURIRedirect Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Uri(e)
+
+	def get_uris(self):
+		"""
+		Get uris.
+
+		:returns: list of Uri
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AvailabilityGroup_Delete.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroup_delete
+"""
+
+class AvailabilityGroupDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AvailabilityGroup_Insert.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroup_insert
+"""
+
+class AvailabilityGroupInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AvailabilityGroup_Update.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroup_update
+"""
+
+class AvailabilityGroupUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AvailabilityGroupCategory_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupcategory_update_assigned
+"""
+
+class AvailabilityGroupCategoryUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupCategoryUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AvailabilityGroupShippingMethodList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupshippingmethodlist_load_query
+"""
+
+class AvailabilityGroupShippingMethodListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupShippingMethodListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AvailabilityGroupShippingMethod(e)
+
+	def get_availability_group_shipping_methods(self):
+		"""
+		Get availability_group_shipping_methods.
+
+		:returns: list of AvailabilityGroupShippingMethod
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupBusinessAccount_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupbusinessaccount_update_assigned
+"""
+
+class PriceGroupBusinessAccountUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupBusinessAccountUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PriceGroupCategory_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupcategory_update_assigned
+"""
+
+class PriceGroupCategoryUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupCategoryUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PriceGroupExcludedCategory_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupexcludedcategory_update_assigned
+"""
+
+class PriceGroupExcludedCategoryUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupExcludedCategoryUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PriceGroupExcludedProduct_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupexcludedproduct_update_assigned
+"""
+
+class PriceGroupExcludedProductUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupExcludedProductUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.PriceGroupProduct(e)
+
+	def get_price_group_products(self):
+		"""
+		Get price_group_products.
+
+		:returns: list of PriceGroupProduct
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for PriceGroupQualifyingProduct_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupqualifyingproduct_update_assigned
+"""
+
+class PriceGroupQualifyingProductUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupQualifyingProductUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PriceGroup_Delete.
+
+:see: https://docs.miva.com/json-api/functions/pricegroup_delete
+"""
+
+class PriceGroupDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for PriceGroup_Insert.
+
+:see: https://docs.miva.com/json-api/functions/pricegroup_insert
+"""
+
+class PriceGroupInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_id(self):
+		"""
+		Get id.
+
+		:returns: int
+		"""
+
+		if 'id' in self.data:
+			return self.data['id']
+		return 0
+
+
+"""
+API Response for PriceGroup_Update.
+
+:see: https://docs.miva.com/json-api/functions/pricegroup_update
+"""
+
+class PriceGroupUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for CouponCustomer_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/couponcustomer_update_assigned
+"""
+
+class CouponCustomerUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CouponCustomerUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for BusinessAccountList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/businessaccountlist_load_query
+"""
+
+class BusinessAccountListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.BusinessAccount(e)
+
+	def get_business_accounts(self):
+		"""
+		Get business_accounts.
+
+		:returns: list of BusinessAccount
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for BusinessAccount_Insert.
+
+:see: https://docs.miva.com/json-api/functions/businessaccount_insert
+"""
+
+class BusinessAccountInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for BusinessAccount_Update.
+
+:see: https://docs.miva.com/json-api/functions/businessaccount_update
+"""
+
+class BusinessAccountUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for BusinessAccountList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/businessaccountlist_delete
+"""
+
+class BusinessAccountListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_processed(self):
+		"""
+		Get processed.
+
+		:returns: int
+		"""
+
+		if 'processed' in self.data:
+			return self.data['processed']
+		return 0
+
+
+"""
+API Response for BusinessAccountCustomer_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/businessaccountcustomer_update_assigned
+"""
+
+class BusinessAccountCustomerUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountCustomerUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for StoreList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/storelist_load_query
+"""
+
+class StoreListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		StoreListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Store(e)
+
+	def get_stores(self):
+		"""
+		Get stores.
+
+		:returns: list of Store
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for Store_Load.
+
+:see: https://docs.miva.com/json-api/functions/store_load
+"""
+
+class StoreLoad(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		StoreLoad Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Store(self.data['data'])
+
+	def get_store(self) -> merchantapi.model.Store:
+		"""
+		Get store.
+
+		:returns: Store
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
+
+
+"""
+API Response for ProductVariantList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/productvariantlist_load_query
+"""
+
+class ProductVariantListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ProductVariant(e)
+
+	def get_product_variants(self):
+		"""
+		Get product_variants.
+
+		:returns: list of ProductVariant
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductVariant_Insert.
+
+:see: https://docs.miva.com/json-api/functions/productvariant_insert
+"""
+
+class ProductVariantInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_product_id(self):
+		"""
+		Get product_id.
+
+		:returns: int
+		"""
+
+		if 'data' in self.data and 'product_id' in self.data['data']:
+			return self.data['data']['product_id']
+		return 0
+
+	def get_variant_id(self):
+		"""
+		Get variant_id.
+
+		:returns: int
+		"""
+
+		if 'data' in self.data and 'variant_id' in self.data['data']:
+			return self.data['data']['variant_id']
+		return 0
+
+
+"""
+API Response for ProductVariant_Update.
+
+:see: https://docs.miva.com/json-api/functions/productvariant_update
+"""
+
+class ProductVariantUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_product_id(self):
+		"""
+		Get product_id.
+
+		:returns: int
+		"""
+
+		if 'product_id' in self.data:
+			return self.data['product_id']
+		return 0
+
+	def get_variant_id(self):
+		"""
+		Get variant_id.
+
+		:returns: int
+		"""
+
+		if 'variant_id' in self.data:
+			return self.data['variant_id']
+		return 0
+
+
+"""
+API Response for ProductVariant_Generate.
+
+:see: https://docs.miva.com/json-api/functions/productvariant_generate
+"""
+
+class ProductVariantGenerate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantGenerate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductVariant_Generate_Delimiter.
+
+:see: https://docs.miva.com/json-api/functions/productvariant_generate_delimiter
+"""
+
+class ProductVariantGenerateDelimiter(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantGenerateDelimiter Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductKitList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/productkitlist_load_query
+"""
+
+class ProductKitListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductKitListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ProductKit(e)
+
+	def get_product_kits(self):
+		"""
+		Get product_kits.
+
+		:returns: list of ProductKit
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductKit_Generate_Variants.
+
+:see: https://docs.miva.com/json-api/functions/productkit_generate_variants
+"""
+
+class ProductKitGenerateVariants(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductKitGenerateVariants Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductKit_Update_Parts.
+
+:see: https://docs.miva.com/json-api/functions/productkit_update_parts
+"""
+
+class ProductKitUpdateParts(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductKitUpdateParts Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductKit_Variant_Count.
+
+:see: https://docs.miva.com/json-api/functions/productkit_variant_count
+"""
+
+class ProductKitVariantCount(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductKitVariantCount Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_variants(self):
+		"""
+		Get variants.
+
+		:returns: int
+		"""
+
+		if 'data' in self.data and 'variants' in self.data['data']:
+			return self.data['data']['variants']
+		return 0
+
+
+"""
+API Response for RelatedProduct_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/relatedproduct_update_assigned
+"""
+
+class RelatedProductUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		RelatedProductUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.RelatedProduct(e)
+
+	def get_related_products(self):
+		"""
+		Get related_products.
+
+		:returns: list of RelatedProduct
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for InventoryProductSettings_Update.
+
+:see: https://docs.miva.com/json-api/functions/inventoryproductsettings_update
+"""
+
+class InventoryProductSettingsUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		InventoryProductSettingsUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductVariantList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/productvariantlist_delete
+"""
+
+class ProductVariantListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_processed(self):
+		"""
+		Get processed.
+
+		:returns: int
+		"""
+
+		if 'processed' in self.data:
+			return self.data['processed']
+		return 0
+
+
+"""
+API Response for ImageTypeList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/imagetypelist_load_query
+"""
+
+class ImageTypeListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ImageTypeListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ImageType(e)
+
+	def get_image_types(self):
+		"""
+		Get image_types.
+
+		:returns: list of ImageType
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductImage_Update_Type.
+
+:see: https://docs.miva.com/json-api/functions/productimage_update_type
+"""
+
+class ProductImageUpdateType(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductImageUpdateType Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplatelist_load_query
+"""
+
+class AttributeTemplateListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AttributeTemplate(e)
+
+	def get_attribute_templates(self):
+		"""
+		Get attribute_templates.
+
+		:returns: list of AttributeTemplate
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AttributeTemplateAttributeList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateattributelist_load_query
+"""
+
+class AttributeTemplateAttributeListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateAttributeListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AttributeTemplateAttribute(e)
+
+	def get_attribute_template_attributes(self):
+		"""
+		Get attribute_template_attributes.
+
+		:returns: list of AttributeTemplateAttribute
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AttributeTemplateOptionList_Load_Attribute.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateoptionlist_load_attribute
+"""
+
+class AttributeTemplateOptionListLoadAttribute(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateOptionListLoadAttribute Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and isinstance(self.data['data'], list):
+			for i, e in enumerate(self.data['data'], 0):
+				self.data['data'][i] = merchantapi.model.AttributeTemplateOption(e)
+
+	def get_attribute_template_options(self):
+		"""
+		Get attribute_template_options.
+
+		:returns: list of AttributeTemplateOption
+		"""
+
+		return self.data['data'] if self.data['data'] is not None else []
+
+
+"""
+API Response for AttributeTemplateAttribute_Delete.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateattribute_delete
+"""
+
+class AttributeTemplateAttributeDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateAttributeDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateAttribute_Insert.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateattribute_insert
+"""
+
+class AttributeTemplateAttributeInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateAttributeInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateAttribute_Update.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateattribute_update
+"""
+
+class AttributeTemplateAttributeUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateAttributeUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateOption_Delete.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateoption_delete
+"""
+
+class AttributeTemplateOptionDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateOptionDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateOption_Insert.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateoption_insert
+"""
+
+class AttributeTemplateOptionInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateOptionInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateOption_Update.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateoption_update
+"""
+
+class AttributeTemplateOptionUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateOptionUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplate_Insert.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplate_insert
+"""
+
+class AttributeTemplateInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplate_Update.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplate_update
+"""
+
+class AttributeTemplateUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplate_Delete.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplate_delete
+"""
+
+class AttributeTemplateDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateOption_Set_Default.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateoption_set_default
+"""
+
+class AttributeTemplateOptionSetDefault(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateOptionSetDefault Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for AttributeTemplateProduct_Update_Assigned.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateproduct_update_assigned
+"""
+
+class AttributeTemplateProductUpdateAssigned(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateProductUpdateAssigned Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Branch_SetPrimary.
+
+:see: https://docs.miva.com/json-api/functions/branch_setprimary
+"""
+
+class BranchSetPrimary(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BranchSetPrimary Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Branch_Update.
+
+:see: https://docs.miva.com/json-api/functions/branch_update
+"""
+
+class BranchUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BranchUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
 API Response for CategoryProductList_Load_Query.
 
 :see: https://docs.miva.com/json-api/functions/categoryproductlist_load_query
@@ -2831,6 +5200,524 @@ class OrderCouponListLoadQuery(ListQueryResponse):
 		Get order_coupons.
 
 		:returns: list of OrderCoupon
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ChildCategoryList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/childcategorylist_load_query
+"""
+
+class ChildCategoryListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ChildCategoryListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.Category(e)
+
+	def get_categories(self):
+		"""
+		Get categories.
+
+		:returns: list of Category
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AvailabilityGroupCustomerList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupcustomerlist_load_query
+"""
+
+class AvailabilityGroupCustomerListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupCustomerListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AvailabilityGroupCustomer(e)
+
+	def get_availability_group_customers(self):
+		"""
+		Get availability_group_customers.
+
+		:returns: list of AvailabilityGroupCustomer
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AvailabilityGroupProductList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupproductlist_load_query
+"""
+
+class AvailabilityGroupProductListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupProductListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AvailabilityGroupProduct(e)
+
+	def get_availability_group_products(self):
+		"""
+		Get availability_group_products.
+
+		:returns: list of AvailabilityGroupProduct
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AvailabilityGroupCategoryList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupcategorylist_load_query
+"""
+
+class AvailabilityGroupCategoryListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupCategoryListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AvailabilityGroupCategory(e)
+
+	def get_availability_group_categories(self):
+		"""
+		Get availability_group_categories.
+
+		:returns: list of AvailabilityGroupCategory
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AvailabilityGroupBusinessAccountList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/availabilitygroupbusinessaccountlist_load_query
+"""
+
+class AvailabilityGroupBusinessAccountListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AvailabilityGroupBusinessAccountListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AvailabilityGroupBusinessAccount(e)
+
+	def get_availability_group_business_accounts(self):
+		"""
+		Get availability_group_business_accounts.
+
+		:returns: list of AvailabilityGroupBusinessAccount
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupBusinessAccountList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupbusinessaccountlist_load_query
+"""
+
+class PriceGroupBusinessAccountListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupBusinessAccountListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.PriceGroupBusinessAccount(e)
+
+	def get_price_group_business_accounts(self):
+		"""
+		Get price_group_business_accounts.
+
+		:returns: list of PriceGroupBusinessAccount
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupCategoryList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupcategorylist_load_query
+"""
+
+class PriceGroupCategoryListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupCategoryListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.PriceGroupCategory(e)
+
+	def get_price_group_categories(self):
+		"""
+		Get price_group_categories.
+
+		:returns: list of PriceGroupCategory
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupExcludedCategoryList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupexcludedcategorylist_load_query
+"""
+
+class PriceGroupExcludedCategoryListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupExcludedCategoryListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.PriceGroupCategory(e)
+
+	def get_price_group_categories(self):
+		"""
+		Get price_group_categories.
+
+		:returns: list of PriceGroupCategory
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupExcludedProductList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupexcludedproductlist_load_query
+"""
+
+class PriceGroupExcludedProductListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupExcludedProductListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.PriceGroupProduct(e)
+
+	def get_price_group_products(self):
+		"""
+		Get price_group_products.
+
+		:returns: list of PriceGroupProduct
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for PriceGroupQualifyingProductList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/pricegroupqualifyingproductlist_load_query
+"""
+
+class PriceGroupQualifyingProductListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		PriceGroupQualifyingProductListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.PriceGroupProduct(e)
+
+	def get_price_group_products(self):
+		"""
+		Get price_group_products.
+
+		:returns: list of PriceGroupProduct
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for CouponCustomerList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/couponcustomerlist_load_query
+"""
+
+class CouponCustomerListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CouponCustomerListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.CouponCustomer(e)
+
+	def get_coupon_customers(self):
+		"""
+		Get coupon_customers.
+
+		:returns: list of CouponCustomer
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for BusinessAccountCustomerList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/businessaccountcustomerlist_load_query
+"""
+
+class BusinessAccountCustomerListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		BusinessAccountCustomerListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.BusinessAccountCustomer(e)
+
+	def get_business_account_customers(self):
+		"""
+		Get business_account_customers.
+
+		:returns: list of BusinessAccountCustomer
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for RelatedProductList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/relatedproductlist_load_query
+"""
+
+class RelatedProductListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		RelatedProductListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.RelatedProduct(e)
+
+	def get_related_products(self):
+		"""
+		Get related_products.
+
+		:returns: list of RelatedProduct
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for AttributeTemplateProductList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/attributetemplateproductlist_load_query
+"""
+
+class AttributeTemplateProductListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeTemplateProductListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.AttributeTemplateProduct(e)
+
+	def get_attribute_template_products(self):
+		"""
+		Get attribute_template_products.
+
+		:returns: list of AttributeTemplateProduct
 		"""
 
 		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):

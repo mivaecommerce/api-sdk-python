@@ -36,7 +36,7 @@ class ListQueryRequest(Request):
 		self.sort = None
 		self.offset = 0
 		self.count = 0
-		self.filters = []
+		self.filters = FilterExpression(self)
 		self.expressions = []
 		self.on_demand_columns = []
 		self.custom_filters = []
