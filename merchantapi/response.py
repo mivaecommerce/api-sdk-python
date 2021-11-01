@@ -4950,6 +4950,81 @@ class BranchUpdate(Response):
 
 
 """
+API Response for Attribute_CopyTemplate.
+
+:see: https://docs.miva.com/json-api/functions/attribute_copytemplate
+"""
+
+class AttributeCopyTemplate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeCopyTemplate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for Attribute_CopyLinkedTemplate.
+
+:see: https://docs.miva.com/json-api/functions/attribute_copylinkedtemplate
+"""
+
+class AttributeCopyLinkedTemplate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		AttributeCopyLinkedTemplate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for ProductAttributeAndOptionList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/productattributeandoptionlist_load_query
+"""
+
+class ProductAttributeAndOptionListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductAttributeAndOptionListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ProductAttributeListAttribute(e)
+
+	def get_attributes(self):
+		"""
+		Get attributes.
+
+		:returns: list of ProductAttributeListAttribute
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
 API Response for CategoryProductList_Load_Query.
 
 :see: https://docs.miva.com/json-api/functions/categoryproductlist_load_query

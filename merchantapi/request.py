@@ -1589,6 +1589,7 @@ class CategoryInsert(merchantapi.abstract.Request):
 			self.set_category_name(category.get_name())
 			self.set_category_active(category.get_active())
 			self.set_category_page_title(category.get_page_title())
+			self.set_category_parent_category(category.get_parent_category())
 			self.set_category_alternate_display_page(category.get_page_code())
 
 			if category.get_custom_field_values():
@@ -3472,6 +3473,7 @@ class CustomerInsert(merchantapi.abstract.Request):
 			self.set_customer_bill_state(customer.get_bill_state())
 			self.set_customer_bill_zip(customer.get_bill_zip())
 			self.set_customer_bill_country(customer.get_bill_country())
+			self.set_customer_tax_exempt(customer.get_tax_exempt())
 			self.set_customer_business_account(customer.get_business_title())
 
 			if customer.get_custom_field_values():
@@ -4243,7 +4245,7 @@ class CustomerUpdate(merchantapi.abstract.Request):
 		self.customer_bill_state = None
 		self.customer_bill_zip = None
 		self.customer_bill_country = None
-		self.customer_tax_exempt = None
+		self.customer_tax_exempt = False
 		self.customer_business_account = None
 		self.custom_field_values = merchantapi.model.CustomFieldValues()
 		if isinstance(customer, merchantapi.model.Customer):
@@ -4279,6 +4281,7 @@ class CustomerUpdate(merchantapi.abstract.Request):
 			self.set_customer_bill_state(customer.get_bill_state())
 			self.set_customer_bill_zip(customer.get_bill_zip())
 			self.set_customer_bill_country(customer.get_bill_country())
+			self.set_customer_tax_exempt(customer.get_tax_exempt())
 			self.set_customer_business_account(customer.get_business_title())
 
 			if customer.get_custom_field_values():
@@ -4563,11 +4566,11 @@ class CustomerUpdate(merchantapi.abstract.Request):
 
 		return self.customer_bill_country
 
-	def get_customer_tax_exempt(self) -> str:
+	def get_customer_tax_exempt(self) -> bool:
 		"""
 		Get Customer_Tax_Exempt.
 
-		:returns: str
+		:returns: bool
 		"""
 
 		return self.customer_tax_exempt
@@ -4920,11 +4923,11 @@ class CustomerUpdate(merchantapi.abstract.Request):
 		self.customer_bill_country = customer_bill_country
 		return self
 
-	def set_customer_tax_exempt(self, customer_tax_exempt: str) -> 'CustomerUpdate':
+	def set_customer_tax_exempt(self, customer_tax_exempt: bool) -> 'CustomerUpdate':
 		"""
 		Set Customer_Tax_Exempt.
 
-		:param customer_tax_exempt: str
+		:param customer_tax_exempt: bool
 		:returns: CustomerUpdate
 		"""
 
@@ -7419,7 +7422,8 @@ class OrderListLoadQuery(ListQueryRequest):
 		'coupons',
 		'discounts',
 		'payments',
-		'notes'
+		'notes',
+		'parts'
 	]
 
 	available_custom_filters = {
@@ -21191,7 +21195,8 @@ class CustomerAddressUpdate(merchantapi.abstract.Request):
 			self.set_first_name(customer_address.get_first_name())
 			self.set_last_name(customer_address.get_last_name())
 			self.set_email(customer_address.get_email())
-			self.set_fax(customer_address.get_phone())
+			self.set_phone(customer_address.get_phone())
+			self.set_fax(customer_address.get_fax())
 			self.set_company(customer_address.get_company())
 			self.set_address1(customer_address.get_address1())
 			self.set_address2(customer_address.get_address2())
@@ -27634,6 +27639,8 @@ class PriceGroupInsert(merchantapi.abstract.Request):
 		self.discount = None
 		self.markup = None
 		self.module_id = None
+		self.edit_module = None
+		self.module_code = None
 		self.exclusion = False
 		self.description = None
 		self.display = False
@@ -27716,6 +27723,24 @@ class PriceGroupInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.module_id
+
+	def get_edit_module(self) -> str:
+		"""
+		Get Edit_Module.
+
+		:returns: str
+		"""
+
+		return self.edit_module
+
+	def get_module_code(self) -> str:
+		"""
+		Get Module_Code.
+
+		:returns: str
+		"""
+
+		return self.module_code
 
 	def get_exclusion(self) -> bool:
 		"""
@@ -27952,6 +27977,28 @@ class PriceGroupInsert(merchantapi.abstract.Request):
 		"""
 
 		self.module_id = module_id
+		return self
+
+	def set_edit_module(self, edit_module: str) -> 'PriceGroupInsert':
+		"""
+		Set Edit_Module.
+
+		:param edit_module: str
+		:returns: PriceGroupInsert
+		"""
+
+		self.edit_module = edit_module
+		return self
+
+	def set_module_code(self, module_code: str) -> 'PriceGroupInsert':
+		"""
+		Set Module_Code.
+
+		:param module_code: str
+		:returns: PriceGroupInsert
+		"""
+
+		self.module_code = module_code
 		return self
 
 	def set_exclusion(self, exclusion: bool) -> 'PriceGroupInsert':
@@ -28201,6 +28248,13 @@ class PriceGroupInsert(merchantapi.abstract.Request):
 		data = super().to_dict()
 		data.update(self.get_module_fields())
 
+		if self.module_id is not None:
+			data['Module_ID'] = self.module_id
+		elif self.edit_module is not None:
+			data['Edit_Module'] = self.edit_module
+		elif self.module_code is not None:
+			data['Module_Code'] = self.module_code
+
 		if self.name is not None:
 			data['Name'] = self.name
 		if self.customer_scope is not None:
@@ -28211,8 +28265,6 @@ class PriceGroupInsert(merchantapi.abstract.Request):
 			data['Discount'] = self.discount
 		if self.markup is not None:
 			data['Markup'] = self.markup
-		if self.module_id is not None:
-			data['Module_ID'] = self.module_id
 		if self.exclusion is not None:
 			data['Exclusion'] = self.exclusion
 		if self.description is not None:
@@ -36432,6 +36484,587 @@ class BranchUpdate(merchantapi.abstract.Request):
 			data['Branch_Name'] = self.branch_name
 		if self.branch_color is not None:
 			data['Branch_Color'] = self.branch_color
+		return data
+
+
+"""
+Handles API Request Attribute_CopyTemplate. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/attribute_copytemplate
+"""
+
+
+class AttributeCopyTemplate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		AttributeCopyTemplate Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client)
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.attribute_template_id = None
+		self.edit_attribute_template = None
+		self.attribute_template_code = None
+		if isinstance(product, merchantapi.model.Product):
+			if product.get_id():
+				self.set_product_id(product.get_id())
+			elif product.get_code():
+				self.set_edit_product(product.get_code())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Attribute_CopyTemplate'
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_attribute_template_id(self) -> int:
+		"""
+		Get AttributeTemplate_ID.
+
+		:returns: int
+		"""
+
+		return self.attribute_template_id
+
+	def get_edit_attribute_template(self) -> str:
+		"""
+		Get Edit_AttributeTemplate.
+
+		:returns: str
+		"""
+
+		return self.edit_attribute_template
+
+	def get_attribute_template_code(self) -> str:
+		"""
+		Get AttributeTemplate_Code.
+
+		:returns: str
+		"""
+
+		return self.attribute_template_code
+
+	def set_product_id(self, product_id: int) -> 'AttributeCopyTemplate':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'AttributeCopyTemplate':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'AttributeCopyTemplate':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_attribute_template_id(self, attribute_template_id: int) -> 'AttributeCopyTemplate':
+		"""
+		Set AttributeTemplate_ID.
+
+		:param attribute_template_id: int
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.attribute_template_id = attribute_template_id
+		return self
+
+	def set_edit_attribute_template(self, edit_attribute_template: str) -> 'AttributeCopyTemplate':
+		"""
+		Set Edit_AttributeTemplate.
+
+		:param edit_attribute_template: str
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.edit_attribute_template = edit_attribute_template
+		return self
+
+	def set_attribute_template_code(self, attribute_template_code: str) -> 'AttributeCopyTemplate':
+		"""
+		Set AttributeTemplate_Code.
+
+		:param attribute_template_code: str
+		:returns: AttributeCopyTemplate
+		"""
+
+		self.attribute_template_code = attribute_template_code
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.AttributeCopyTemplate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'AttributeCopyTemplate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.AttributeCopyTemplate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.attribute_template_id is not None:
+			data['AttributeTemplate_ID'] = self.attribute_template_id
+		elif self.edit_attribute_template is not None:
+			data['Edit_AttributeTemplate'] = self.edit_attribute_template
+		elif self.attribute_template_code is not None:
+			data['AttributeTemplate_Code'] = self.attribute_template_code
+
+		return data
+
+
+"""
+Handles API Request Attribute_CopyLinkedTemplate. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/attribute_copylinkedtemplate
+"""
+
+
+class AttributeCopyLinkedTemplate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		AttributeCopyLinkedTemplate Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client)
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.attribute_id = None
+		self.edit_attribute = None
+		self.attribute_code = None
+		if isinstance(product, merchantapi.model.Product):
+			if product.get_id():
+				self.set_product_id(product.get_id())
+			elif product.get_code():
+				self.set_edit_product(product.get_code())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Attribute_CopyLinkedTemplate'
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_attribute_id(self) -> int:
+		"""
+		Get Attribute_ID.
+
+		:returns: int
+		"""
+
+		return self.attribute_id
+
+	def get_edit_attribute(self) -> str:
+		"""
+		Get Edit_Attribute.
+
+		:returns: str
+		"""
+
+		return self.edit_attribute
+
+	def get_attribute_code(self) -> str:
+		"""
+		Get Attribute_Code.
+
+		:returns: str
+		"""
+
+		return self.attribute_code
+
+	def set_product_id(self, product_id: int) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_attribute_id(self, attribute_id: int) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Attribute_ID.
+
+		:param attribute_id: int
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.attribute_id = attribute_id
+		return self
+
+	def set_edit_attribute(self, edit_attribute: str) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Edit_Attribute.
+
+		:param edit_attribute: str
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.edit_attribute = edit_attribute
+		return self
+
+	def set_attribute_code(self, attribute_code: str) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Set Attribute_Code.
+
+		:param attribute_code: str
+		:returns: AttributeCopyLinkedTemplate
+		"""
+
+		self.attribute_code = attribute_code
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.AttributeCopyLinkedTemplate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'AttributeCopyLinkedTemplate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.AttributeCopyLinkedTemplate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.attribute_id is not None:
+			data['Attribute_ID'] = self.attribute_id
+		elif self.edit_attribute is not None:
+			data['Edit_Attribute'] = self.edit_attribute
+		elif self.attribute_code is not None:
+			data['Attribute_Code'] = self.attribute_code
+
+		return data
+
+
+"""
+Handles API Request ProductAttributeAndOptionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/productattributeandoptionlist_load_query
+"""
+
+
+class ProductAttributeAndOptionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'code',
+		'prompt',
+		'price',
+		'cost',
+		'weight',
+		'image',
+		'type',
+		'template',
+		'required',
+		'inventory',
+		'attr_code',
+		'attr_prompt',
+		'attr_price',
+		'attr_cost',
+		'attr_weight',
+		'attr_image',
+		'opt_code',
+		'opt_prompt',
+		'opt_price',
+		'opt_cost',
+		'opt_weight',
+		'opt_image'
+	]
+
+	available_sort_fields = [
+		'code',
+		'prompt',
+		'price',
+		'cost',
+		'weight',
+		'image',
+		'type',
+		'required',
+		'inventory',
+		'attr_code',
+		'attr_prompt',
+		'attr_price',
+		'attr_cost',
+		'attr_weight',
+		'attr_image',
+		'opt_code',
+		'opt_prompt',
+		'opt_price',
+		'opt_cost',
+		'opt_weight',
+		'opt_image',
+		'disporder'
+	]
+
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		ProductAttributeAndOptionListLoadQuery Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client)
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		if isinstance(product, merchantapi.model.Product):
+			if product.get_id():
+				self.set_product_id(product.get_id())
+			elif product.get_code():
+				self.set_edit_product(product.get_code())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ProductAttributeAndOptionList_Load_Query'
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def set_product_id(self, product_id: int) -> 'ProductAttributeAndOptionListLoadQuery':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: ProductAttributeAndOptionListLoadQuery
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'ProductAttributeAndOptionListLoadQuery':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: ProductAttributeAndOptionListLoadQuery
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'ProductAttributeAndOptionListLoadQuery':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: ProductAttributeAndOptionListLoadQuery
+		"""
+
+		self.product_code = product_code
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ProductAttributeAndOptionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductAttributeAndOptionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ProductAttributeAndOptionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
 		return data
 
 
