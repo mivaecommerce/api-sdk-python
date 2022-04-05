@@ -256,16 +256,16 @@ class ListQueryRequest(Request):
 				raise Exception('Invalid custom filter choice for %s. Available choices are %s' %
 								(name, ", ".join(self.available_custom_filters[name])))
 		else:
-			if self.available_custom_filters[name] is 'str':
+			if self.available_custom_filters[name] == 'str':
 				if not isinstance(value, str):
 					raise Exception('Expected str but got %s' % value.__class__)
-			elif self.available_custom_filters[name] is 'int':
+			elif self.available_custom_filters[name] == 'int':
 				if not isinstance(value, int):
 					raise Exception('Expected int but got %s' % value.__class__)
-			elif self.available_custom_filters[name] is 'float':
+			elif self.available_custom_filters[name] == 'float':
 				if not isinstance(value, float):
 					raise Exception('Expected float but got %s' % value.__class__)
-			elif self.available_custom_filters[name] is 'bool':
+			elif self.available_custom_filters[name] == 'bool':
 				if not isinstance(value, bool):
 					raise Exception('Expected bool but got %s' % value.__class__)
 			else:

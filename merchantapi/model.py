@@ -1489,6 +1489,11 @@ class Product(Model):
 			else:
 				raise Exception('Expected list of ProductAttribute or dict')
 
+		self['image_types'] = {}
+		for (k,v) in self.items():
+			if 'imagetype:' in k:
+				self['image_types'][ k[ k.index(':')+1 : ] ] = v
+
 	def get_id(self) -> int:
 		"""
 		Get id.
@@ -1758,6 +1763,24 @@ class Product(Model):
 		"""
 
 		return self.get_field('attributes', [])
+
+	def get_url(self) -> str:
+		"""
+		Get url.
+
+		:returns: string
+		"""
+
+		return self.get_field('url')
+
+	def get_image_types(self) -> dict:
+		"""
+		Get imagetypes.
+
+		:returns: dict
+		"""
+
+		return self.get_field('image_types', {})
 
 	def to_dict(self) -> dict:
 		"""
@@ -3496,6 +3519,30 @@ class Order(Model):
 			else:
 				raise Exception('Expected CustomFieldValues or a dict')
 
+		if self.has_field('shipments'):
+			value = self.get_field('shipments')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, OrderShipment):
+							value[i] = OrderShipment(e)
+					else:
+						raise Exception('Expected list of OrderShipment or dict')
+			else:
+				raise Exception('Expected list of OrderShipment or dict')
+
+		if self.has_field('returns'):
+			value = self.get_field('returns')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, OrderReturn):
+							value[i] = OrderReturn(e)
+					else:
+						raise Exception('Expected list of OrderReturn or dict')
+			else:
+				raise Exception('Expected list of OrderReturn or dict')
+
 	def get_id(self) -> int:
 		"""
 		Get id.
@@ -4117,6 +4164,33 @@ class Order(Model):
 
 		return self.get_field('CustomField_Values', None)
 
+	def get_dt_updated(self) -> int:
+		"""
+		Get dt_updated.
+
+		:returns: int
+		"""
+
+		return self.get_field('dt_updated', 0)
+
+	def get_shipments(self):
+		"""
+		Get shipments.
+
+		:returns: List of OrderShipment
+		"""
+
+		return self.get_field('shipments', [])
+
+	def get_returns(self):
+		"""
+		Get returns.
+
+		:returns: List of OrderReturn
+		"""
+
+		return self.get_field('returns', [])
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -4164,6 +4238,16 @@ class Order(Model):
 
 		if 'CustomField_Values' in ret and isinstance(ret['CustomField_Values'], CustomFieldValues):
 			ret['CustomField_Values'] = ret['CustomField_Values'].to_dict()
+
+		if 'shipments' in ret and isinstance(ret['shipments'], list):
+			for i, e in enumerate(ret['shipments']):
+				if isinstance(e, OrderShipment):
+					ret['shipments'][i] = ret['shipments'][i].to_dict()
+
+		if 'returns' in ret and isinstance(ret['returns'], list):
+			for i, e in enumerate(ret['returns']):
+				if isinstance(e, OrderReturn):
+					ret['returns'][i] = ret['returns'][i].to_dict()
 
 		return ret
 
@@ -4929,15 +5013,6 @@ class OrderItem(Model):
 
 		return self.get_field('options', [])
 
-	def get_subscription(self):
-		"""
-		Get subscription.
-
-		:returns: OrderItemSubscription|None
-		"""
-
-		return self.get_field('subscription', None)
-
 	def get_total(self) -> float:
 		"""
 		Get total.
@@ -4973,6 +5048,15 @@ class OrderItem(Model):
 		"""
 
 		return self.get_field('shpmnt_id', 0)
+
+	def get_subscription(self):
+		"""
+		Get subscription.
+
+		:returns: OrderItemSubscription|None
+		"""
+
+		return self.get_field('subscription', None)
 
 	def set_code(self, code: str) -> 'OrderItem':
 		"""
@@ -5700,6 +5784,42 @@ class Subscription(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('options'):
+			value = self.get_field('options')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, SubscriptionOption):
+							value[i] = SubscriptionOption(e)
+					else:
+						raise Exception('Expected list of SubscriptionOption or dict')
+			else:
+				raise Exception('Expected list of SubscriptionOption or dict')
+
+		if self.has_field('firstdate'):
+			value = self.get_field('firstdate')
+			if isinstance(value, dict):
+				self.set_field('firstdate', value['time_t'])
+
+		if self.has_field('lastdate'):
+			value = self.get_field('lastdate')
+			if isinstance(value, dict):
+				self.set_field('lastdate', value['time_t'])
+
+		if self.has_field('nextdate'):
+			value = self.get_field('nextdate')
+			if isinstance(value, dict):
+				self.set_field('nextdate', value['time_t'])
+
+		if self.has_field('cncldate'):
+			value = self.get_field('cncldate')
+			if isinstance(value, dict):
+				self.set_field('cncldate', value['time_t'])
+
+		if self.has_field('lastafail'):
+			value = self.get_field('lastafail')
+			if isinstance(value, dict):
+				self.set_field('lastafail', value['time_t'])
 
 	def get_id(self) -> int:
 		"""
@@ -5863,14 +5983,14 @@ class Subscription(Model):
 
 		return self.get_field('message')
 
-	def get_cancel_date(self) -> str:
+	def get_cancel_date(self) -> int:
 		"""
 		Get cncldate.
 
-		:returns: string
+		:returns: int
 		"""
 
-		return self.get_field('cncldate')
+		return self.get_field('cncldate', 0)
 
 	def get_tax(self) -> float:
 		"""
@@ -5944,6 +6064,47 @@ class Subscription(Model):
 
 		return self.get_field('formatted_total')
 
+	def get_authorization_failure_count(self) -> int:
+		"""
+		Get authfails.
+
+		:returns: int
+		"""
+
+		return self.get_field('authfails', 0)
+
+	def get_last_authorization_failure(self) -> int:
+		"""
+		Get lastafail.
+
+		:returns: int
+		"""
+
+		return self.get_field('lastafail', 0)
+
+	def get_options(self):
+		"""
+		Get options.
+
+		:returns: List of SubscriptionOption
+		"""
+
+		return self.get_field('options', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'options' in ret and isinstance(ret['options'], list):
+			for i, e in enumerate(ret['options']):
+				if isinstance(e, SubscriptionOption):
+					ret['options'][i] = ret['options'][i].to_dict()
+
+		return ret
+
 
 """
 ProductSubscriptionTerm data model.
@@ -5972,6 +6133,17 @@ class ProductSubscriptionTerm(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('dates'):
+			value = self.get_field('dates')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, ProductSubscriptionTermDate):
+							value[i] = ProductSubscriptionTermDate(e)
+					else:
+						raise Exception('Expected list of ProductSubscriptionTermDate or dict')
+			else:
+				raise Exception('Expected list of ProductSubscriptionTermDate or dict')
 
 	def get_id(self) -> int:
 		"""
@@ -6053,6 +6225,29 @@ class ProductSubscriptionTerm(Model):
 		"""
 
 		return self.get_field('sub_count', 0)
+
+	def get_dates(self):
+		"""
+		Get dates.
+
+		:returns: List of ProductSubscriptionTermDate
+		"""
+
+		return self.get_field('dates', [])
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'dates' in ret and isinstance(ret['dates'], list):
+			for i, e in enumerate(ret['dates']):
+				if isinstance(e, ProductSubscriptionTermDate):
+					ret['dates'][i] = ret['dates'][i].to_dict()
+
+		return ret
 
 
 """
@@ -6888,85 +7083,6 @@ class ProductVariantDimension(Model):
 		"""
 
 		return self.get_field('option_code')
-
-
-"""
-OrderItemSubscription data model.
-"""
-
-
-class OrderItemSubscription(Model):
-	def __init__(self, data: dict = None):
-		"""
-		OrderItemSubscription Constructor
-
-		:param data: dict
-		"""
-
-		super().__init__(data)
-		if self.has_field('productsubscriptionterm'):
-			value = self.get_field('productsubscriptionterm')
-			if isinstance(value, dict):
-				if not isinstance(value, ProductSubscriptionTerm):
-					self.set_field('productsubscriptionterm', ProductSubscriptionTerm(value))
-			else:
-				raise Exception('Expected ProductSubscriptionTerm or a dict')
-
-		if self.has_field('options'):
-			value = self.get_field('options')
-			if isinstance(value, list):
-				for i, e in enumerate(value):
-					if isinstance(e, dict):
-						if not isinstance(e, SubscriptionOption):
-							value[i] = SubscriptionOption(e)
-					else:
-						raise Exception('Expected list of SubscriptionOption or dict')
-			else:
-				raise Exception('Expected list of SubscriptionOption or dict')
-
-	def get_method(self) -> str:
-		"""
-		Get method.
-
-		:returns: string
-		"""
-
-		return self.get_field('method')
-
-	def get_product_subscription_term(self):
-		"""
-		Get productsubscriptionterm.
-
-		:returns: ProductSubscriptionTerm|None
-		"""
-
-		return self.get_field('productsubscriptionterm', None)
-
-	def get_options(self):
-		"""
-		Get options.
-
-		:returns: List of SubscriptionOption
-		"""
-
-		return self.get_field('options', [])
-
-	def to_dict(self) -> dict:
-		"""
-		Reduce the model to a dict.
-		"""
-
-		ret = self.copy()
-
-		if 'productsubscriptionterm' in ret and isinstance(ret['productsubscriptionterm'], ProductSubscriptionTerm):
-			ret['productsubscriptionterm'] = ret['productsubscriptionterm'].to_dict()
-
-		if 'options' in ret and isinstance(ret['options'], list):
-			for i, e in enumerate(ret['options']):
-				if isinstance(e, SubscriptionOption):
-					ret['options'][i] = ret['options'][i].to_dict()
-
-		return ret
 
 
 """
@@ -8271,8 +8387,8 @@ class BranchTemplateVersion(Model):
 		super().__init__(data)
 		if self.has_field('settings'):
 			value = self.get_field('settings')
-			if not isinstance(value, TemplateVersionSettings):
-				self.set_field('settings', TemplateVersionSettings(value))
+			if not isinstance(value, VersionSettings):
+				self.set_field('settings', VersionSettings(value))
 
 	def get_id(self) -> int:
 		"""
@@ -8395,7 +8511,7 @@ class BranchTemplateVersion(Model):
 		"""
 		Get settings.
 
-		:returns: TemplateVersionSettings|None
+		:returns: VersionSettings|None
 		"""
 
 		return self.get_field('settings', None)
@@ -8407,21 +8523,21 @@ class BranchTemplateVersion(Model):
 
 		ret = self.copy()
 
-		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+		if 'settings' in ret and isinstance(ret['settings'], VersionSettings):
 			ret['settings'] = ret['settings'].to_dict()
 
 		return ret
 
 
 """
-TemplateVersionSettings data model.
+VersionSettings data model.
 """
 
 
-class TemplateVersionSettings(Model):
+class VersionSettings(Model):
 	def __init__(self, data: dict = None):
 		"""
-		TemplateVersionSettings Constructor
+		VersionSettings Constructor
 
 		:param data: dict
 		"""
@@ -8517,26 +8633,26 @@ class TemplateVersionSettings(Model):
 		return self.data
 
 
-	def set_item(self, item: str, value: dict) -> 'TemplateVersionSettings':
+	def set_item(self, item: str, value: dict) -> 'VersionSettings':
 		"""
 		Set a item settings dictionary
 
 		:param item: str
 		:param value: dict
-		:returns: TemplateVersionSettings
+		:returns: VersionSettings
 		"""
 
 		self[item] = value		
 		return self
 
-	def set_item_property(self, item: str, item_property: str, value) -> 'TemplateVersionSettings':
+	def set_item_property(self, item: str, item_property: str, value) -> 'VersionSettings':
 		"""
 		Set a item property value for a specific item
 
 		:param item: str
 		:param item_property: str
 		:param value: mixed
-		:returns: TemplateVersionSettings
+		:returns: VersionSettings
 		"""
 
 		if not self.has_item(item):
@@ -8658,8 +8774,8 @@ class TemplateChange(Model):
 		super().__init__(data)
 		if self.has_field('Settings'):
 			value = self.get_field('Settings')
-			if not isinstance(value, TemplateVersionSettings):
-				self.set_field('Settings', TemplateVersionSettings(value))
+			if not isinstance(value, VersionSettings):
+				self.set_field('Settings', VersionSettings(value))
 
 	def get_template_id(self) -> int:
 		"""
@@ -8692,7 +8808,7 @@ class TemplateChange(Model):
 		"""
 		Get Settings.
 
-		:returns: TemplateVersionSettings|None
+		:returns: VersionSettings|None
 		"""
 
 		return self.get_field('Settings', None)
@@ -8740,14 +8856,14 @@ class TemplateChange(Model):
 		"""
 		Set Settings.
 
-		:param settings: TemplateVersionSettings|dict
+		:param settings: VersionSettings|dict
 		:returns: TemplateChange
 		:raises Exception:
 		"""
 
-		if settings is None or isinstance(settings, TemplateVersionSettings):
+		if settings is None or isinstance(settings, VersionSettings):
 			return self.set_field('Settings', settings)
-		return self.set_field('Settings', TemplateVersionSettings(settings))
+		return self.set_field('Settings', VersionSettings(settings))
 
 	def set_notes(self, notes: str) -> 'TemplateChange':
 		"""
@@ -8766,7 +8882,7 @@ class TemplateChange(Model):
 
 		ret = self.copy()
 
-		if 'Settings' in ret and isinstance(ret['Settings'], TemplateVersionSettings):
+		if 'Settings' in ret and isinstance(ret['Settings'], VersionSettings):
 			ret['Settings'] = ret['Settings'].to_dict()
 
 		return ret
@@ -9512,8 +9628,8 @@ class PropertyChange(Model):
 		super().__init__(data)
 		if self.has_field('Settings'):
 			value = self.get_field('Settings')
-			if not isinstance(value, TemplateVersionSettings):
-				self.set_field('Settings', TemplateVersionSettings(value))
+			if not isinstance(value, VersionSettings):
+				self.set_field('Settings', VersionSettings(value))
 
 	def get_property_id(self) -> int:
 		"""
@@ -9609,10 +9725,28 @@ class PropertyChange(Model):
 		"""
 		Get Settings.
 
-		:returns: TemplateVersionSettings|None
+		:returns: VersionSettings|None
 		"""
 
 		return self.get_field('Settings', None)
+
+	def get_image(self) -> str:
+		"""
+		Get Image.
+
+		:returns: string
+		"""
+
+		return self.get_field('Image')
+
+	def get_image_id(self) -> int:
+		"""
+		Get Image_ID.
+
+		:returns: int
+		"""
+
+		return self.get_field('Image_ID', 0)
 
 	def get_notes(self) -> str:
 		"""
@@ -9727,14 +9861,34 @@ class PropertyChange(Model):
 		"""
 		Set Settings.
 
-		:param settings: TemplateVersionSettings|dict
+		:param settings: VersionSettings|dict
 		:returns: PropertyChange
 		:raises Exception:
 		"""
 
-		if settings is None or isinstance(settings, TemplateVersionSettings):
+		if settings is None or isinstance(settings, VersionSettings):
 			return self.set_field('Settings', settings)
-		return self.set_field('Settings', TemplateVersionSettings(settings))
+		return self.set_field('Settings', VersionSettings(settings))
+
+	def set_image(self, image: str) -> 'PropertyChange':
+		"""
+		Set Image.
+
+		:param image: string
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Image', image)
+
+	def set_image_id(self, image_id: int) -> 'PropertyChange':
+		"""
+		Set Image_ID.
+
+		:param image_id: int
+		:returns: PropertyChange
+		"""
+
+		return self.set_field('Image_ID', image_id)
 
 	def set_notes(self, notes: str) -> 'PropertyChange':
 		"""
@@ -9753,7 +9907,7 @@ class PropertyChange(Model):
 
 		ret = self.copy()
 
-		if 'Settings' in ret and isinstance(ret['Settings'], TemplateVersionSettings):
+		if 'Settings' in ret and isinstance(ret['Settings'], VersionSettings):
 			ret['Settings'] = ret['Settings'].to_dict()
 
 		return ret
@@ -9775,8 +9929,8 @@ class ChangesetTemplateVersion(Model):
 		super().__init__(data)
 		if self.has_field('settings'):
 			value = self.get_field('settings')
-			if not isinstance(value, TemplateVersionSettings):
-				self.set_field('settings', TemplateVersionSettings(value))
+			if not isinstance(value, VersionSettings):
+				self.set_field('settings', VersionSettings(value))
 
 	def get_id(self) -> int:
 		"""
@@ -9899,7 +10053,7 @@ class ChangesetTemplateVersion(Model):
 		"""
 		Get settings.
 
-		:returns: TemplateVersionSettings|None
+		:returns: VersionSettings|None
 		"""
 
 		return self.get_field('settings', None)
@@ -9911,7 +10065,7 @@ class ChangesetTemplateVersion(Model):
 
 		ret = self.copy()
 
-		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+		if 'settings' in ret and isinstance(ret['settings'], VersionSettings):
 			ret['settings'] = ret['settings'].to_dict()
 
 		return ret
@@ -11018,8 +11172,8 @@ class PropertyVersion(Model):
 		super().__init__(data)
 		if self.has_field('settings'):
 			value = self.get_field('settings')
-			if not isinstance(value, TemplateVersionSettings):
-				self.set_field('settings', TemplateVersionSettings(value))
+			if not isinstance(value, VersionSettings):
+				self.set_field('settings', VersionSettings(value))
 
 		if self.has_field('product'):
 			value = self.get_field('product')
@@ -11167,7 +11321,7 @@ class PropertyVersion(Model):
 		"""
 		Get settings.
 
-		:returns: TemplateVersionSettings|None
+		:returns: VersionSettings|None
 		"""
 
 		return self.get_field('settings', None)
@@ -11217,6 +11371,42 @@ class PropertyVersion(Model):
 
 		return self.get_field('source_notes')
 
+	def get_image_id(self) -> int:
+		"""
+		Get image_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('image_id', 0)
+
+	def get_image(self) -> str:
+		"""
+		Get image.
+
+		:returns: string
+		"""
+
+		return self.get_field('image')
+
+	def get_image_refcount(self) -> int:
+		"""
+		Get image_refcount.
+
+		:returns: int
+		"""
+
+		return self.get_field('image_refcount', 0)
+
+	def get_image_head_count(self) -> int:
+		"""
+		Get image_head_count.
+
+		:returns: int
+		"""
+
+		return self.get_field('image_head_count', 0)
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -11224,7 +11414,7 @@ class PropertyVersion(Model):
 
 		ret = self.copy()
 
-		if 'settings' in ret and isinstance(ret['settings'], TemplateVersionSettings):
+		if 'settings' in ret and isinstance(ret['settings'], VersionSettings):
 			ret['settings'] = ret['settings'].to_dict()
 
 		if 'product' in ret and isinstance(ret['product'], Product):
@@ -12936,6 +13126,202 @@ class ProductAttributeListTemplate(Model):
 
 
 """
+ProductSubscriptionTermDate data model.
+"""
+
+
+class ProductSubscriptionTermDate(Model):
+	def __init__(self, data: dict = None):
+		"""
+		ProductSubscriptionTermDate Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_subscription_term_id(self) -> int:
+		"""
+		Get subterm_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('subterm_id', 0)
+
+	def get_term_day_of_month(self) -> int:
+		"""
+		Get term_dom.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_dom', 0)
+
+	def get_term_month(self) -> int:
+		"""
+		Get term_mon.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_mon', 0)
+
+
+"""
+SubscriptionAttribute data model.
+"""
+
+
+class SubscriptionAttribute(Model):
+	def __init__(self, data: dict = None):
+		"""
+		SubscriptionAttribute Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_code(self) -> str:
+		"""
+		Get code.
+
+		:returns: string
+		"""
+
+		return self.get_field('code')
+
+	def get_template_code(self) -> str:
+		"""
+		Get template_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('template_code')
+
+	def get_value(self) -> str:
+		"""
+		Get value.
+
+		:returns: string
+		"""
+
+		return self.get_field('value')
+
+	def set_code(self, code: str) -> 'SubscriptionAttribute':
+		"""
+		Set code.
+
+		:param code: string
+		:returns: SubscriptionAttribute
+		"""
+
+		return self.set_field('code', code)
+
+	def set_template_code(self, template_code: str) -> 'SubscriptionAttribute':
+		"""
+		Set template_code.
+
+		:param template_code: string
+		:returns: SubscriptionAttribute
+		"""
+
+		return self.set_field('template_code', template_code)
+
+	def set_value(self, value: str) -> 'SubscriptionAttribute':
+		"""
+		Set value.
+
+		:param value: string
+		:returns: SubscriptionAttribute
+		"""
+
+		return self.set_field('value', value)
+
+
+"""
+SubscriptionShippingMethod data model.
+"""
+
+
+class SubscriptionShippingMethod(Model):
+	def __init__(self, data: dict = None):
+		"""
+		SubscriptionShippingMethod Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('module'):
+			value = self.get_field('module')
+			if isinstance(value, dict):
+				if not isinstance(value, Module):
+					self.set_field('module', Module(value))
+			else:
+				raise Exception('Expected Module or a dict')
+
+	def get_module(self):
+		"""
+		Get module.
+
+		:returns: Module|None
+		"""
+
+		return self.get_field('module', None)
+
+	def get_method_code(self) -> str:
+		"""
+		Get method_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('method_code')
+
+	def get_method_name(self) -> str:
+		"""
+		Get method_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('method_name')
+
+	def get_price(self) -> float:
+		"""
+		Get price.
+
+		:returns: float
+		"""
+
+		return self.get_field('price', 0.00)
+
+	def get_formatted_price(self) -> str:
+		"""
+		Get formatted_price.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_price')
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'module' in ret and isinstance(ret['module'], Module):
+			ret['module'] = ret['module'].to_dict()
+
+		return ret
+
+
+"""
 AvailabilityGroupCustomer data model.
 """
 
@@ -13293,6 +13679,59 @@ class PriceGroupBusinessAccount(BusinessAccount):
 
 
 """
+OrderItemSubscription data model.
+"""
+
+
+class OrderItemSubscription(Subscription):
+	def __init__(self, data: dict = None):
+		"""
+		OrderItemSubscription Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('productsubscriptionterm'):
+			value = self.get_field('productsubscriptionterm')
+			if isinstance(value, dict):
+				if not isinstance(value, ProductSubscriptionTerm):
+					self.set_field('productsubscriptionterm', ProductSubscriptionTerm(value))
+			else:
+				raise Exception('Expected ProductSubscriptionTerm or a dict')
+
+	def get_method(self) -> str:
+		"""
+		Get method.
+
+		:returns: string
+		"""
+
+		return self.get_field('method')
+
+	def get_product_subscription_term(self):
+		"""
+		Get productsubscriptionterm.
+
+		:returns: ProductSubscriptionTerm|None
+		"""
+
+		return self.get_field('productsubscriptionterm', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'productsubscriptionterm' in ret and isinstance(ret['productsubscriptionterm'], ProductSubscriptionTerm):
+			ret['productsubscriptionterm'] = ret['productsubscriptionterm'].to_dict()
+
+		return ret
+
+
+"""
 CustomerPriceGroup data model.
 """
 
@@ -13532,3 +13971,562 @@ class ChangesetPropertyVersion(PropertyVersion):
 		"""
 
 		super().__init__(data)
+
+
+"""
+CustomerSubscription data model.
+"""
+
+
+class CustomerSubscription(Subscription):
+	def __init__(self, data: dict = None):
+		"""
+		CustomerSubscription Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+		self['image_types'] = {}
+		for (k,v) in self.items():
+			if 'imagetype:' in k:
+				self['image_types'][ k[ k.index(':')+1 : ] ] = v
+
+	def get_frequency(self) -> str:
+		"""
+		Get frequency.
+
+		:returns: string
+		"""
+
+		return self.get_field('frequency')
+
+	def get_term(self) -> int:
+		"""
+		Get term.
+
+		:returns: int
+		"""
+
+		return self.get_field('term', 0)
+
+	def get_description(self) -> str:
+		"""
+		Get descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('descrip')
+
+	def get_n(self) -> int:
+		"""
+		Get n.
+
+		:returns: int
+		"""
+
+		return self.get_field('n', 0)
+
+	def get_fixed_day_of_week(self) -> int:
+		"""
+		Get fixed_dow.
+
+		:returns: int
+		"""
+
+		return self.get_field('fixed_dow', 0)
+
+	def get_fixed_day_of_month(self) -> int:
+		"""
+		Get fixed_dom.
+
+		:returns: int
+		"""
+
+		return self.get_field('fixed_dom', 0)
+
+	def get_subscription_count(self) -> int:
+		"""
+		Get sub_count.
+
+		:returns: int
+		"""
+
+		return self.get_field('sub_count', 0)
+
+	def get_method(self) -> str:
+		"""
+		Get method.
+
+		:returns: string
+		"""
+
+		return self.get_field('method')
+
+	def get_product_code(self) -> str:
+		"""
+		Get product_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_code')
+
+	def get_product_name(self) -> str:
+		"""
+		Get product_name.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_name')
+
+	def get_product_sku(self) -> str:
+		"""
+		Get product_sku.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_sku')
+
+	def get_product_price(self) -> float:
+		"""
+		Get product_price.
+
+		:returns: float
+		"""
+
+		return self.get_field('product_price', 0.00)
+
+	def get_product_formatted_price(self) -> str:
+		"""
+		Get product_formatted_price.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_formatted_price')
+
+	def get_product_cost(self) -> float:
+		"""
+		Get product_cost.
+
+		:returns: float
+		"""
+
+		return self.get_field('product_cost', 0.00)
+
+	def get_product_formatted_cost(self) -> str:
+		"""
+		Get product_formatted_cost.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_formatted_cost')
+
+	def get_product_weight(self) -> float:
+		"""
+		Get product_weight.
+
+		:returns: float
+		"""
+
+		return self.get_field('product_weight', 0.00)
+
+	def get_product_taxable(self) -> bool:
+		"""
+		Get product_taxable.
+
+		:returns: bool
+		"""
+
+		return self.get_field('product_taxable', False)
+
+	def get_product_thumbnail(self) -> str:
+		"""
+		Get product_thumbnail.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_thumbnail')
+
+	def get_product_image(self) -> str:
+		"""
+		Get product_image.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_image')
+
+	def get_product_active(self) -> bool:
+		"""
+		Get product_active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('product_active', False)
+
+	def get_product_date_time_created(self) -> int:
+		"""
+		Get product_dt_created.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_dt_created', 0)
+
+	def get_product_date_time_updated(self) -> int:
+		"""
+		Get product_dt_updated.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_dt_updated', 0)
+
+	def get_product_page_title(self) -> str:
+		"""
+		Get product_page_title.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_page_title')
+
+	def get_product_page_id(self) -> int:
+		"""
+		Get product_page_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_page_id', 0)
+
+	def get_product_page_code(self) -> str:
+		"""
+		Get product_page_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_page_code')
+
+	def get_product_canonical_category_id(self) -> int:
+		"""
+		Get product_cancat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_cancat_id', 0)
+
+	def get_product_canonical_category_code(self) -> str:
+		"""
+		Get product_cancat_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('product_cancat_code')
+
+	def get_product_inventory_active(self) -> bool:
+		"""
+		Get product_inventory_active.
+
+		:returns: bool
+		"""
+
+		return self.get_field('product_inventory_active', False)
+
+	def get_product_inventory(self) -> int:
+		"""
+		Get product_inventory.
+
+		:returns: int
+		"""
+
+		return self.get_field('product_inventory', 0)
+
+	def get_image_types(self) -> dict:
+		"""
+		Get imagetypes.
+
+		:returns: dict
+		"""
+
+		return self.get_field('image_types', {})
+
+	def get_payment_card_last_four(self) -> str:
+		"""
+		Get paymentcard_lastfour.
+
+		:returns: string
+		"""
+
+		return self.get_field('paymentcard_lastfour')
+
+	def get_payment_card_type(self) -> str:
+		"""
+		Get paymentcard_type.
+
+		:returns: string
+		"""
+
+		return self.get_field('paymentcard_type')
+
+	def get_address_descrip(self) -> str:
+		"""
+		Get address_descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_descrip')
+
+	def get_address_first_name(self) -> str:
+		"""
+		Get address_fname.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_fname')
+
+	def get_address_last_name(self) -> str:
+		"""
+		Get address_lname.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_lname')
+
+	def get_address_email(self) -> str:
+		"""
+		Get address_email.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_email')
+
+	def get_address_company(self) -> str:
+		"""
+		Get address_comp.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_comp')
+
+	def get_address_phone(self) -> str:
+		"""
+		Get address_phone.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_phone')
+
+	def get_address_fax(self) -> str:
+		"""
+		Get address_fax.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_fax')
+
+	def get_address_adress(self) -> str:
+		"""
+		Get address_addr.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_addr')
+
+	def get_address_address_1(self) -> str:
+		"""
+		Get address_addr1.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_addr1')
+
+	def get_address_address_2(self) -> str:
+		"""
+		Get address_addr2.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_addr2')
+
+	def get_address_city(self) -> str:
+		"""
+		Get address_city.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_city')
+
+	def get_address_state(self) -> str:
+		"""
+		Get address_state.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_state')
+
+	def get_address_zip(self) -> str:
+		"""
+		Get address_zip.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_zip')
+
+	def get_address_country(self) -> str:
+		"""
+		Get address_cntry.
+
+		:returns: string
+		"""
+
+		return self.get_field('address_cntry')
+
+	def get_address_residential(self) -> bool:
+		"""
+		Get address_resdntl.
+
+		:returns: bool
+		"""
+
+		return self.get_field('address_resdntl', False)
+
+	def get_customer_login(self) -> str:
+		"""
+		Get customer_login.
+
+		:returns: string
+		"""
+
+		return self.get_field('customer_login')
+
+	def get_customer_password_email(self) -> str:
+		"""
+		Get customer_pw_email.
+
+		:returns: string
+		"""
+
+		return self.get_field('customer_pw_email')
+
+	def get_customer_business_title(self) -> str:
+		"""
+		Get customer_business_title.
+
+		:returns: string
+		"""
+
+		return self.get_field('customer_business_title')
+
+
+"""
+ProductAndSubscriptionTerm data model.
+"""
+
+
+class ProductAndSubscriptionTerm(Product):
+	def __init__(self, data: dict = None):
+		"""
+		ProductAndSubscriptionTerm Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_term_id(self) -> int:
+		"""
+		Get term_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_id', 0)
+
+	def get_term_frequency(self) -> str:
+		"""
+		Get term_frequency.
+
+		:returns: string
+		"""
+
+		return self.get_field('term_frequency')
+
+	def get_term_term(self) -> int:
+		"""
+		Get term_term.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_term', 0)
+
+	def get_term_descrip(self) -> str:
+		"""
+		Get term_descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('term_descrip')
+
+	def get_term_n(self) -> int:
+		"""
+		Get term_n.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_n', 0)
+
+	def get_term_fixed_day_of_week(self) -> int:
+		"""
+		Get term_fixed_dow.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_fixed_dow', 0)
+
+	def get_term_fixed_day_of_month(self) -> int:
+		"""
+		Get term_fixed_dom.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_fixed_dom', 0)
+
+	def get_term_subscription_count(self) -> int:
+		"""
+		Get term_sub_count.
+
+		:returns: int
+		"""
+
+		return self.get_field('term_sub_count', 0)

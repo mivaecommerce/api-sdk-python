@@ -5025,6 +5025,282 @@ class ProductAttributeAndOptionListLoadQuery(ListQueryResponse):
 
 
 """
+API Response for CustomerSubscriptionList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+"""
+
+class CustomerSubscriptionListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		CustomerSubscriptionListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.CustomerSubscription(e)
+
+	def get_customer_subscriptions(self):
+		"""
+		Get customer_subscriptions.
+
+		:returns: list of CustomerSubscription
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductSubscriptionTermList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/productsubscriptiontermlist_load_query
+"""
+
+class ProductSubscriptionTermListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		ProductSubscriptionTermListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ProductSubscriptionTerm(e)
+
+	def get_product_subscription_terms(self):
+		"""
+		Get product_subscription_terms.
+
+		:returns: list of ProductSubscriptionTerm
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for SubscriptionShippingMethodList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/subscriptionshippingmethodlist_load_query
+"""
+
+class SubscriptionShippingMethodListLoadQuery(ListQueryResponse):
+	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionShippingMethodListLoadQuery Constructor.
+
+		:param request: ListQueryRequest
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.SubscriptionShippingMethod(e)
+
+	def get_subscription_shipping_methods(self):
+		"""
+		Get subscription_shipping_methods.
+
+		:returns: list of SubscriptionShippingMethod
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for Subscription_Insert.
+
+:see: https://docs.miva.com/json-api/functions/subscription_insert
+"""
+
+class SubscriptionInsert(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionInsert Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Subscription(self.data['data'])
+
+	def get_subscription(self) -> merchantapi.model.Subscription:
+		"""
+		Get subscription.
+
+		:returns: Subscription
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
+
+
+"""
+API Response for Subscription_Update.
+
+:see: https://docs.miva.com/json-api/functions/subscription_update
+"""
+
+class SubscriptionUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Subscription(self.data['data'])
+
+	def get_subscription(self) -> merchantapi.model.Subscription:
+		"""
+		Get subscription.
+
+		:returns: Subscription
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
+
+
+"""
+API Response for SubscriptionList_Delete.
+
+:see: https://docs.miva.com/json-api/functions/subscriptionlist_delete
+"""
+
+class SubscriptionListDelete(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionListDelete Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
+API Response for SubscriptionAndOrderItem_Add.
+
+:see: https://docs.miva.com/json-api/functions/subscriptionandorderitem_add
+"""
+
+class SubscriptionAndOrderItemAdd(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionAndOrderItemAdd Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_total(self):
+		"""
+		Get total.
+
+		:returns: float
+		"""
+
+		if 'total' in self.data:
+			return self.data['total']
+		return 0.00
+
+	def get_formatted_total(self):
+		"""
+		Get formatted_total.
+
+		:returns: string
+		"""
+
+		if 'formatted_total' in self.data:
+			return self.data['formatted_total']
+		return None
+
+
+"""
+API Response for SubscriptionAndOrderItem_Update.
+
+:see: https://docs.miva.com/json-api/functions/subscriptionandorderitem_update
+"""
+
+class SubscriptionAndOrderItemUpdate(Response):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		SubscriptionAndOrderItemUpdate Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+	def get_total(self):
+		"""
+		Get total.
+
+		:returns: float
+		"""
+
+		if 'total' in self.data:
+			return self.data['total']
+		return 0.00
+
+	def get_formatted_total(self):
+		"""
+		Get formatted_total.
+
+		:returns: string
+		"""
+
+		if 'formatted_total' in self.data:
+			return self.data['formatted_total']
+		return None
+
+
+"""
 API Response for CategoryProductList_Load_Query.
 
 :see: https://docs.miva.com/json-api/functions/categoryproductlist_load_query
@@ -5793,6 +6069,43 @@ class AttributeTemplateProductListLoadQuery(ListQueryResponse):
 		Get attribute_template_products.
 
 		:returns: list of AttributeTemplateProduct
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
+API Response for ProductAndSubscriptionTermList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/productandsubscriptiontermlist_load_query
+"""
+
+class ProductAndSubscriptionTermListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductAndSubscriptionTermListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.ProductAndSubscriptionTerm(e)
+
+	def get_product_and_subscription_terms(self):
+		"""
+		Get product_and_subscription_terms.
+
+		:returns: list of ProductAndSubscriptionTerm
 		"""
 
 		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):

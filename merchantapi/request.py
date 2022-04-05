@@ -7423,7 +7423,9 @@ class OrderListLoadQuery(ListQueryRequest):
 		'discounts',
 		'payments',
 		'notes',
-		'parts'
+		'parts',
+		'shipments',
+		'returns'
 	]
 
 	available_custom_filters = {
@@ -10668,7 +10670,8 @@ class ProductListLoadQuery(ListQueryRequest):
 		'categories',
 		'productshippingrules',
 		'relatedproducts',
-		'uris'
+		'uris',
+		'url'
 	]
 
 	available_custom_filters = {
@@ -16833,7 +16836,8 @@ class BranchPropertyVersionListLoadQuery(ListQueryRequest):
 		'product',
 		'category',
 		'source',
-		'source_notes'
+		'source_notes',
+		'image'
 	]
 
 	def __init__(self, client: Client = None, branch: merchantapi.model.Branch = None):
@@ -17027,7 +17031,8 @@ class ChangesetPropertyVersionListLoadQuery(ListQueryRequest):
 		'product',
 		'category',
 		'source',
-		'source_notes'
+		'source_notes',
+		'image'
 	]
 
 	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):
@@ -37069,6 +37074,2959 @@ class ProductAttributeAndOptionListLoadQuery(ListQueryRequest):
 
 
 """
+Handles API Request CustomerSubscriptionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+"""
+
+
+class CustomerSubscriptionListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'id',
+		'order_id',
+		'quantity',
+		'termrem',
+		'termproc',
+		'firstdate',
+		'lastdate',
+		'nextdate',
+		'status',
+		'message',
+		'cncldate',
+		'tax',
+		'shipping',
+		'subtotal',
+		'total',
+		'authfails',
+		'lastafail',
+		'frequency',
+		'term',
+		'descrip',
+		'n',
+		'fixed_dow',
+		'fixed_dom',
+		'sub_count',
+		'customer_login',
+		'customer_pw_email',
+		'customer_business_title',
+		'product_code',
+		'product_name',
+		'product_sku',
+		'product_price',
+		'product_cost',
+		'product_weight',
+		'product_descrip',
+		'product_taxable',
+		'product_thumbnail',
+		'product_image',
+		'product_active',
+		'product_page_title',
+		'product_cancat_code',
+		'product_page_code',
+		'address_descrip',
+		'address_fname',
+		'address_lname',
+		'address_email',
+		'address_phone',
+		'address_fax',
+		'address_comp',
+		'address_addr1',
+		'address_addr2',
+		'address_city',
+		'address_state',
+		'address_zip',
+		'address_cntry',
+		'product_inventory',
+		'product_inventory_active',
+		'product_inventory'
+	]
+
+	available_sort_fields = [
+		'id',
+		'order_id',
+		'custpc_id',
+		'quantity',
+		'termrem',
+		'termproc',
+		'firstdate',
+		'lastdate',
+		'nextdate',
+		'status',
+		'message',
+		'cncldate',
+		'tax',
+		'shipping',
+		'subtotal',
+		'total',
+		'authfails',
+		'lastafail',
+		'frequency',
+		'term',
+		'descrip',
+		'n',
+		'fixed_dow',
+		'fixed_dom',
+		'sub_count',
+		'customer_login',
+		'customer_pw_email',
+		'customer_business_title',
+		'product_code',
+		'product_name',
+		'product_sku',
+		'product_cancat_code',
+		'product_page_code',
+		'product_price',
+		'product_cost',
+		'product_weight',
+		'product_descrip',
+		'product_taxable',
+		'product_thumbnail',
+		'product_image',
+		'product_active',
+		'product_page_title',
+		'address_descrip',
+		'address_fname',
+		'address_lname',
+		'address_email',
+		'address_phone',
+		'address_fax',
+		'address_comp',
+		'address_addr1',
+		'address_addr2',
+		'address_city',
+		'address_state',
+		'address_zip',
+		'address_cntry',
+		'product_inventory'
+	]
+
+	available_on_demand_columns = [
+		'imagetypes',
+		'imagetype_count',
+		'product_descrip'
+	]
+
+	def __init__(self, client: Client = None, customer: merchantapi.model.Customer = None):
+		"""
+		CustomerSubscriptionListLoadQuery Constructor.
+
+		:param client: Client
+		:param customer: Customer
+		"""
+
+		super().__init__(client)
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.custom_field_values = merchantapi.model.CustomFieldValues()
+		if isinstance(customer, merchantapi.model.Customer):
+			if customer.get_id():
+				self.set_customer_id(customer.get_id())
+			elif customer.get_login():
+				self.set_edit_customer(customer.get_login())
+
+
+			if customer.get_custom_field_values():
+				self.set_custom_field_values(customer.get_custom_field_values())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'CustomerSubscriptionList_Load_Query'
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_custom_field_values(self) -> merchantapi.model.CustomFieldValues:
+		"""
+		Get CustomField_Values.
+
+		:returns: CustomFieldValues}|None
+		"""
+
+		return self.custom_field_values
+
+	def set_customer_id(self, customer_id: int) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_custom_field_values(self, custom_field_values: merchantapi.model.CustomFieldValues) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set CustomField_Values.
+
+		:param custom_field_values: CustomFieldValues}|None
+		:raises Exception:
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		if not isinstance(custom_field_values, merchantapi.model.CustomFieldValues):
+			raise Exception("")
+		self.custom_field_values = custom_field_values
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.CustomerSubscriptionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.CustomerSubscriptionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.custom_field_values is not None:
+			data['CustomField_Values'] = self.custom_field_values.to_dict()
+		return data
+
+
+"""
+Handles API Request ProductSubscriptionTermList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/productsubscriptiontermlist_load_query
+"""
+
+
+class ProductSubscriptionTermListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'frequency',
+		'term',
+		'descrip',
+		'n',
+		'fixed_dow',
+		'fixed_dom',
+		'sub_count'
+	]
+
+	available_sort_fields = [
+		'id',
+		'frequency',
+		'term',
+		'descrip',
+		'n',
+		'frequency',
+		'fixed_dow',
+		'fixed_dom',
+		'sub_count',
+		'disp_order'
+	]
+
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		ProductSubscriptionTermListLoadQuery Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client)
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		if isinstance(product, merchantapi.model.Product):
+			if product.get_id():
+				self.set_product_id(product.get_id())
+			elif product.get_code():
+				self.set_edit_product(product.get_code())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ProductSubscriptionTermList_Load_Query'
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def set_product_id(self, product_id: int) -> 'ProductSubscriptionTermListLoadQuery':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: ProductSubscriptionTermListLoadQuery
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'ProductSubscriptionTermListLoadQuery':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: ProductSubscriptionTermListLoadQuery
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'ProductSubscriptionTermListLoadQuery':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: ProductSubscriptionTermListLoadQuery
+		"""
+
+		self.product_code = product_code
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ProductSubscriptionTermListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductSubscriptionTermListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ProductSubscriptionTermListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		return data
+
+
+"""
+Handles API Request SubscriptionShippingMethodList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscriptionshippingmethodlist_load_query
+"""
+
+
+class SubscriptionShippingMethodListLoadQuery(ListQueryRequest):
+
+	available_search_fields = [
+		'method',
+		'price'
+	]
+
+	available_sort_fields = [
+		'method',
+		'price'
+	]
+
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		SubscriptionShippingMethodListLoadQuery Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client)
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.product_subscription_term_id = None
+		self.product_subscription_term_description = None
+		self.customer_address_id = None
+		self.address_id = None
+		self.payment_card_id = None
+		self.customer_payment_card_id = None
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.attributes = []
+		self.quantity = None
+		if isinstance(product, merchantapi.model.Product):
+			if product.get_id():
+				self.set_product_id(product.get_id())
+			elif product.get_code():
+				self.set_edit_product(product.get_code())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'SubscriptionShippingMethodList_Load_Query'
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_product_subscription_term_id(self) -> int:
+		"""
+		Get ProductSubscriptionTerm_ID.
+
+		:returns: int
+		"""
+
+		return self.product_subscription_term_id
+
+	def get_product_subscription_term_description(self) -> str:
+		"""
+		Get ProductSubscriptionTerm_Description.
+
+		:returns: str
+		"""
+
+		return self.product_subscription_term_description
+
+	def get_customer_address_id(self) -> int:
+		"""
+		Get CustomerAddress_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_address_id
+
+	def get_address_id(self) -> int:
+		"""
+		Get Address_ID.
+
+		:returns: int
+		"""
+
+		return self.address_id
+
+	def get_payment_card_id(self) -> int:
+		"""
+		Get PaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.payment_card_id
+
+	def get_customer_payment_card_id(self) -> int:
+		"""
+		Get CustomerPaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_payment_card_id
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_attributes(self) -> list:
+		"""
+		Get Attributes.
+
+		:returns: List of SubscriptionAttribute
+		"""
+
+		return self.attributes
+
+	def get_quantity(self) -> int:
+		"""
+		Get Quantity.
+
+		:returns: int
+		"""
+
+		return self.quantity
+
+	def set_product_id(self, product_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_product_subscription_term_id(self, product_subscription_term_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set ProductSubscriptionTerm_ID.
+
+		:param product_subscription_term_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.product_subscription_term_id = product_subscription_term_id
+		return self
+
+	def set_product_subscription_term_description(self, product_subscription_term_description: str) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set ProductSubscriptionTerm_Description.
+
+		:param product_subscription_term_description: str
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.product_subscription_term_description = product_subscription_term_description
+		return self
+
+	def set_customer_address_id(self, customer_address_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set CustomerAddress_ID.
+
+		:param customer_address_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.customer_address_id = customer_address_id
+		return self
+
+	def set_address_id(self, address_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Address_ID.
+
+		:param address_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.address_id = address_id
+		return self
+
+	def set_payment_card_id(self, payment_card_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set PaymentCard_ID.
+
+		:param payment_card_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.payment_card_id = payment_card_id
+		return self
+
+	def set_customer_payment_card_id(self, customer_payment_card_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set CustomerPaymentCard_ID.
+
+		:param customer_payment_card_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.customer_payment_card_id = customer_payment_card_id
+		return self
+
+	def set_customer_id(self, customer_id: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_attributes(self, attributes: list) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Attributes.
+
+		:param attributes: {SubscriptionAttribute[]}
+		:raises Exception:
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception("")
+		self.attributes = attributes
+		return self
+
+	def set_quantity(self, quantity: int) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Set Quantity.
+
+		:param quantity: int
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		self.quantity = quantity
+		return self
+	
+	def add_subscription_attribute(self, subscription_attribute) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Add Attributes.
+
+		:param subscription_attribute: SubscriptionAttribute 
+		:raises Exception:
+		:returns: {SubscriptionShippingMethodListLoadQuery}
+		"""
+
+		if isinstance(subscription_attribute, merchantapi.model.SubscriptionAttribute):
+			self.attributes.append(subscription_attribute)
+		elif isinstance(subscription_attribute, dict):
+			self.attributes.append(merchantapi.model.SubscriptionAttribute(subscription_attribute))
+		else:
+			raise Exception('Expected instance of SubscriptionAttribute or dict')
+		return self
+
+	def add_attributes(self, attributes: list) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Add many SubscriptionAttribute.
+
+		:param attributes: List of SubscriptionAttribute
+		:raises Exception:
+		:returns: SubscriptionShippingMethodListLoadQuery
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception('')
+			self.attributes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionShippingMethodListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionShippingMethodListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionShippingMethodListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.product_subscription_term_id is not None:
+			data['ProductSubscriptionTerm_ID'] = self.product_subscription_term_id
+		elif self.product_subscription_term_description is not None:
+			data['ProductSubscriptionTerm_Description'] = self.product_subscription_term_description
+
+		if self.customer_address_id is not None:
+			data['CustomerAddress_ID'] = self.customer_address_id
+		elif self.address_id is not None:
+			data['Address_ID'] = self.address_id
+
+		if self.payment_card_id is not None:
+			data['PaymentCard_ID'] = self.payment_card_id
+		elif self.customer_payment_card_id is not None:
+			data['CustomerPaymentCard_ID'] = self.customer_payment_card_id
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if len(self.attributes):
+			data['Attributes'] = []
+
+			for f in self.attributes:
+				data['Attributes'].append(f.to_dict())
+		data['Quantity'] = self.quantity
+		return data
+
+
+"""
+Handles API Request Subscription_Insert. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscription_insert
+"""
+
+
+class SubscriptionInsert(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		SubscriptionInsert Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.address_id = None
+		self.customer_address_id = None
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.product_subscription_term_id = None
+		self.product_subscription_term_description = None
+		self.quantity = None
+		self.next_date = None
+		self.payment_card_id = None
+		self.ship_id = None
+		self.ship_data = None
+		self.attributes = []
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Subscription_Insert'
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_address_id(self) -> int:
+		"""
+		Get Address_ID.
+
+		:returns: int
+		"""
+
+		return self.address_id
+
+	def get_customer_address_id(self) -> int:
+		"""
+		Get CustomerAddress_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_address_id
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_product_subscription_term_id(self) -> int:
+		"""
+		Get ProductSubscriptionTerm_ID.
+
+		:returns: int
+		"""
+
+		return self.product_subscription_term_id
+
+	def get_product_subscription_term_description(self) -> str:
+		"""
+		Get ProductSubscriptionTerm_Description.
+
+		:returns: str
+		"""
+
+		return self.product_subscription_term_description
+
+	def get_quantity(self) -> int:
+		"""
+		Get Quantity.
+
+		:returns: int
+		"""
+
+		return self.quantity
+
+	def get_next_date(self) -> int:
+		"""
+		Get NextDate.
+
+		:returns: int
+		"""
+
+		return self.next_date
+
+	def get_payment_card_id(self) -> int:
+		"""
+		Get PaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.payment_card_id
+
+	def get_ship_id(self) -> int:
+		"""
+		Get Ship_ID.
+
+		:returns: int
+		"""
+
+		return self.ship_id
+
+	def get_ship_data(self) -> str:
+		"""
+		Get Ship_Data.
+
+		:returns: str
+		"""
+
+		return self.ship_data
+
+	def get_attributes(self) -> list:
+		"""
+		Get Attributes.
+
+		:returns: List of SubscriptionAttribute
+		"""
+
+		return self.attributes
+
+	def set_customer_id(self, customer_id: int) -> 'SubscriptionInsert':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'SubscriptionInsert':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'SubscriptionInsert':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_address_id(self, address_id: int) -> 'SubscriptionInsert':
+		"""
+		Set Address_ID.
+
+		:param address_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.address_id = address_id
+		return self
+
+	def set_customer_address_id(self, customer_address_id: int) -> 'SubscriptionInsert':
+		"""
+		Set CustomerAddress_ID.
+
+		:param customer_address_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.customer_address_id = customer_address_id
+		return self
+
+	def set_product_id(self, product_id: int) -> 'SubscriptionInsert':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'SubscriptionInsert':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'SubscriptionInsert':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_product_subscription_term_id(self, product_subscription_term_id: int) -> 'SubscriptionInsert':
+		"""
+		Set ProductSubscriptionTerm_ID.
+
+		:param product_subscription_term_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.product_subscription_term_id = product_subscription_term_id
+		return self
+
+	def set_product_subscription_term_description(self, product_subscription_term_description: str) -> 'SubscriptionInsert':
+		"""
+		Set ProductSubscriptionTerm_Description.
+
+		:param product_subscription_term_description: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.product_subscription_term_description = product_subscription_term_description
+		return self
+
+	def set_quantity(self, quantity: int) -> 'SubscriptionInsert':
+		"""
+		Set Quantity.
+
+		:param quantity: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.quantity = quantity
+		return self
+
+	def set_next_date(self, next_date: int) -> 'SubscriptionInsert':
+		"""
+		Set NextDate.
+
+			Missing time_struct
+		:returns: SubscriptionInsert
+		"""
+
+		self.next_date = next_date
+		return self
+
+	def set_payment_card_id(self, payment_card_id: int) -> 'SubscriptionInsert':
+		"""
+		Set PaymentCard_ID.
+
+		:param payment_card_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.payment_card_id = payment_card_id
+		return self
+
+	def set_ship_id(self, ship_id: int) -> 'SubscriptionInsert':
+		"""
+		Set Ship_ID.
+
+		:param ship_id: int
+		:returns: SubscriptionInsert
+		"""
+
+		self.ship_id = ship_id
+		return self
+
+	def set_ship_data(self, ship_data: str) -> 'SubscriptionInsert':
+		"""
+		Set Ship_Data.
+
+		:param ship_data: str
+		:returns: SubscriptionInsert
+		"""
+
+		self.ship_data = ship_data
+		return self
+
+	def set_attributes(self, attributes: list) -> 'SubscriptionInsert':
+		"""
+		Set Attributes.
+
+		:param attributes: {SubscriptionAttribute[]}
+		:raises Exception:
+		:returns: SubscriptionInsert
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception("")
+		self.attributes = attributes
+		return self
+	
+	def add_attribute(self, attribute) -> 'SubscriptionInsert':
+		"""
+		Add Attributes.
+
+		:param attribute: SubscriptionAttribute 
+		:raises Exception:
+		:returns: {SubscriptionInsert}
+		"""
+
+		if isinstance(attribute, merchantapi.model.SubscriptionAttribute):
+			self.attributes.append(attribute)
+		elif isinstance(attribute, dict):
+			self.attributes.append(merchantapi.model.SubscriptionAttribute(attribute))
+		else:
+			raise Exception('Expected instance of SubscriptionAttribute or dict')
+		return self
+
+	def add_attributes(self, attributes: list) -> 'SubscriptionInsert':
+		"""
+		Add many SubscriptionAttribute.
+
+		:param attributes: List of SubscriptionAttribute
+		:raises Exception:
+		:returns: SubscriptionInsert
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception('')
+			self.attributes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionInsert':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionInsert':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionInsert(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.product_subscription_term_id is not None:
+			data['ProductSubscriptionTerm_ID'] = self.product_subscription_term_id
+		elif self.product_subscription_term_description is not None:
+			data['ProductSubscriptionTerm_Description'] = self.product_subscription_term_description
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.address_id is not None:
+			data['Address_ID'] = self.address_id
+		elif self.customer_address_id is not None:
+			data['CustomerAddress_ID'] = self.customer_address_id
+
+		data['Quantity'] = self.quantity
+		data['NextDate'] = self.next_date
+		if self.payment_card_id is not None:
+			data['PaymentCard_ID'] = self.payment_card_id
+		if self.ship_id is not None:
+			data['Ship_ID'] = self.ship_id
+		if self.ship_data is not None:
+			data['Ship_Data'] = self.ship_data
+		if len(self.attributes):
+			data['Attributes'] = []
+
+			for f in self.attributes:
+				data['Attributes'].append(f.to_dict())
+		return data
+
+
+"""
+Handles API Request Subscription_Update. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscription_update
+"""
+
+
+class SubscriptionUpdate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None, subscription: merchantapi.model.Subscription = None):
+		"""
+		SubscriptionUpdate Constructor.
+
+		:param client: Client
+		:param subscription: Subscription
+		"""
+
+		super().__init__(client)
+		self.subscription_id = None
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.address_id = None
+		self.customer_address_id = None
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.product_subscription_term_id = None
+		self.product_subscription_term_description = None
+		self.quantity = None
+		self.next_date = None
+		self.payment_card_id = None
+		self.ship_id = None
+		self.ship_data = None
+		self.attributes = []
+		if isinstance(subscription, merchantapi.model.Subscription):
+			if subscription.get_id():
+				self.set_subscription_id(subscription.get_id())
+
+			self.set_subscription_id(subscription.get_id())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'Subscription_Update'
+
+	def get_subscription_id(self) -> int:
+		"""
+		Get Subscription_ID.
+
+		:returns: int
+		"""
+
+		return self.subscription_id
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_address_id(self) -> int:
+		"""
+		Get Address_ID.
+
+		:returns: int
+		"""
+
+		return self.address_id
+
+	def get_customer_address_id(self) -> int:
+		"""
+		Get CustomerAddress_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_address_id
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_product_subscription_term_id(self) -> int:
+		"""
+		Get ProductSubscriptionTerm_ID.
+
+		:returns: int
+		"""
+
+		return self.product_subscription_term_id
+
+	def get_product_subscription_term_description(self) -> str:
+		"""
+		Get ProductSubscriptionTerm_Description.
+
+		:returns: str
+		"""
+
+		return self.product_subscription_term_description
+
+	def get_quantity(self) -> int:
+		"""
+		Get Quantity.
+
+		:returns: int
+		"""
+
+		return self.quantity
+
+	def get_next_date(self) -> int:
+		"""
+		Get NextDate.
+
+		:returns: int
+		"""
+
+		return self.next_date
+
+	def get_payment_card_id(self) -> int:
+		"""
+		Get PaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.payment_card_id
+
+	def get_ship_id(self) -> int:
+		"""
+		Get Ship_ID.
+
+		:returns: int
+		"""
+
+		return self.ship_id
+
+	def get_ship_data(self) -> str:
+		"""
+		Get Ship_Data.
+
+		:returns: str
+		"""
+
+		return self.ship_data
+
+	def get_attributes(self) -> list:
+		"""
+		Get Attributes.
+
+		:returns: List of SubscriptionAttribute
+		"""
+
+		return self.attributes
+
+	def set_subscription_id(self, subscription_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set Subscription_ID.
+
+		:param subscription_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.subscription_id = subscription_id
+		return self
+
+	def set_customer_id(self, customer_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'SubscriptionUpdate':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'SubscriptionUpdate':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_address_id(self, address_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set Address_ID.
+
+		:param address_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.address_id = address_id
+		return self
+
+	def set_customer_address_id(self, customer_address_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set CustomerAddress_ID.
+
+		:param customer_address_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.customer_address_id = customer_address_id
+		return self
+
+	def set_product_id(self, product_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'SubscriptionUpdate':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'SubscriptionUpdate':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_product_subscription_term_id(self, product_subscription_term_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set ProductSubscriptionTerm_ID.
+
+		:param product_subscription_term_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.product_subscription_term_id = product_subscription_term_id
+		return self
+
+	def set_product_subscription_term_description(self, product_subscription_term_description: str) -> 'SubscriptionUpdate':
+		"""
+		Set ProductSubscriptionTerm_Description.
+
+		:param product_subscription_term_description: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.product_subscription_term_description = product_subscription_term_description
+		return self
+
+	def set_quantity(self, quantity: int) -> 'SubscriptionUpdate':
+		"""
+		Set Quantity.
+
+		:param quantity: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.quantity = quantity
+		return self
+
+	def set_next_date(self, next_date: int) -> 'SubscriptionUpdate':
+		"""
+		Set NextDate.
+
+		:param next_date: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.next_date = next_date
+		return self
+
+	def set_payment_card_id(self, payment_card_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set PaymentCard_ID.
+
+		:param payment_card_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.payment_card_id = payment_card_id
+		return self
+
+	def set_ship_id(self, ship_id: int) -> 'SubscriptionUpdate':
+		"""
+		Set Ship_ID.
+
+		:param ship_id: int
+		:returns: SubscriptionUpdate
+		"""
+
+		self.ship_id = ship_id
+		return self
+
+	def set_ship_data(self, ship_data: str) -> 'SubscriptionUpdate':
+		"""
+		Set Ship_Data.
+
+		:param ship_data: str
+		:returns: SubscriptionUpdate
+		"""
+
+		self.ship_data = ship_data
+		return self
+
+	def set_attributes(self, attributes: list) -> 'SubscriptionUpdate':
+		"""
+		Set Attributes.
+
+		:param attributes: {SubscriptionAttribute[]}
+		:raises Exception:
+		:returns: SubscriptionUpdate
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception("")
+		self.attributes = attributes
+		return self
+	
+	def add_attribute(self, attribute) -> 'SubscriptionUpdate':
+		"""
+		Add Attributes.
+
+		:param attribute: SubscriptionAttribute 
+		:raises Exception:
+		:returns: {SubscriptionUpdate}
+		"""
+
+		if isinstance(attribute, merchantapi.model.SubscriptionAttribute):
+			self.attributes.append(attribute)
+		elif isinstance(attribute, dict):
+			self.attributes.append(merchantapi.model.SubscriptionAttribute(attribute))
+		else:
+			raise Exception('Expected instance of SubscriptionAttribute or dict')
+		return self
+
+	def add_attributes(self, attributes: list) -> 'SubscriptionUpdate':
+		"""
+		Add many SubscriptionAttribute.
+
+		:param attributes: List of SubscriptionAttribute
+		:raises Exception:
+		:returns: SubscriptionUpdate
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception('')
+			self.attributes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionUpdate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionUpdate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionUpdate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.subscription_id is not None:
+			data['Subscription_ID'] = self.subscription_id
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.product_subscription_term_id is not None:
+			data['ProductSubscriptionTerm_ID'] = self.product_subscription_term_id
+		elif self.product_subscription_term_description is not None:
+			data['ProductSubscriptionTerm_Description'] = self.product_subscription_term_description
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.address_id is not None:
+			data['Address_ID'] = self.address_id
+		elif self.customer_address_id is not None:
+			data['CustomerAddress_ID'] = self.customer_address_id
+
+		if self.subscription_id is not None:
+			data['Subscription_ID'] = self.subscription_id
+		data['Quantity'] = self.quantity
+		data['NextDate'] = self.next_date
+		if self.payment_card_id is not None:
+			data['PaymentCard_ID'] = self.payment_card_id
+		if self.ship_id is not None:
+			data['Ship_ID'] = self.ship_id
+		if self.ship_data is not None:
+			data['Ship_Data'] = self.ship_data
+		if len(self.attributes):
+			data['Attributes'] = []
+
+			for f in self.attributes:
+				data['Attributes'].append(f.to_dict())
+		return data
+
+
+"""
+Handles API Request SubscriptionList_Delete. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscriptionlist_delete
+"""
+
+
+class SubscriptionListDelete(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		SubscriptionListDelete Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.subscription_ids = []
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'SubscriptionList_Delete'
+
+	def get_subscription_ids(self):
+		"""
+		Get Subscription_IDs.
+
+		:returns: list
+		"""
+
+		return self.subscription_ids
+	
+	def add_subscription_id(self, subscription_id) -> 'SubscriptionListDelete':
+		"""
+		Add Subscription_IDs.
+
+		:param subscription_id: int
+		:returns: {SubscriptionListDelete}
+		"""
+
+		self.subscription_ids.append(subscription_id)
+		return self
+
+	def add_subscription(self, subscription: merchantapi.model.Subscription) -> 'SubscriptionListDelete':
+		"""
+		Add Subscription model.
+
+		:param subscription: Subscription
+		:raises Exception:
+		:returns: SubscriptionListDelete
+		"""
+		if not isinstance(subscription, merchantapi.model.Subscription):
+			raise Exception('Expected an instance of Subscription')
+
+		if subscription.get_id():
+			self.subscription_ids.append(subscription.get_id())
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionListDelete':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionListDelete':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionListDelete(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		data['Subscription_IDs'] = self.subscription_ids
+		return data
+
+
+"""
+Handles API Request SubscriptionAndOrderItem_Add. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscriptionandorderitem_add
+"""
+
+
+class SubscriptionAndOrderItemAdd(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		SubscriptionAndOrderItemAdd Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.address_id = None
+		self.customer_address_id = None
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.product_subscription_term_id = None
+		self.product_subscription_term_description = None
+		self.quantity = None
+		self.next_date = None
+		self.payment_card_id = None
+		self.ship_id = None
+		self.ship_data = None
+		self.attributes = []
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'SubscriptionAndOrderItem_Add'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_address_id(self) -> int:
+		"""
+		Get Address_ID.
+
+		:returns: int
+		"""
+
+		return self.address_id
+
+	def get_customer_address_id(self) -> int:
+		"""
+		Get CustomerAddress_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_address_id
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_product_subscription_term_id(self) -> int:
+		"""
+		Get ProductSubscriptionTerm_ID.
+
+		:returns: int
+		"""
+
+		return self.product_subscription_term_id
+
+	def get_product_subscription_term_description(self) -> str:
+		"""
+		Get ProductSubscriptionTerm_Description.
+
+		:returns: str
+		"""
+
+		return self.product_subscription_term_description
+
+	def get_quantity(self) -> int:
+		"""
+		Get Quantity.
+
+		:returns: int
+		"""
+
+		return self.quantity
+
+	def get_next_date(self) -> int:
+		"""
+		Get NextDate.
+
+		:returns: int
+		"""
+
+		return self.next_date
+
+	def get_payment_card_id(self) -> int:
+		"""
+		Get PaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.payment_card_id
+
+	def get_ship_id(self) -> int:
+		"""
+		Get Ship_ID.
+
+		:returns: int
+		"""
+
+		return self.ship_id
+
+	def get_ship_data(self) -> str:
+		"""
+		Get Ship_Data.
+
+		:returns: str
+		"""
+
+		return self.ship_data
+
+	def get_attributes(self) -> list:
+		"""
+		Get Attributes.
+
+		:returns: List of SubscriptionAttribute
+		"""
+
+		return self.attributes
+
+	def set_order_id(self, order_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_customer_id(self, customer_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_address_id(self, address_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Address_ID.
+
+		:param address_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.address_id = address_id
+		return self
+
+	def set_customer_address_id(self, customer_address_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set CustomerAddress_ID.
+
+		:param customer_address_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.customer_address_id = customer_address_id
+		return self
+
+	def set_product_id(self, product_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_product_subscription_term_id(self, product_subscription_term_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set ProductSubscriptionTerm_ID.
+
+		:param product_subscription_term_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.product_subscription_term_id = product_subscription_term_id
+		return self
+
+	def set_product_subscription_term_description(self, product_subscription_term_description: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set ProductSubscriptionTerm_Description.
+
+		:param product_subscription_term_description: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.product_subscription_term_description = product_subscription_term_description
+		return self
+
+	def set_quantity(self, quantity: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Quantity.
+
+		:param quantity: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.quantity = quantity
+		return self
+
+	def set_next_date(self, next_date: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set NextDate.
+
+		:param next_date: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.next_date = next_date
+		return self
+
+	def set_payment_card_id(self, payment_card_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set PaymentCard_ID.
+
+		:param payment_card_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.payment_card_id = payment_card_id
+		return self
+
+	def set_ship_id(self, ship_id: int) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Ship_ID.
+
+		:param ship_id: int
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.ship_id = ship_id
+		return self
+
+	def set_ship_data(self, ship_data: str) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Ship_Data.
+
+		:param ship_data: str
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		self.ship_data = ship_data
+		return self
+
+	def set_attributes(self, attributes: list) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Set Attributes.
+
+		:param attributes: {SubscriptionAttribute[]}
+		:raises Exception:
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception("")
+		self.attributes = attributes
+		return self
+	
+	def add_attribute(self, attribute) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Add Attributes.
+
+		:param attribute: SubscriptionAttribute 
+		:raises Exception:
+		:returns: {SubscriptionAndOrderItemAdd}
+		"""
+
+		if isinstance(attribute, merchantapi.model.SubscriptionAttribute):
+			self.attributes.append(attribute)
+		elif isinstance(attribute, dict):
+			self.attributes.append(merchantapi.model.SubscriptionAttribute(attribute))
+		else:
+			raise Exception('Expected instance of SubscriptionAttribute or dict')
+		return self
+
+	def add_attributes(self, attributes: list) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Add many SubscriptionAttribute.
+
+		:param attributes: List of SubscriptionAttribute
+		:raises Exception:
+		:returns: SubscriptionAndOrderItemAdd
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception('')
+			self.attributes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionAndOrderItemAdd':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionAndOrderItemAdd':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionAndOrderItemAdd(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.product_subscription_term_id is not None:
+			data['ProductSubscriptionTerm_ID'] = self.product_subscription_term_id
+		elif self.product_subscription_term_description is not None:
+			data['ProductSubscriptionTerm_Description'] = self.product_subscription_term_description
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.address_id is not None:
+			data['Address_ID'] = self.address_id
+		elif self.customer_address_id is not None:
+			data['CustomerAddress_ID'] = self.customer_address_id
+
+		data['Quantity'] = self.quantity
+		data['NextDate'] = self.next_date
+		if self.payment_card_id is not None:
+			data['PaymentCard_ID'] = self.payment_card_id
+		if self.ship_id is not None:
+			data['Ship_ID'] = self.ship_id
+		if self.ship_data is not None:
+			data['Ship_Data'] = self.ship_data
+		if len(self.attributes):
+			data['Attributes'] = []
+
+			for f in self.attributes:
+				data['Attributes'].append(f.to_dict())
+		return data
+
+
+"""
+Handles API Request SubscriptionAndOrderItem_Update. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/subscriptionandorderitem_update
+"""
+
+
+class SubscriptionAndOrderItemUpdate(merchantapi.abstract.Request):
+	def __init__(self, client: Client = None):
+		"""
+		SubscriptionAndOrderItemUpdate Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+		self.order_id = None
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.address_id = None
+		self.customer_address_id = None
+		self.product_id = None
+		self.edit_product = None
+		self.product_code = None
+		self.product_subscription_term_id = None
+		self.product_subscription_term_description = None
+		self.quantity = None
+		self.next_date = None
+		self.payment_card_id = None
+		self.ship_id = None
+		self.ship_data = None
+		self.attributes = []
+		self.line_id = None
+		self.subscription_id = None
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'SubscriptionAndOrderItem_Update'
+
+	def get_order_id(self) -> int:
+		"""
+		Get Order_ID.
+
+		:returns: int
+		"""
+
+		return self.order_id
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_address_id(self) -> int:
+		"""
+		Get Address_ID.
+
+		:returns: int
+		"""
+
+		return self.address_id
+
+	def get_customer_address_id(self) -> int:
+		"""
+		Get CustomerAddress_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_address_id
+
+	def get_product_id(self) -> int:
+		"""
+		Get Product_ID.
+
+		:returns: int
+		"""
+
+		return self.product_id
+
+	def get_edit_product(self) -> str:
+		"""
+		Get Edit_Product.
+
+		:returns: str
+		"""
+
+		return self.edit_product
+
+	def get_product_code(self) -> str:
+		"""
+		Get Product_Code.
+
+		:returns: str
+		"""
+
+		return self.product_code
+
+	def get_product_subscription_term_id(self) -> int:
+		"""
+		Get ProductSubscriptionTerm_ID.
+
+		:returns: int
+		"""
+
+		return self.product_subscription_term_id
+
+	def get_product_subscription_term_description(self) -> str:
+		"""
+		Get ProductSubscriptionTerm_Description.
+
+		:returns: str
+		"""
+
+		return self.product_subscription_term_description
+
+	def get_quantity(self) -> int:
+		"""
+		Get Quantity.
+
+		:returns: int
+		"""
+
+		return self.quantity
+
+	def get_next_date(self) -> int:
+		"""
+		Get NextDate.
+
+		:returns: int
+		"""
+
+		return self.next_date
+
+	def get_payment_card_id(self) -> int:
+		"""
+		Get PaymentCard_ID.
+
+		:returns: int
+		"""
+
+		return self.payment_card_id
+
+	def get_ship_id(self) -> int:
+		"""
+		Get Ship_ID.
+
+		:returns: int
+		"""
+
+		return self.ship_id
+
+	def get_ship_data(self) -> str:
+		"""
+		Get Ship_Data.
+
+		:returns: str
+		"""
+
+		return self.ship_data
+
+	def get_attributes(self) -> list:
+		"""
+		Get Attributes.
+
+		:returns: List of SubscriptionAttribute
+		"""
+
+		return self.attributes
+
+	def get_line_id(self) -> int:
+		"""
+		Get Line_ID.
+
+		:returns: int
+		"""
+
+		return self.line_id
+
+	def get_subscription_id(self) -> int:
+		"""
+		Get Subscription_ID.
+
+		:returns: int
+		"""
+
+		return self.subscription_id
+
+	def set_order_id(self, order_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Order_ID.
+
+		:param order_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.order_id = order_id
+		return self
+
+	def set_customer_id(self, customer_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_address_id(self, address_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Address_ID.
+
+		:param address_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.address_id = address_id
+		return self
+
+	def set_customer_address_id(self, customer_address_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set CustomerAddress_ID.
+
+		:param customer_address_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.customer_address_id = customer_address_id
+		return self
+
+	def set_product_id(self, product_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Product_ID.
+
+		:param product_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.product_id = product_id
+		return self
+
+	def set_edit_product(self, edit_product: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Edit_Product.
+
+		:param edit_product: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.edit_product = edit_product
+		return self
+
+	def set_product_code(self, product_code: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Product_Code.
+
+		:param product_code: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.product_code = product_code
+		return self
+
+	def set_product_subscription_term_id(self, product_subscription_term_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set ProductSubscriptionTerm_ID.
+
+		:param product_subscription_term_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.product_subscription_term_id = product_subscription_term_id
+		return self
+
+	def set_product_subscription_term_description(self, product_subscription_term_description: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set ProductSubscriptionTerm_Description.
+
+		:param product_subscription_term_description: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.product_subscription_term_description = product_subscription_term_description
+		return self
+
+	def set_quantity(self, quantity: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Quantity.
+
+		:param quantity: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.quantity = quantity
+		return self
+
+	def set_next_date(self, next_date: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set NextDate.
+
+		:param next_date: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.next_date = next_date
+		return self
+
+	def set_payment_card_id(self, payment_card_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set PaymentCard_ID.
+
+		:param payment_card_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.payment_card_id = payment_card_id
+		return self
+
+	def set_ship_id(self, ship_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Ship_ID.
+
+		:param ship_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.ship_id = ship_id
+		return self
+
+	def set_ship_data(self, ship_data: str) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Ship_Data.
+
+		:param ship_data: str
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.ship_data = ship_data
+		return self
+
+	def set_attributes(self, attributes: list) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Attributes.
+
+		:param attributes: {SubscriptionAttribute[]}
+		:raises Exception:
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception("")
+		self.attributes = attributes
+		return self
+
+	def set_line_id(self, line_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Line_ID.
+
+		:param line_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.line_id = line_id
+		return self
+
+	def set_subscription_id(self, subscription_id: int) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Set Subscription_ID.
+
+		:param subscription_id: int
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		self.subscription_id = subscription_id
+		return self
+	
+	def add_attribute(self, attribute) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Add Attributes.
+
+		:param attribute: SubscriptionAttribute 
+		:raises Exception:
+		:returns: {SubscriptionAndOrderItemUpdate}
+		"""
+
+		if isinstance(attribute, merchantapi.model.SubscriptionAttribute):
+			self.attributes.append(attribute)
+		elif isinstance(attribute, dict):
+			self.attributes.append(merchantapi.model.SubscriptionAttribute(attribute))
+		else:
+			raise Exception('Expected instance of SubscriptionAttribute or dict')
+		return self
+
+	def add_attributes(self, attributes: list) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Add many SubscriptionAttribute.
+
+		:param attributes: List of SubscriptionAttribute
+		:raises Exception:
+		:returns: SubscriptionAndOrderItemUpdate
+		"""
+
+		for e in attributes:
+			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
+				raise Exception('')
+			self.attributes.append(e)
+
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.SubscriptionAndOrderItemUpdate':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionAndOrderItemUpdate':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.SubscriptionAndOrderItemUpdate(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.order_id is not None:
+			data['Order_ID'] = self.order_id
+
+		if self.line_id is not None:
+			data['Line_ID'] = self.line_id
+
+		if self.subscription_id is not None:
+			data['Subscription_ID'] = self.subscription_id
+
+		if self.product_id is not None:
+			data['Product_ID'] = self.product_id
+		elif self.edit_product is not None:
+			data['Edit_Product'] = self.edit_product
+		elif self.product_code is not None:
+			data['Product_Code'] = self.product_code
+
+		if self.product_subscription_term_id is not None:
+			data['ProductSubscriptionTerm_ID'] = self.product_subscription_term_id
+		elif self.product_subscription_term_description is not None:
+			data['ProductSubscriptionTerm_Description'] = self.product_subscription_term_description
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.address_id is not None:
+			data['Address_ID'] = self.address_id
+		elif self.customer_address_id is not None:
+			data['CustomerAddress_ID'] = self.customer_address_id
+
+		data['Quantity'] = self.quantity
+		data['NextDate'] = self.next_date
+		if self.payment_card_id is not None:
+			data['PaymentCard_ID'] = self.payment_card_id
+		if self.ship_id is not None:
+			data['Ship_ID'] = self.ship_id
+		if self.ship_data is not None:
+			data['Ship_Data'] = self.ship_data
+		if len(self.attributes):
+			data['Attributes'] = []
+
+			for f in self.attributes:
+				data['Attributes'].append(f.to_dict())
+		return data
+
+
+"""
 Handles API Request CategoryProductList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/categoryproductlist_load_query
@@ -40598,6 +43556,48 @@ class AttributeTemplateProductListLoadQuery(ProductListLoadQuery):
 		if self.unassigned is not None:
 			data['Unassigned'] = self.unassigned
 		return data
+
+
+"""
+Handles API Request ProductAndSubscriptionTermList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/productandsubscriptiontermlist_load_query
+"""
+
+
+class ProductAndSubscriptionTermListLoadQuery(ProductListLoadQuery):
+	def __init__(self, client: Client = None):
+		"""
+		ProductAndSubscriptionTermListLoadQuery Constructor.
+
+		:param client: Client
+		"""
+
+		super().__init__(client)
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ProductAndSubscriptionTermList_Load_Query'
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ProductAndSubscriptionTermListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductAndSubscriptionTermListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ProductAndSubscriptionTermListLoadQuery(self, http_response, data)
 
 
 """
