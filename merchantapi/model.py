@@ -4458,6 +4458,17 @@ class OrderItemOption(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('discounts'):
+			value = self.get_field('discounts')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, OrderItemOptionDiscount):
+							value[i] = OrderItemOptionDiscount(e)
+					else:
+						raise Exception('Expected list of OrderItemOptionDiscount or dict')
+			else:
+				raise Exception('Expected list of OrderItemOptionDiscount or dict')
 
 	def get_id(self) -> int:
 		"""
@@ -4611,6 +4622,15 @@ class OrderItemOption(Model):
 		"""
 
 		return self.get_field('opt_prompt')
+
+	def get_discounts(self):
+		"""
+		Get discounts.
+
+		:returns: List of OrderItemOptionDiscount
+		"""
+
+		return self.get_field('discounts', [])
 
 	def set_attribute_code(self, attribute_code: str) -> 'OrderItemOption':
 		"""
@@ -5540,6 +5560,94 @@ class OrderItemDiscount(Model):
 
 
 """
+OrderItemOptionDiscount data model.
+"""
+
+
+class OrderItemOptionDiscount(Model):
+	def __init__(self, data: dict = None):
+		"""
+		OrderItemOptionDiscount Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+
+	def get_order_id(self) -> int:
+		"""
+		Get order_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('order_id', 0)
+
+	def get_line_id(self) -> int:
+		"""
+		Get line_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('line_id', 0)
+
+	def get_attribute_id(self) -> int:
+		"""
+		Get attr_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attr_id', 0)
+
+	def get_attribute_template_attribute_id(self) -> int:
+		"""
+		Get attmpat_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('attmpat_id', 0)
+
+	def get_price_group_id(self) -> int:
+		"""
+		Get pgrp_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('pgrp_id', 0)
+
+	def get_display(self) -> bool:
+		"""
+		Get display.
+
+		:returns: bool
+		"""
+
+		return self.get_field('display', False)
+
+	def get_description(self) -> str:
+		"""
+		Get descrip.
+
+		:returns: string
+		"""
+
+		return self.get_field('descrip')
+
+	def get_discount(self) -> float:
+		"""
+		Get discount.
+
+		:returns: float
+		"""
+
+		return self.get_field('discount', 0.00)
+
+
+"""
 OrderDiscountTotal data model.
 """
 
@@ -5706,14 +5814,14 @@ class OrderPayment(Model):
 
 		return self.get_field('dtstamp', 0)
 
-	def get_expires(self) -> str:
+	def get_expires(self) -> int:
 		"""
 		Get expires.
 
-		:returns: string
+		:returns: int
 		"""
 
-		return self.get_field('expires')
+		return self.get_field('expires', 0)
 
 	def get_payment_id(self) -> int:
 		"""
@@ -7382,6 +7490,33 @@ class ProductVariantLimit(Model):
 
 		return self.get_field('option_id', 0)
 
+	def get_attribute_code(self) -> str:
+		"""
+		Get attr_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_code')
+
+	def get_attribute_template_code(self) -> str:
+		"""
+		Get attmpat_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attmpat_code')
+
+	def get_option_code(self) -> str:
+		"""
+		Get option_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('option_code')
+
 	def set_attribute_id(self, attribute_id: int) -> 'ProductVariantLimit':
 		"""
 		Set attr_id.
@@ -7411,6 +7546,36 @@ class ProductVariantLimit(Model):
 		"""
 
 		return self.set_field('option_id', option_id)
+
+	def set_attribute_code(self, attribute_code: str) -> 'ProductVariantLimit':
+		"""
+		Set attr_code.
+
+		:param attribute_code: string
+		:returns: ProductVariantLimit
+		"""
+
+		return self.set_field('attr_code', attribute_code)
+
+	def set_attribute_template_code(self, attribute_template_code: str) -> 'ProductVariantLimit':
+		"""
+		Set attmpat_code.
+
+		:param attribute_template_code: string
+		:returns: ProductVariantLimit
+		"""
+
+		return self.set_field('attmpat_code', attribute_template_code)
+
+	def set_option_code(self, option_code: str) -> 'ProductVariantLimit':
+		"""
+		Set option_code.
+
+		:param option_code: string
+		:returns: ProductVariantLimit
+		"""
+
+		return self.set_field('option_code', option_code)
 
 
 """
@@ -7455,6 +7620,33 @@ class ProductVariantExclusion(Model):
 
 		return self.get_field('option_id', 0)
 
+	def get_attribute_code(self) -> str:
+		"""
+		Get attr_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_code')
+
+	def get_attribute_template_code(self) -> str:
+		"""
+		Get attmpat_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attmpat_code')
+
+	def get_option_code(self) -> str:
+		"""
+		Get option_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('option_code')
+
 	def set_attribute_id(self, attribute_id: int) -> 'ProductVariantExclusion':
 		"""
 		Set attr_id.
@@ -7484,6 +7676,36 @@ class ProductVariantExclusion(Model):
 		"""
 
 		return self.set_field('option_id', option_id)
+
+	def set_attribute_code(self, attribute_code: str) -> 'ProductVariantExclusion':
+		"""
+		Set attr_code.
+
+		:param attribute_code: string
+		:returns: ProductVariantExclusion
+		"""
+
+		return self.set_field('attr_code', attribute_code)
+
+	def set_attribute_template_code(self, attribute_template_code: str) -> 'ProductVariantExclusion':
+		"""
+		Set attmpat_code.
+
+		:param attribute_template_code: string
+		:returns: ProductVariantExclusion
+		"""
+
+		return self.set_field('attmpat_code', attribute_template_code)
+
+	def set_option_code(self, option_code: str) -> 'ProductVariantExclusion':
+		"""
+		Set option_code.
+
+		:param option_code: string
+		:returns: ProductVariantExclusion
+		"""
+
+		return self.set_field('option_code', option_code)
 
 
 """
@@ -7733,6 +7955,68 @@ class OrderTotal(Model):
 
 
 """
+OrderItemAdd data model.
+"""
+
+
+class OrderItemAdd(Model):
+	def __init__(self, data: dict = None):
+		"""
+		OrderItemAdd Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('orderitem'):
+			value = self.get_field('orderitem')
+			if isinstance(value, dict):
+				if not isinstance(value, OrderItem):
+					self.set_field('orderitem', OrderItem(value))
+			else:
+				raise Exception('Expected OrderItem or a dict')
+
+	def get_total(self) -> float:
+		"""
+		Get total.
+
+		:returns: float
+		"""
+
+		return self.get_field('total', 0.00)
+
+	def get_formatted_total(self) -> str:
+		"""
+		Get formatted_total.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_total')
+
+	def get_order_item(self):
+		"""
+		Get orderitem.
+
+		:returns: OrderItem|None
+		"""
+
+		return self.get_field('orderitem', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'orderitem' in ret and isinstance(ret['orderitem'], OrderItem):
+			ret['orderitem'] = ret['orderitem'].to_dict()
+
+		return ret
+
+
+"""
 OrderPaymentTotal data model.
 """
 
@@ -7949,15 +8233,6 @@ class PrintQueueJob(Model):
 		"""
 
 		return self.get_field('dt_created', 0)
-
-	def get_print_queue_description(self) -> str:
-		"""
-		Get printqueue_descrip.
-
-		:returns: string
-		"""
-
-		return self.get_field('printqueue_descrip')
 
 	def get_user_name(self) -> str:
 		"""
@@ -12071,6 +12346,33 @@ class VariantAttribute(Model):
 
 		return self.get_field('option_id', 0)
 
+	def get_attribute_code(self) -> str:
+		"""
+		Get attr_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attr_code')
+
+	def get_attribute_template_attribute_code(self) -> str:
+		"""
+		Get attmpat_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('attmpat_code')
+
+	def get_option_code(self) -> str:
+		"""
+		Get option_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('option_code')
+
 	def set_attribute_id(self, attribute_id: int) -> 'VariantAttribute':
 		"""
 		Set attr_id.
@@ -12101,6 +12403,36 @@ class VariantAttribute(Model):
 
 		return self.set_field('option_id', option_id)
 
+	def set_attribute_code(self, attribute_code: str) -> 'VariantAttribute':
+		"""
+		Set attr_code.
+
+		:param attribute_code: string
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('attr_code', attribute_code)
+
+	def set_attribute_template_attribute_code(self, attribute_template_attribute_code: str) -> 'VariantAttribute':
+		"""
+		Set attmpat_code.
+
+		:param attribute_template_attribute_code: string
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('attmpat_code', attribute_template_attribute_code)
+
+	def set_option_code(self, option_code: str) -> 'VariantAttribute':
+		"""
+		Set option_code.
+
+		:param option_code: string
+		:returns: VariantAttribute
+		"""
+
+		return self.set_field('option_code', option_code)
+
 
 """
 VariantPart data model.
@@ -12126,6 +12458,15 @@ class VariantPart(Model):
 
 		return self.get_field('part_id', 0)
 
+	def get_part_code(self) -> str:
+		"""
+		Get part_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('part_code')
+
 	def get_quantity(self) -> int:
 		"""
 		Get quantity.
@@ -12144,6 +12485,16 @@ class VariantPart(Model):
 		"""
 
 		return self.set_field('part_id', part_id)
+
+	def set_part_code(self, part_code: str) -> 'VariantPart':
+		"""
+		Set part_code.
+
+		:param part_code: string
+		:returns: VariantPart
+		"""
+
+		return self.set_field('part_code', part_code)
 
 	def set_quantity(self, quantity: int) -> 'VariantPart':
 		"""
@@ -13757,6 +14108,50 @@ class CustomerPriceGroup(PriceGroup):
 
 
 """
+OrderTotalAndItem data model.
+"""
+
+
+class OrderTotalAndItem(OrderTotal):
+	def __init__(self, data: dict = None):
+		"""
+		OrderTotalAndItem Constructor
+
+		:param data: dict
+		"""
+
+		super().__init__(data)
+		if self.has_field('orderitem'):
+			value = self.get_field('orderitem')
+			if isinstance(value, dict):
+				if not isinstance(value, OrderItem):
+					self.set_field('orderitem', OrderItem(value))
+			else:
+				raise Exception('Expected OrderItem or a dict')
+
+	def get_order_item(self):
+		"""
+		Get orderitem.
+
+		:returns: OrderItem|None
+		"""
+
+		return self.get_field('orderitem', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'orderitem' in ret and isinstance(ret['orderitem'], OrderItem):
+			ret['orderitem'] = ret['orderitem'].to_dict()
+
+		return ret
+
+
+"""
 BranchCSSResourceVersion data model.
 """
 
@@ -14281,7 +14676,7 @@ class CustomerSubscription(Subscription):
 
 		return self.get_field('paymentcard_type')
 
-	def get_address_descrip(self) -> str:
+	def get_address_description(self) -> str:
 		"""
 		Get address_descrip.
 
@@ -14344,7 +14739,7 @@ class CustomerSubscription(Subscription):
 
 		return self.get_field('address_fax')
 
-	def get_address_adress(self) -> str:
+	def get_address_address(self) -> str:
 		"""
 		Get address_addr.
 
@@ -14353,7 +14748,7 @@ class CustomerSubscription(Subscription):
 
 		return self.get_field('address_addr')
 
-	def get_address_address_1(self) -> str:
+	def get_address_address1(self) -> str:
 		"""
 		Get address_addr1.
 
@@ -14362,7 +14757,7 @@ class CustomerSubscription(Subscription):
 
 		return self.get_field('address_addr1')
 
-	def get_address_address_2(self) -> str:
+	def get_address_address2(self) -> str:
 		"""
 		Get address_addr2.
 
@@ -14486,7 +14881,7 @@ class ProductAndSubscriptionTerm(Product):
 
 		return self.get_field('term_term', 0)
 
-	def get_term_descrip(self) -> str:
+	def get_term_description(self) -> str:
 		"""
 		Get term_descrip.
 

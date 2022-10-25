@@ -30777,6 +30777,11 @@ Scope: Store.
 
 
 class ProductVariantGenerate(merchantapi.abstract.Request):
+	# VARIANT_PRICING_METHOD constants.
+	VARIANT_PRICING_METHOD_MASTER = 'master'
+	VARIANT_PRICING_METHOD_SPECIFIC = 'specific'
+	VARIANT_PRICING_METHOD_SUM = 'sum'
+
 	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
 		"""
 		ProductVariantGenerate Constructor.
@@ -30834,11 +30839,11 @@ class ProductVariantGenerate(merchantapi.abstract.Request):
 
 		return self.edit_product
 
-	def get_pricing_method(self) -> int:
+	def get_pricing_method(self) -> str:
 		"""
 		Get Pricing_Method.
 
-		:returns: int
+		:returns: str
 		"""
 
 		return self.pricing_method
@@ -30876,11 +30881,11 @@ class ProductVariantGenerate(merchantapi.abstract.Request):
 		self.edit_product = edit_product
 		return self
 
-	def set_pricing_method(self, pricing_method: int) -> 'ProductVariantGenerate':
+	def set_pricing_method(self, pricing_method: str) -> 'ProductVariantGenerate':
 		"""
 		Set Pricing_Method.
 
-		:param pricing_method: int
+		:param pricing_method: str
 		:returns: ProductVariantGenerate
 		"""
 
@@ -30920,183 +30925,6 @@ class ProductVariantGenerate(merchantapi.abstract.Request):
 			data['Edit_Product'] = self.edit_product
 
 		data['Pricing_Method'] = self.pricing_method
-		return data
-
-
-"""
-Handles API Request ProductVariant_Generate_Delimiter. 
-Scope: Store.
-:see: https://docs.miva.com/json-api/functions/productvariant_generate_delimiter
-"""
-
-
-class ProductVariantGenerateDelimiter(merchantapi.abstract.Request):
-	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
-		"""
-		ProductVariantGenerateDelimiter Constructor.
-
-		:param client: Client
-		:param product: Product
-		"""
-
-		super().__init__(client)
-		self.product_id = None
-		self.product_code = None
-		self.edit_product = None
-		self.pricing_method = None
-		self.delimiter = None
-		if isinstance(product, merchantapi.model.Product):
-			if product.get_id():
-				self.set_product_id(product.get_id())
-			elif product.get_code():
-				self.set_product_code(product.get_code())
-			elif product.get_code():
-				self.set_edit_product(product.get_code())
-
-	def get_function(self):
-		"""
-		Get the function of the request.
-
-		:returns: str
-		"""
-
-		return 'ProductVariant_Generate_Delimiter'
-
-	def get_product_id(self) -> int:
-		"""
-		Get Product_ID.
-
-		:returns: int
-		"""
-
-		return self.product_id
-
-	def get_product_code(self) -> str:
-		"""
-		Get Product_Code.
-
-		:returns: str
-		"""
-
-		return self.product_code
-
-	def get_edit_product(self) -> str:
-		"""
-		Get Edit_Product.
-
-		:returns: str
-		"""
-
-		return self.edit_product
-
-	def get_pricing_method(self) -> int:
-		"""
-		Get Pricing_Method.
-
-		:returns: int
-		"""
-
-		return self.pricing_method
-
-	def get_delimiter(self) -> str:
-		"""
-		Get Delimiter.
-
-		:returns: str
-		"""
-
-		return self.delimiter
-
-	def set_product_id(self, product_id: int) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Set Product_ID.
-
-		:param product_id: int
-		:returns: ProductVariantGenerateDelimiter
-		"""
-
-		self.product_id = product_id
-		return self
-
-	def set_product_code(self, product_code: str) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Set Product_Code.
-
-		:param product_code: str
-		:returns: ProductVariantGenerateDelimiter
-		"""
-
-		self.product_code = product_code
-		return self
-
-	def set_edit_product(self, edit_product: str) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Set Edit_Product.
-
-		:param edit_product: str
-		:returns: ProductVariantGenerateDelimiter
-		"""
-
-		self.edit_product = edit_product
-		return self
-
-	def set_pricing_method(self, pricing_method: int) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Set Pricing_Method.
-
-		:param pricing_method: int
-		:returns: ProductVariantGenerateDelimiter
-		"""
-
-		self.pricing_method = pricing_method
-		return self
-
-	def set_delimiter(self, delimiter: str) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Set Delimiter.
-
-		:param delimiter: str
-		:returns: ProductVariantGenerateDelimiter
-		"""
-
-		self.delimiter = delimiter
-		return self
-
-	# noinspection PyTypeChecker
-	def send(self) -> 'merchantapi.response.ProductVariantGenerateDelimiter':
-		return super().send()
-
-	def create_response(self, http_response: HttpResponse, data) -> 'ProductVariantGenerateDelimiter':
-		"""
-		Create a response object from the response data
-
-		:param http_response: requests.models.Response
-		:param data:
-		:returns: Response
-		"""
-
-		return merchantapi.response.ProductVariantGenerateDelimiter(self, http_response, data)
-
-	def to_dict(self) -> dict:
-		"""
-		Reduce the request to a dict
-
-		:override:
-		:returns: dict
-		"""
-
-		data = super().to_dict()
-
-		if self.product_id is not None:
-			data['Product_ID'] = self.product_id
-		elif self.product_code is not None:
-			data['Product_Code'] = self.product_code
-		elif self.edit_product is not None:
-			data['Edit_Product'] = self.edit_product
-
-		data['Pricing_Method'] = self.pricing_method
-		if self.delimiter is not None:
-			data['Delimiter'] = self.delimiter
 		return data
 
 
@@ -31252,6 +31080,11 @@ Scope: Store.
 
 
 class ProductKitGenerateVariants(merchantapi.abstract.Request):
+	# VARIANT_PRICING_METHOD constants.
+	VARIANT_PRICING_METHOD_MASTER = 'master'
+	VARIANT_PRICING_METHOD_SPECIFIC = 'specific'
+	VARIANT_PRICING_METHOD_SUM = 'sum'
+
 	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
 		"""
 		ProductKitGenerateVariants Constructor.
@@ -31307,11 +31140,11 @@ class ProductKitGenerateVariants(merchantapi.abstract.Request):
 
 		return self.edit_product
 
-	def get_pricing_method(self) -> int:
+	def get_pricing_method(self) -> str:
 		"""
 		Get Pricing_Method.
 
-		:returns: int
+		:returns: str
 		"""
 
 		return self.pricing_method
@@ -31349,11 +31182,11 @@ class ProductKitGenerateVariants(merchantapi.abstract.Request):
 		self.edit_product = edit_product
 		return self
 
-	def set_pricing_method(self, pricing_method: int) -> 'ProductKitGenerateVariants':
+	def set_pricing_method(self, pricing_method: str) -> 'ProductKitGenerateVariants':
 		"""
 		Set Pricing_Method.
 
-		:param pricing_method: int
+		:param pricing_method: str
 		:returns: ProductKitGenerateVariants
 		"""
 
@@ -37074,13 +36907,13 @@ class ProductAttributeAndOptionListLoadQuery(ListQueryRequest):
 
 
 """
-Handles API Request CustomerSubscriptionList_Load_Query. 
+Handles API Request SubscriptionList_Load_Query. 
 Scope: Store.
-:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+:see: https://docs.miva.com/json-api/functions/subscriptionlist_load_query
 """
 
 
-class CustomerSubscriptionListLoadQuery(ListQueryRequest):
+class SubscriptionListLoadQuery(ListQueryRequest):
 
 	available_search_fields = [
 		'id',
@@ -37137,9 +36970,7 @@ class CustomerSubscriptionListLoadQuery(ListQueryRequest):
 		'address_state',
 		'address_zip',
 		'address_cntry',
-		'product_inventory',
-		'product_inventory_active',
-		'product_inventory'
+		'product_inventory_active'
 	]
 
 	available_sort_fields = [
@@ -37207,28 +37038,14 @@ class CustomerSubscriptionListLoadQuery(ListQueryRequest):
 		'product_descrip'
 	]
 
-	def __init__(self, client: Client = None, customer: merchantapi.model.Customer = None):
+	def __init__(self, client: Client = None):
 		"""
-		CustomerSubscriptionListLoadQuery Constructor.
+		SubscriptionListLoadQuery Constructor.
 
 		:param client: Client
-		:param customer: Customer
 		"""
 
 		super().__init__(client)
-		self.customer_id = None
-		self.edit_customer = None
-		self.customer_login = None
-		self.custom_field_values = merchantapi.model.CustomFieldValues()
-		if isinstance(customer, merchantapi.model.Customer):
-			if customer.get_id():
-				self.set_customer_id(customer.get_id())
-			elif customer.get_login():
-				self.set_edit_customer(customer.get_login())
-
-
-			if customer.get_custom_field_values():
-				self.set_custom_field_values(customer.get_custom_field_values())
 
 	def get_function(self):
 		"""
@@ -37237,96 +37054,13 @@ class CustomerSubscriptionListLoadQuery(ListQueryRequest):
 		:returns: str
 		"""
 
-		return 'CustomerSubscriptionList_Load_Query'
-
-	def get_customer_id(self) -> int:
-		"""
-		Get Customer_ID.
-
-		:returns: int
-		"""
-
-		return self.customer_id
-
-	def get_edit_customer(self) -> str:
-		"""
-		Get Edit_Customer.
-
-		:returns: str
-		"""
-
-		return self.edit_customer
-
-	def get_customer_login(self) -> str:
-		"""
-		Get Customer_Login.
-
-		:returns: str
-		"""
-
-		return self.customer_login
-
-	def get_custom_field_values(self) -> merchantapi.model.CustomFieldValues:
-		"""
-		Get CustomField_Values.
-
-		:returns: CustomFieldValues}|None
-		"""
-
-		return self.custom_field_values
-
-	def set_customer_id(self, customer_id: int) -> 'CustomerSubscriptionListLoadQuery':
-		"""
-		Set Customer_ID.
-
-		:param customer_id: int
-		:returns: CustomerSubscriptionListLoadQuery
-		"""
-
-		self.customer_id = customer_id
-		return self
-
-	def set_edit_customer(self, edit_customer: str) -> 'CustomerSubscriptionListLoadQuery':
-		"""
-		Set Edit_Customer.
-
-		:param edit_customer: str
-		:returns: CustomerSubscriptionListLoadQuery
-		"""
-
-		self.edit_customer = edit_customer
-		return self
-
-	def set_customer_login(self, customer_login: str) -> 'CustomerSubscriptionListLoadQuery':
-		"""
-		Set Customer_Login.
-
-		:param customer_login: str
-		:returns: CustomerSubscriptionListLoadQuery
-		"""
-
-		self.customer_login = customer_login
-		return self
-
-	def set_custom_field_values(self, custom_field_values: merchantapi.model.CustomFieldValues) -> 'CustomerSubscriptionListLoadQuery':
-		"""
-		Set CustomField_Values.
-
-		:param custom_field_values: CustomFieldValues}|None
-		:raises Exception:
-		:returns: CustomerSubscriptionListLoadQuery
-		"""
-
-		if not isinstance(custom_field_values, merchantapi.model.CustomFieldValues):
-			raise Exception("")
-		self.custom_field_values = custom_field_values
-		return self
+		return 'SubscriptionList_Load_Query'
 
 	# noinspection PyTypeChecker
-	def send(self) -> 'merchantapi.response.CustomerSubscriptionListLoadQuery':
+	def send(self) -> 'merchantapi.response.SubscriptionListLoadQuery':
 		return super().send()
 
-	def create_response(self, http_response: HttpResponse, data) -> 'CustomerSubscriptionListLoadQuery':
+	def create_response(self, http_response: HttpResponse, data) -> 'SubscriptionListLoadQuery':
 		"""
 		Create a response object from the response data
 
@@ -37335,28 +37069,7 @@ class CustomerSubscriptionListLoadQuery(ListQueryRequest):
 		:returns: Response
 		"""
 
-		return merchantapi.response.CustomerSubscriptionListLoadQuery(self, http_response, data)
-
-	def to_dict(self) -> dict:
-		"""
-		Reduce the request to a dict
-
-		:override:
-		:returns: dict
-		"""
-
-		data = super().to_dict()
-
-		if self.customer_id is not None:
-			data['Customer_ID'] = self.customer_id
-		elif self.edit_customer is not None:
-			data['Edit_Customer'] = self.edit_customer
-		elif self.customer_login is not None:
-			data['Customer_Login'] = self.customer_login
-
-		if self.custom_field_values is not None:
-			data['CustomField_Values'] = self.custom_field_values.to_dict()
-		return data
+		return merchantapi.response.SubscriptionListLoadQuery(self, http_response, data)
 
 
 """
@@ -43205,6 +42918,84 @@ class BusinessAccountCustomerListLoadQuery(CustomerListLoadQuery):
 
 
 """
+Handles API Request ProductVariant_Generate_Delimiter. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/productvariant_generate_delimiter
+"""
+
+
+class ProductVariantGenerateDelimiter(ProductVariantGenerate):
+	def __init__(self, client: Client = None, product: merchantapi.model.Product = None):
+		"""
+		ProductVariantGenerateDelimiter Constructor.
+
+		:param client: Client
+		:param product: Product
+		"""
+
+		super().__init__(client, product)
+		self.delimiter = None
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'ProductVariant_Generate_Delimiter'
+
+	def get_delimiter(self) -> str:
+		"""
+		Get Delimiter.
+
+		:returns: str
+		"""
+
+		return self.delimiter
+
+	def set_delimiter(self, delimiter: str) -> 'ProductVariantGenerateDelimiter':
+		"""
+		Set Delimiter.
+
+		:param delimiter: str
+		:returns: ProductVariantGenerateDelimiter
+		"""
+
+		self.delimiter = delimiter
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ProductVariantGenerateDelimiter':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'ProductVariantGenerateDelimiter':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ProductVariantGenerateDelimiter(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.delimiter is not None:
+			data['Delimiter'] = self.delimiter
+		return data
+
+
+"""
 Handles API Request RelatedProductList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/relatedproductlist_load_query
@@ -43559,6 +43350,166 @@ class AttributeTemplateProductListLoadQuery(ProductListLoadQuery):
 
 
 """
+Handles API Request CustomerSubscriptionList_Load_Query. 
+Scope: Store.
+:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+"""
+
+
+class CustomerSubscriptionListLoadQuery(SubscriptionListLoadQuery):
+	def __init__(self, client: Client = None, customer: merchantapi.model.Customer = None):
+		"""
+		CustomerSubscriptionListLoadQuery Constructor.
+
+		:param client: Client
+		:param customer: Customer
+		"""
+
+		super().__init__(client)
+		self.customer_id = None
+		self.edit_customer = None
+		self.customer_login = None
+		self.custom_field_values = merchantapi.model.CustomFieldValues()
+		if isinstance(customer, merchantapi.model.Customer):
+			if customer.get_id():
+				self.set_customer_id(customer.get_id())
+			elif customer.get_login():
+				self.set_edit_customer(customer.get_login())
+
+
+			if customer.get_custom_field_values():
+				self.set_custom_field_values(customer.get_custom_field_values())
+
+	def get_function(self):
+		"""
+		Get the function of the request.
+
+		:returns: str
+		"""
+
+		return 'CustomerSubscriptionList_Load_Query'
+
+	def get_customer_id(self) -> int:
+		"""
+		Get Customer_ID.
+
+		:returns: int
+		"""
+
+		return self.customer_id
+
+	def get_edit_customer(self) -> str:
+		"""
+		Get Edit_Customer.
+
+		:returns: str
+		"""
+
+		return self.edit_customer
+
+	def get_customer_login(self) -> str:
+		"""
+		Get Customer_Login.
+
+		:returns: str
+		"""
+
+		return self.customer_login
+
+	def get_custom_field_values(self) -> merchantapi.model.CustomFieldValues:
+		"""
+		Get CustomField_Values.
+
+		:returns: CustomFieldValues}|None
+		"""
+
+		return self.custom_field_values
+
+	def set_customer_id(self, customer_id: int) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Customer_ID.
+
+		:param customer_id: int
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.customer_id = customer_id
+		return self
+
+	def set_edit_customer(self, edit_customer: str) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Edit_Customer.
+
+		:param edit_customer: str
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.edit_customer = edit_customer
+		return self
+
+	def set_customer_login(self, customer_login: str) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set Customer_Login.
+
+		:param customer_login: str
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		self.customer_login = customer_login
+		return self
+
+	def set_custom_field_values(self, custom_field_values: merchantapi.model.CustomFieldValues) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Set CustomField_Values.
+
+		:param custom_field_values: CustomFieldValues}|None
+		:raises Exception:
+		:returns: CustomerSubscriptionListLoadQuery
+		"""
+
+		if not isinstance(custom_field_values, merchantapi.model.CustomFieldValues):
+			raise Exception("")
+		self.custom_field_values = custom_field_values
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.CustomerSubscriptionListLoadQuery':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'CustomerSubscriptionListLoadQuery':
+		"""
+		Create a response object from the response data
+
+		:param http_response: requests.models.Response
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.CustomerSubscriptionListLoadQuery(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+
+		data = super().to_dict()
+
+		if self.customer_id is not None:
+			data['Customer_ID'] = self.customer_id
+		elif self.edit_customer is not None:
+			data['Edit_Customer'] = self.edit_customer
+		elif self.customer_login is not None:
+			data['Customer_Login'] = self.customer_login
+
+		if self.custom_field_values is not None:
+			data['CustomField_Values'] = self.custom_field_values.to_dict()
+		return data
+
+
+"""
 Handles API Request ProductAndSubscriptionTermList_Load_Query. 
 Scope: Store.
 :see: https://docs.miva.com/json-api/functions/productandsubscriptiontermlist_load_query
@@ -43605,8 +43556,13 @@ RequestBuilder can be used to build out custom request objects to send to the AP
 """
 
 
+"""
+RequestBuilder can be used to build out custom request objects to send to the API
+"""
+
+
 class RequestBuilder(merchantapi.abstract.Request):
-	def __init__(self, client: Client, function: str, data: dict = None):
+	def __init__(self, client: Client, function: str = '', data: dict = None):
 		"""
 		RequestBuilder Constructor.
 
@@ -43614,11 +43570,14 @@ class RequestBuilder(merchantapi.abstract.Request):
 		:param function: str
 		:param data: dict
 		"""
+		super().__init__(client)
 
-		if data is None:
-			data = {}
+		if not isinstance(data, dict):
+			data = dict()
+
 		self.set_scope(merchantapi.abstract.Request.SCOPE_STORE)
 		self.set_function(function)
+		self.data = data
 
 	def set_function(self, function: str) -> 'RequestBuilder':
 		"""
@@ -43629,6 +43588,15 @@ class RequestBuilder(merchantapi.abstract.Request):
 
 		self.function = function
 		return self
+
+	def get_function(self) -> str:
+		"""
+		Get the request function
+
+		:param function: str
+		"""
+
+		return self.function
 
 	def set_scope(self, scope: int) -> 'RequestBuilder':
 		"""
@@ -43689,7 +43657,7 @@ class RequestBuilder(merchantapi.abstract.Request):
 	def send(self) -> 'merchantapi.response.RequestBuilder':
 		return super().send()
 
-	def create_response(self, data) -> 'merchantapi.response.RequestBuilder':
+	def create_response(self, http_response: HttpResponse, data) -> 'merchantapi.response.RequestBuilder':
 		"""
 		Create a response object from the response data
 
@@ -43697,7 +43665,131 @@ class RequestBuilder(merchantapi.abstract.Request):
 		:returns: Response
 		"""
 
-		return merchantapi.response.RequestBuilder(self, data)
+		return merchantapi.response.RequestBuilder(self, http_response, data)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the request to a dict
+
+		:override:
+		:returns: dict
+		"""
+		ret = super().to_dict()
+		ret.update(self.data)
+
+		return ret
+
+
+"""
+ListQueryRequestBuilder can be used to build out custom request objects to send to the API
+"""
+
+
+class ListQueryRequestBuilder(merchantapi.listquery.ListQueryRequest):
+	def __init__(self, client: Client, function: str = '', data: dict = None):
+		"""
+		ListQueryRequestBuilder Constructor.
+
+		:param client: Client
+		:param function: str
+		:param data: dict
+		"""
+		
+		super().__init__(client)
+
+		if data is None:
+			data = {}
+		self.set_scope(merchantapi.abstract.Request.SCOPE_STORE)
+		self.set_function(function)
+		self.data = data
+
+	def set_function(self, function: str) -> 'ListQueryRequestBuilder':
+		"""
+		Set the request function
+
+		:param function: str
+		"""
+
+		self.function = function
+		return self
+
+	def get_function(self) -> str:
+		"""
+		Get the request function
+
+		:param function: str
+		"""
+
+		return self.function
+
+	def set_scope(self, scope: int) -> 'ListQueryRequestBuilder':
+		"""
+		Set the request scope
+
+		:param scope: int
+		"""
+
+		self.scope = scope
+		return self
+
+	def set(self, field: str, value) -> 'ListQueryRequestBuilder':
+		"""
+		Set a field value
+
+		:param field: str
+		:param value: mixed
+		"""
+
+		self.data[field] = value
+		return self
+
+	def get(self, field: str, default_value=None):
+		"""
+		Get a field value
+
+		:param field: str
+		:param default_value: mixed
+		:returns: mixed
+		"""
+
+		if field in self.data:
+			return self.data[field]
+		return default_value
+
+	def has(self, field: str) -> bool:
+		"""
+		Check if a field exists
+
+		:param field: str
+		:returns: bool
+		"""
+
+		return field in self.data
+
+	def remove(self, field: str) -> 'ListQueryRequestBuilder':
+		"""
+		Remove a field if it exists
+
+		:param field: str
+		"""
+
+		if field in self.data:
+			self.data.pop(field, None)
+		return self
+
+	# noinspection PyTypeChecker
+	def send(self) -> 'merchantapi.response.ListQueryRequestBuilder':
+		return super().send()
+
+	def create_response(self, http_response: HttpResponse, data) -> 'merchantapi.response.ListQueryRequestBuilder':
+		"""
+		Create a response object from the response data
+
+		:param data:
+		:returns: Response
+		"""
+
+		return merchantapi.response.ListQueryRequestBuilder(self, http_response, data)
 
 	def to_dict(self) -> dict:
 		"""
@@ -43707,4 +43799,7 @@ class RequestBuilder(merchantapi.abstract.Request):
 		:returns: dict
 		"""
 
-		return super().to_dict().update(self.data)
+		ret = super().to_dict()
+		ret.update(self.data)
+
+		return ret

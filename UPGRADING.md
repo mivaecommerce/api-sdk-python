@@ -1,3 +1,25 @@
+# Upgrade Guide from 2.1.0 to 2.2.0
+
+Issue **MMAPI-62** added the inserted object into the response. ProductVariantInsertResponse has had its original response data moved and all calling code should be updated to reflect this change.
+
+***Example usage from 2.1.x***
+
+	response.get_product_id();
+	response.get_variant_id();
+
+***Should be updated to for 2.2.x***
+	
+	response.getProductVariant().getProductId()
+	response.getProductVariant().getVariantId()
+
+Issue **MMAPI-67** renamed some model getter functions and all calling code should be updated. Use the following list to rename all usage in your applications:
+
+	CustomerSubscription.get_adress_descrip() 		-> CustomerSubscription.get_address_description()
+	CustomerSubscription.get_address_adress() 		-> CustomerSubscription.get_address_address()
+	CustomerSubscription.get_address_address_1()	-> CustomerSubscription.get_address_address1()
+	CustomerSubscription.get_address_address_2()	-> CustomerSubscription.get_address_address2()
+	ProductAndSubscriptionTerm.get_term_descrip()	-> ProductAndSubscriptionTerm.get_term_description()
+
 # Upgrade Guide from 2.0.X - 2.1.0+
 
 The class `TemplateVersionSettings` has been renamed to `VersionSettings`.

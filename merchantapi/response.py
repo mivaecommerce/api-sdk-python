@@ -255,6 +255,19 @@ class CategoryInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Category(self.data['data'])
+
+	def get_category(self) -> merchantapi.model.Category:
+		"""
+		Get category.
+
+		:returns: Category
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -398,17 +411,19 @@ class CouponInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_id(self):
+		self.data['data'] = merchantapi.model.Coupon(self.data['data'])
+
+	def get_coupon(self) -> merchantapi.model.Coupon:
 		"""
-		Get id.
+		Get coupon.
 
-		:returns: int
+		:returns: Coupon
 		"""
 
-		if 'data' in self.data and 'id' in self.data['data']:
-			return self.data['data']['id']
-		return 0
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -661,6 +676,19 @@ class NoteInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Note(self.data['data'])
+
+	def get_note(self) -> merchantapi.model.Note:
+		"""
+		Get note.
+
+		:returns: Note
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -844,13 +872,13 @@ class OrderItemAdd(Response):
 		if not self.is_success():
 			return
 
-		self.data['data'] = merchantapi.model.OrderTotal(self.data['data'])
+		self.data['data'] = merchantapi.model.OrderTotalAndItem(self.data['data'])
 
-	def get_order_total(self) -> merchantapi.model.OrderTotal:
+	def get_order_total_and_item(self) -> merchantapi.model.OrderTotalAndItem:
 		"""
-		Get order_total.
+		Get order_total_and_item.
 
-		:returns: OrderTotal
+		:returns: OrderTotalAndItem
 		"""
 
 		return {} if 'data' not in self.data else self.data['data']
@@ -1202,6 +1230,19 @@ class ProductImageAdd(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.ProductImageData(self.data['data'])
+
+	def get_product_image_data(self) -> merchantapi.model.ProductImageData:
+		"""
+		Get product_image_data.
+
+		:returns: ProductImageData
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -1330,6 +1371,19 @@ class ProductInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Product(self.data['data'])
+
+	def get_product(self) -> merchantapi.model.Product:
+		"""
+		Get product.
+
+		:returns: Product
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -1585,17 +1639,19 @@ class PrintQueueJobInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_id(self):
+		self.data['data'] = merchantapi.model.PrintQueueJob(self.data['data'])
+
+	def get_print_queue_job(self) -> merchantapi.model.PrintQueueJob:
 		"""
-		Get id.
+		Get print_queue_job.
 
-		:returns: int
+		:returns: PrintQueueJob
 		"""
 
-		if 'data' in self.data and 'id' in self.data['data']:
-			return self.data['data']['id']
-		return 0
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -2297,6 +2353,19 @@ class CustomerCreditHistoryInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.CustomerCreditHistory(self.data['data'])
+
+	def get_customer_credit_history(self) -> merchantapi.model.CustomerCreditHistory:
+		"""
+		Get customer_credit_history.
+
+		:returns: CustomerCreditHistory
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -2629,6 +2698,19 @@ class AttributeInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.ProductAttribute(self.data['data'])
+
+	def get_product_attribute(self) -> merchantapi.model.ProductAttribute:
+		"""
+		Get product_attribute.
+
+		:returns: ProductAttribute
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -2739,6 +2821,19 @@ class OptionInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.ProductOption(self.data['data'])
+
+	def get_product_option(self) -> merchantapi.model.ProductOption:
+		"""
+		Get product_option.
+
+		:returns: ProductOption
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -2937,6 +3032,19 @@ class CustomerAddressInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.CustomerAddress(self.data['data'])
+
+	def get_customer_address(self) -> merchantapi.model.CustomerAddress:
+		"""
+		Get customer_address.
+
+		:returns: CustomerAddress
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3069,6 +3177,19 @@ class URIInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Uri(self.data['data'])
+
+	def get_uri(self) -> merchantapi.model.Uri:
+		"""
+		Get uri.
+
+		:returns: Uri
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3088,6 +3209,19 @@ class ProductURIInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Uri(self.data['data'])
+
+	def get_uri(self) -> merchantapi.model.Uri:
+		"""
+		Get uri.
+
+		:returns: Uri
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3107,6 +3241,19 @@ class CategoryURIInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Uri(self.data['data'])
+
+	def get_uri(self) -> merchantapi.model.Uri:
+		"""
+		Get uri.
+
+		:returns: Uri
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3126,6 +3273,19 @@ class PageURIInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Uri(self.data['data'])
+
+	def get_uri(self) -> merchantapi.model.Uri:
+		"""
+		Get uri.
+
+		:returns: Uri
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3145,6 +3305,19 @@ class FeedURIInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.Uri(self.data['data'])
+
+	def get_uri(self) -> merchantapi.model.Uri:
+		"""
+		Get uri.
+
+		:returns: Uri
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3726,6 +3899,19 @@ class AvailabilityGroupInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.AvailabilityGroup(self.data['data'])
+
+	def get_availability_group(self) -> merchantapi.model.AvailabilityGroup:
+		"""
+		Get availability_group.
+
+		:returns: AvailabilityGroup
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -3949,17 +4135,19 @@ class PriceGroupInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_id(self):
+		self.data['data'] = merchantapi.model.PriceGroup(self.data['data'])
+
+	def get_price_group(self) -> merchantapi.model.PriceGroup:
 		"""
-		Get id.
+		Get price_group.
 
-		:returns: int
+		:returns: PriceGroup
 		"""
 
-		if 'id' in self.data:
-			return self.data['id']
-		return 0
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -4054,6 +4242,19 @@ class BusinessAccountInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.BusinessAccount(self.data['data'])
+
+	def get_business_account(self) -> merchantapi.model.BusinessAccount:
+		"""
+		Get business_account.
+
+		:returns: BusinessAccount
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -4247,28 +4448,19 @@ class ProductVariantInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_product_id(self):
+		self.data['data'] = merchantapi.model.ProductVariant(self.data['data'])
+
+	def get_product_variant(self) -> merchantapi.model.ProductVariant:
 		"""
-		Get product_id.
+		Get product_variant.
 
-		:returns: int
-		"""
-
-		if 'data' in self.data and 'product_id' in self.data['data']:
-			return self.data['data']['product_id']
-		return 0
-
-	def get_variant_id(self):
-		"""
-		Get variant_id.
-
-		:returns: int
+		:returns: ProductVariant
 		"""
 
-		if 'data' in self.data and 'variant_id' in self.data['data']:
-			return self.data['data']['variant_id']
-		return 0
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -4289,28 +4481,6 @@ class ProductVariantUpdate(Response):
 
 		super().__init__(request, http_response, data)
 
-	def get_product_id(self):
-		"""
-		Get product_id.
-
-		:returns: int
-		"""
-
-		if 'product_id' in self.data:
-			return self.data['product_id']
-		return 0
-
-	def get_variant_id(self):
-		"""
-		Get variant_id.
-
-		:returns: int
-		"""
-
-		if 'variant_id' in self.data:
-			return self.data['variant_id']
-		return 0
-
 
 """
 API Response for ProductVariant_Generate.
@@ -4322,25 +4492,6 @@ class ProductVariantGenerate(Response):
 	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
 		"""
 		ProductVariantGenerate Constructor.
-
-		:param request: Request
-		:param http_response: requests.models.Response
-		:param data: dict
-		"""
-
-		super().__init__(request, http_response, data)
-
-
-"""
-API Response for ProductVariant_Generate_Delimiter.
-
-:see: https://docs.miva.com/json-api/functions/productvariant_generate_delimiter
-"""
-
-class ProductVariantGenerateDelimiter(Response):
-	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
-		"""
-		ProductVariantGenerateDelimiter Constructor.
 
 		:param request: Request
 		:param http_response: requests.models.Response
@@ -4738,6 +4889,19 @@ class AttributeTemplateAttributeInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.AttributeTemplateAttribute(self.data['data'])
+
+	def get_attribute_template_attribute(self) -> merchantapi.model.AttributeTemplateAttribute:
+		"""
+		Get attribute_template_attribute.
+
+		:returns: AttributeTemplateAttribute
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -4795,6 +4959,19 @@ class AttributeTemplateOptionInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.AttributeTemplateOption(self.data['data'])
+
+	def get_attribute_template_option(self) -> merchantapi.model.AttributeTemplateOption:
+		"""
+		Get attribute_template_option.
+
+		:returns: AttributeTemplateOption
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -4833,6 +5010,19 @@ class AttributeTemplateInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.AttributeTemplate(self.data['data'])
+
+	def get_attribute_template(self) -> merchantapi.model.AttributeTemplate:
+		"""
+		Get attribute_template.
+
+		:returns: AttributeTemplate
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -5025,15 +5215,15 @@ class ProductAttributeAndOptionListLoadQuery(ListQueryResponse):
 
 
 """
-API Response for CustomerSubscriptionList_Load_Query.
+API Response for SubscriptionList_Load_Query.
 
-:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+:see: https://docs.miva.com/json-api/functions/subscriptionlist_load_query
 """
 
-class CustomerSubscriptionListLoadQuery(ListQueryResponse):
+class SubscriptionListLoadQuery(ListQueryResponse):
 	def __init__(self, request: ListQueryRequest, http_response: HttpResponse, data: dict):
 		"""
-		CustomerSubscriptionListLoadQuery Constructor.
+		SubscriptionListLoadQuery Constructor.
 
 		:param request: ListQueryRequest
 		:param http_response: requests.models.Response
@@ -5046,13 +5236,13 @@ class CustomerSubscriptionListLoadQuery(ListQueryResponse):
 
 		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
 			for i, e in enumerate(self.data['data']['data'], 0):
-				self.data['data']['data'][i] = merchantapi.model.CustomerSubscription(e)
+				self.data['data']['data'][i] = merchantapi.model.Subscription(e)
 
-	def get_customer_subscriptions(self):
+	def get_subscriptions(self):
 		"""
-		Get customer_subscriptions.
+		Get subscriptions.
 
-		:returns: list of CustomerSubscription
+		:returns: list of Subscription
 		"""
 
 		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
@@ -5235,28 +5425,19 @@ class SubscriptionAndOrderItemAdd(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_total(self):
+		self.data['data'] = merchantapi.model.OrderTotalAndItem(self.data['data'])
+
+	def get_order_total_and_item(self) -> merchantapi.model.OrderTotalAndItem:
 		"""
-		Get total.
+		Get order_total_and_item.
 
-		:returns: float
-		"""
-
-		if 'total' in self.data:
-			return self.data['total']
-		return 0.00
-
-	def get_formatted_total(self):
-		"""
-		Get formatted_total.
-
-		:returns: string
+		:returns: OrderTotalAndItem
 		"""
 
-		if 'formatted_total' in self.data:
-			return self.data['formatted_total']
-		return None
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -5276,28 +5457,19 @@ class SubscriptionAndOrderItemUpdate(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
 
-	def get_total(self):
+		self.data['data'] = merchantapi.model.OrderTotal(self.data['data'])
+
+	def get_order_total(self) -> merchantapi.model.OrderTotal:
 		"""
-		Get total.
+		Get order_total.
 
-		:returns: float
-		"""
-
-		if 'total' in self.data:
-			return self.data['total']
-		return 0.00
-
-	def get_formatted_total(self):
-		"""
-		Get formatted_total.
-
-		:returns: string
+		:returns: OrderTotal
 		"""
 
-		if 'formatted_total' in self.data:
-			return self.data['formatted_total']
-		return None
+		return {} if 'data' not in self.data else self.data['data']
 
 
 """
@@ -6004,6 +6176,25 @@ class BusinessAccountCustomerListLoadQuery(ListQueryResponse):
 
 
 """
+API Response for ProductVariant_Generate_Delimiter.
+
+:see: https://docs.miva.com/json-api/functions/productvariant_generate_delimiter
+"""
+
+class ProductVariantGenerateDelimiter(ProductVariantGenerate):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		ProductVariantGenerateDelimiter Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+
+
+"""
 API Response for RelatedProductList_Load_Query.
 
 :see: https://docs.miva.com/json-api/functions/relatedproductlist_load_query
@@ -6078,6 +6269,43 @@ class AttributeTemplateProductListLoadQuery(ListQueryResponse):
 
 
 """
+API Response for CustomerSubscriptionList_Load_Query.
+
+:see: https://docs.miva.com/json-api/functions/customersubscriptionlist_load_query
+"""
+
+class CustomerSubscriptionListLoadQuery(ListQueryResponse):
+	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
+		"""
+		CustomerSubscriptionListLoadQuery Constructor.
+
+		:param request: Request
+		:param http_response: requests.models.Response
+		:param data: dict
+		"""
+
+		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
+			for i, e in enumerate(self.data['data']['data'], 0):
+				self.data['data']['data'][i] = merchantapi.model.CustomerSubscription(e)
+
+	def get_customer_subscriptions(self):
+		"""
+		Get customer_subscriptions.
+
+		:returns: list of CustomerSubscription
+		"""
+
+		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):
+			return []
+
+		return self.data['data']['data']
+
+
+"""
 API Response for ProductAndSubscriptionTermList_Load_Query.
 
 :see: https://docs.miva.com/json-api/functions/productandsubscriptiontermlist_load_query
@@ -6120,4 +6348,13 @@ RequestBuilder response class
 
 
 class RequestBuilder(Response):
+	pass
+
+
+"""
+ListQueryRequestBuilder response class
+"""
+
+
+class ListQueryRequestBuilder(Response):
 	pass
