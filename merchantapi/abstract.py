@@ -102,6 +102,21 @@ class Model(dict):
 			return default
 		return self[name]
 
+	def get_timestamp_field(self, name: str):
+		"""
+		Get a timestamp field value.
+
+		:param name: str
+		:param default: mixed
+		:return: mixed
+		"""
+
+		value = self.get_field(name)
+
+		if isinstance(value, dict) and 'time_t' in value:
+			return value['time_t']
+		return value
+
 	def has_field(self, name: str):
 		"""
 		Check if a field is defined.

@@ -25,7 +25,9 @@ search filters to the *List_Load_Query requests.
 request = ProductListLoadQuery(client)
 
 '''
-Create a FilterExpression object for the request.
+You can filter list load query requests with FilterExpressions.
+ListQueryRequest classes all have a default filter expression.
+You can access it with the get_filters() method.
 This will enforce only adding search filters to
 defined fields in ProductListLoadQuery. Trying to
 filter against undefined fields throws an exception.
@@ -35,10 +37,14 @@ filter against undefined fields throws an exception.
 :see: FilterExpression
 '''
 
-filters = request.filter_expression()
+filters = request.get_filters()
 
 '''
 Alternately, you can just create a FilterExpression object
+with request.filter_expression(), just be sure to set it
+with request.set_filters(filters).
+
+And finally, you can just create a FilterExpression object
 directly.
 
 	filters = FilterExpression()
@@ -52,7 +58,6 @@ This will enforce a requests available search fields.
 
 filters.equal('code', 'foo').or_equal('code', 'bar')
 
-
 # You can nest additional expressions to create
 # more complex search queries:
 
@@ -60,7 +65,6 @@ filters.or_x(
 	filters.expr().like('code', 'BAZ%').and_greater_than('price', 9.99)
 )
 
-request.set_filters(filters)
 
 '''
 This would result in a query along the lines of:
@@ -140,7 +144,7 @@ if response.is_error():
 	print('Load Products Error: %s: %s' % (response.get_error_code(), response.get_error_message()))
 else:
 	for product in response.get_products():
-		print('Product ID: %d Code: %s Name: %s' % (product.getId(),  product.getCode(),  product.getName()))
+		print('Product ID: %d Code: %s Name: %s' % (product.get_id(),  product.get_code(),  product.get_name()))
 
 	# Custom Field Values can be accessed via the CustomFieldValues model object
 	# :see: CustomFieldValues
