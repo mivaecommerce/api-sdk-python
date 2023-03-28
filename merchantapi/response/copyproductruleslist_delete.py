@@ -6,9 +6,9 @@ This file is part of the MerchantAPI package.
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
-API Response for JavaScriptResource_Insert.
+API Response for CopyProductRulesList_Delete.
 
-:see: https://docs.miva.com/json-api/functions/javascriptresource_insert
+:see: https://docs.miva.com/json-api/functions/copyproductruleslist_delete
 """
 
 from merchantapi.abstract import Request, Response
@@ -16,10 +16,10 @@ from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
 import merchantapi.model
 
-class JavaScriptResourceInsert(Response):
+class CopyProductRulesListDelete(Response):
 	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
 		"""
-		JavaScriptResourceInsert Constructor.
+		CopyProductRulesListDelete Constructor.
 
 		:param request: Request
 		:param http_response: requests.models.Response
@@ -27,16 +27,3 @@ class JavaScriptResourceInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
-		if not self.is_success():
-			return
-
-		self.data['data'] = merchantapi.model.JavaScriptResource(self.data['data'])
-
-	def get_javascript_resource(self) -> merchantapi.model.JavaScriptResource:
-		"""
-		Get javascript_resource.
-
-		:returns: JavaScriptResource
-		"""
-
-		return {} if 'data' not in self.data else self.data['data']

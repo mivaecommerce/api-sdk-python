@@ -27,3 +27,16 @@ class CSSResourceInsert(Response):
 		"""
 
 		super().__init__(request, http_response, data)
+		if not self.is_success():
+			return
+
+		self.data['data'] = merchantapi.model.CSSResource(self.data['data'])
+
+	def get_css_resource(self) -> merchantapi.model.CSSResource:
+		"""
+		Get css_resource.
+
+		:returns: CSSResource
+		"""
+
+		return {} if 'data' not in self.data else self.data['data']

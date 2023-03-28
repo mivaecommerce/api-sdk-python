@@ -67,7 +67,6 @@ from .payment_card_type import PaymentCardType
 from .order_payment_authorize import OrderPaymentAuthorize
 from .branch import Branch
 from .branch_template_version import BranchTemplateVersion
-from .version_settings import VersionSettings
 from .changeset import Changeset
 from .template_change import TemplateChange
 from .resource_group_change import ResourceGroupChange
@@ -105,6 +104,12 @@ from .product_subscription_term_date import ProductSubscriptionTermDate
 from .subscription_attribute import SubscriptionAttribute
 from .subscription_shipping_method import SubscriptionShippingMethod
 from .split_order_item import SplitOrderItem
+from .copy_page_rule import CopyPageRule
+from .copy_page_rules_settings import CopyPageRulesSettings
+from .copy_product_rule import CopyProductRule
+from .copy_product_rules_module import CopyProductRulesModule
+from .copy_product_rules_custom_field import CopyProductRulesCustomField
+from .product_subscription_settings import ProductSubscriptionSettings
 from .availability_group_customer import AvailabilityGroupCustomer
 from .availability_group_category import AvailabilityGroupCategory
 from .availability_group_product import AvailabilityGroupProduct
@@ -123,6 +128,7 @@ from .price_group_business_account import PriceGroupBusinessAccount
 from .order_item_subscription import OrderItemSubscription
 from .customer_price_group import CustomerPriceGroup
 from .order_total_and_item import OrderTotalAndItem
+from .version_settings import VersionSettings
 from .branch_css_resource_version import BranchCSSResourceVersion
 from .changeset_css_resource_version import ChangesetCSSResourceVersion
 from .branch_css_resource import BranchCSSResource

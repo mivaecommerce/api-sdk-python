@@ -18,6 +18,8 @@ from .category import Category
 from .product_shipping_rules import ProductShippingRules
 from .product_image_data import ProductImageData
 from .product_attribute import ProductAttribute
+from .product_subscription_settings import ProductSubscriptionSettings
+from .product_subscription_term import ProductSubscriptionTerm
 
 class Product(Model):
 	def __init__(self, data: dict = None):
@@ -111,6 +113,26 @@ class Product(Model):
 						raise Exception('Expected list of ProductAttribute or dict')
 			else:
 				raise Exception('Expected list of ProductAttribute or dict')
+
+		if self.has_field('subscriptionsettings'):
+			value = self.get_field('subscriptionsettings')
+			if isinstance(value, dict):
+				if not isinstance(value, ProductSubscriptionSettings):
+					self.set_field('subscriptionsettings', ProductSubscriptionSettings(value))
+			else:
+				raise Exception('Expected ProductSubscriptionSettings or a dict')
+
+		if self.has_field('subscriptionterms'):
+			value = self.get_field('subscriptionterms')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, ProductSubscriptionTerm):
+							value[i] = ProductSubscriptionTerm(e)
+					else:
+						raise Exception('Expected list of ProductSubscriptionTerm or dict')
+			else:
+				raise Exception('Expected list of ProductSubscriptionTerm or dict')
 
 		self['image_types'] = {}
 		for (k,v) in self.items():
@@ -414,6 +436,24 @@ class Product(Model):
 
 		return self.get_field('disp_order', 0)
 
+	def get_subscription_settings(self):
+		"""
+		Get subscriptionsettings.
+
+		:returns: ProductSubscriptionSettings|None
+		"""
+
+		return self.get_field('subscriptionsettings', None)
+
+	def get_subscription_terms(self):
+		"""
+		Get subscriptionterms.
+
+		:returns: List of ProductSubscriptionTerm
+		"""
+
+		return self.get_field('subscriptionterms', [])
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -454,5 +494,13 @@ class Product(Model):
 			for i, e in enumerate(ret['attributes']):
 				if isinstance(e, ProductAttribute):
 					ret['attributes'][i] = ret['attributes'][i].to_dict()
+
+		if 'subscriptionsettings' in ret and isinstance(ret['subscriptionsettings'], ProductSubscriptionSettings):
+			ret['subscriptionsettings'] = ret['subscriptionsettings'].to_dict()
+
+		if 'subscriptionterms' in ret and isinstance(ret['subscriptionterms'], list):
+			for i, e in enumerate(ret['subscriptionterms']):
+				if isinstance(e, ProductSubscriptionTerm):
+					ret['subscriptionterms'][i] = ret['subscriptionterms'][i].to_dict()
 
 		return ret

@@ -6,9 +6,9 @@ This file is part of the MerchantAPI package.
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
-API Response for JavaScriptResource_Insert.
+API Response for CopyPageRules_Insert.
 
-:see: https://docs.miva.com/json-api/functions/javascriptresource_insert
+:see: https://docs.miva.com/json-api/functions/copypagerules_insert
 """
 
 from merchantapi.abstract import Request, Response
@@ -16,10 +16,10 @@ from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
 import merchantapi.model
 
-class JavaScriptResourceInsert(Response):
+class CopyPageRulesInsert(Response):
 	def __init__(self, request: Request, http_response: HttpResponse, data: dict):
 		"""
-		JavaScriptResourceInsert Constructor.
+		CopyPageRulesInsert Constructor.
 
 		:param request: Request
 		:param http_response: requests.models.Response
@@ -30,13 +30,13 @@ class JavaScriptResourceInsert(Response):
 		if not self.is_success():
 			return
 
-		self.data['data'] = merchantapi.model.JavaScriptResource(self.data['data'])
+		self.data['data'] = merchantapi.model.CopyPageRule(self.data['data'])
 
-	def get_javascript_resource(self) -> merchantapi.model.JavaScriptResource:
+	def get_copy_page_rule(self) -> merchantapi.model.CopyPageRule:
 		"""
-		Get javascript_resource.
+		Get copy_page_rule.
 
-		:returns: JavaScriptResource
+		:returns: CopyPageRule
 		"""
 
 		return {} if 'data' not in self.data else self.data['data']

@@ -14,13 +14,13 @@ Holds Version information
 
 class Version:
 	# Version string
-	STRING = '2.3.0'
+	STRING = '2.4.0'
 
 	# Major Version
 	MAJOR = 2
 
 	# Minor Version
-	MINOR = 3
+	MINOR = 4
 
 	# Patch Version
 	PATCH = 0

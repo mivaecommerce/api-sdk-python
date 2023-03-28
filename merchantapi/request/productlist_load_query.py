@@ -80,7 +80,9 @@ class ProductListLoadQuery(ListQueryRequest):
 		'productshippingrules',
 		'relatedproducts',
 		'uris',
-		'url'
+		'url',
+		'subscriptionsettings',
+		'subscriptionterms'
 	]
 
 	available_custom_filters = {
