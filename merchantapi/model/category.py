@@ -177,6 +177,15 @@ class Category(Model):
 
 		return self.get_field('uris', [])
 
+	def get_url(self) -> str:
+		"""
+		Get url.
+
+		:returns: string
+		"""
+
+		return self.get_field('url')
+
 	def get_custom_field_values(self):
 		"""
 		Get CustomField_Values.

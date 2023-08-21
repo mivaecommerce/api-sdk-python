@@ -38,6 +38,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 		self.css_resource_changes = []
 		self.javascript_resource_changes = []
 		self.property_changes = []
+		self.module_changes = []
 		if isinstance(branch, merchantapi.model.Branch):
 			if branch.get_id():
 				self.set_branch_id(branch.get_id())
@@ -143,6 +144,15 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		return self.property_changes
 
+	def get_module_changes(self) -> list:
+		"""
+		Get Module_Changes.
+
+		:returns: List of ModuleChange
+		"""
+
+		return self.module_changes
+
 	def set_branch_id(self, branch_id: int) -> 'ChangesetCreate':
 		"""
 		Set Branch_ID.
@@ -209,7 +219,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in template_changes:
 			if not isinstance(e, merchantapi.model.TemplateChange):
-				raise Exception("")
+				raise Exception("Expected instance of TemplateChange")
 		self.template_changes = template_changes
 		return self
 
@@ -224,7 +234,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in resource_group_changes:
 			if not isinstance(e, merchantapi.model.ResourceGroupChange):
-				raise Exception("")
+				raise Exception("Expected instance of ResourceGroupChange")
 		self.resource_group_changes = resource_group_changes
 		return self
 
@@ -239,7 +249,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in css_resource_changes:
 			if not isinstance(e, merchantapi.model.CSSResourceChange):
-				raise Exception("")
+				raise Exception("Expected instance of CSSResourceChange")
 		self.css_resource_changes = css_resource_changes
 		return self
 
@@ -254,7 +264,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in javascript_resource_changes:
 			if not isinstance(e, merchantapi.model.JavaScriptResourceChange):
-				raise Exception("")
+				raise Exception("Expected instance of JavaScriptResourceChange")
 		self.javascript_resource_changes = javascript_resource_changes
 		return self
 
@@ -269,8 +279,23 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in property_changes:
 			if not isinstance(e, merchantapi.model.PropertyChange):
-				raise Exception("")
+				raise Exception("Expected instance of PropertyChange")
 		self.property_changes = property_changes
+		return self
+
+	def set_module_changes(self, module_changes: list) -> 'ChangesetCreate':
+		"""
+		Set Module_Changes.
+
+		:param module_changes: {ModuleChange[]}
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in module_changes:
+			if not isinstance(e, merchantapi.model.ModuleChange):
+				raise Exception("Expected instance of ModuleChange")
+		self.module_changes = module_changes
 		return self
 	
 	def add_template_change(self, template_change) -> 'ChangesetCreate':
@@ -301,7 +326,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in template_changes:
 			if not isinstance(e, merchantapi.model.TemplateChange):
-				raise Exception('')
+				raise Exception('Expected instance of TemplateChange')
 			self.template_changes.append(e)
 
 		return self
@@ -334,7 +359,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in resource_group_changes:
 			if not isinstance(e, merchantapi.model.ResourceGroupChange):
-				raise Exception('')
+				raise Exception('Expected instance of ResourceGroupChange')
 			self.resource_group_changes.append(e)
 
 		return self
@@ -367,7 +392,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in css_resource_changes:
 			if not isinstance(e, merchantapi.model.CSSResourceChange):
-				raise Exception('')
+				raise Exception('Expected instance of CSSResourceChange')
 			self.css_resource_changes.append(e)
 
 		return self
@@ -400,7 +425,7 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in javascript_resource_changes:
 			if not isinstance(e, merchantapi.model.JavaScriptResourceChange):
-				raise Exception('')
+				raise Exception('Expected instance of JavaScriptResourceChange')
 			self.javascript_resource_changes.append(e)
 
 		return self
@@ -433,8 +458,41 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 		for e in property_changes:
 			if not isinstance(e, merchantapi.model.PropertyChange):
-				raise Exception('')
+				raise Exception('Expected instance of PropertyChange')
 			self.property_changes.append(e)
+
+		return self
+	
+	def add_module_change(self, module_change) -> 'ChangesetCreate':
+		"""
+		Add Module_Changes.
+
+		:param module_change: ModuleChange 
+		:raises Exception:
+		:returns: {ChangesetCreate}
+		"""
+
+		if isinstance(module_change, merchantapi.model.ModuleChange):
+			self.module_changes.append(module_change)
+		elif isinstance(module_change, dict):
+			self.module_changes.append(merchantapi.model.ModuleChange(module_change))
+		else:
+			raise Exception('Expected instance of ModuleChange or dict')
+		return self
+
+	def add_module_changes(self, module_changes: list) -> 'ChangesetCreate':
+		"""
+		Add many ModuleChange.
+
+		:param module_changes: List of ModuleChange
+		:raises Exception:
+		:returns: ChangesetCreate
+		"""
+
+		for e in module_changes:
+			if not isinstance(e, merchantapi.model.ModuleChange):
+				raise Exception('Expected instance of ModuleChange')
+			self.module_changes.append(e)
 
 		return self
 	
@@ -517,4 +575,9 @@ class ChangesetCreate(merchantapi.abstract.Request):
 
 			for f in self.property_changes:
 				data['Property_Changes'].append(f.to_dict())
+		if len(self.module_changes):
+			data['Module_Changes'] = []
+
+			for f in self.module_changes:
+				data['Module_Changes'].append(f.to_dict())
 		return data

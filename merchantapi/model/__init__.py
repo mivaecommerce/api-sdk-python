@@ -67,6 +67,7 @@ from .payment_card_type import PaymentCardType
 from .order_payment_authorize import OrderPaymentAuthorize
 from .branch import Branch
 from .branch_template_version import BranchTemplateVersion
+from .variable_value import VariableValue
 from .changeset import Changeset
 from .template_change import TemplateChange
 from .resource_group_change import ResourceGroupChange
@@ -104,6 +105,7 @@ from .product_subscription_term_date import ProductSubscriptionTermDate
 from .subscription_attribute import SubscriptionAttribute
 from .subscription_shipping_method import SubscriptionShippingMethod
 from .split_order_item import SplitOrderItem
+from .module_change import ModuleChange
 from .copy_page_rule import CopyPageRule
 from .copy_page_rules_settings import CopyPageRulesSettings
 from .copy_product_rule import CopyProductRule

@@ -246,7 +246,7 @@ class PageInsert(merchantapi.abstract.Request):
 		"""
 
 		if not isinstance(custom_field_values, merchantapi.model.CustomFieldValues):
-			raise Exception("")
+			raise Exception("Expected instance of CustomFieldValues")
 		self.custom_field_values = custom_field_values
 		return self
 

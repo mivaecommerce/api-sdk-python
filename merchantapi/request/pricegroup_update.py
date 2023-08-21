@@ -664,7 +664,7 @@ class PriceGroupUpdate(merchantapi.abstract.Request):
 
 		for e in exclusions:
 			if not isinstance(e, merchantapi.model.PriceGroupExclusion):
-				raise Exception("")
+				raise Exception("Expected instance of PriceGroupExclusion")
 		self.exclusions = exclusions
 		return self
 
@@ -707,7 +707,7 @@ class PriceGroupUpdate(merchantapi.abstract.Request):
 
 		for e in exclusions:
 			if not isinstance(e, merchantapi.model.PriceGroupExclusion):
-				raise Exception('')
+				raise Exception('Expected instance of PriceGroupExclusion')
 			self.exclusions.append(e)
 
 		return self

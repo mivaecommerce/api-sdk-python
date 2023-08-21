@@ -51,7 +51,8 @@ class CategoryListLoadQuery(ListQueryRequest):
 	]
 
 	available_on_demand_columns = [
-		'uris'
+		'uris',
+		'url'
 	]
 
 	available_custom_filters = {

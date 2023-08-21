@@ -357,6 +357,15 @@ class OrderItem(Model):
 
 		return self.get_field('product_id', 0)
 
+	def get_group_id(self) -> int:
+		"""
+		Get group_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('group_id', 0)
+
 	def set_code(self, code: str) -> 'OrderItem':
 		"""
 		Set code.

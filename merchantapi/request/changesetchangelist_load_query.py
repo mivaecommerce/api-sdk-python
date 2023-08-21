@@ -24,15 +24,22 @@ class ChangesetChangeListLoadQuery(ListQueryRequest):
 	available_search_fields = [
 		'item_type',
 		'item_id',
+		'item_user_id',
+		'item_user_name',
+		'item_user_icon',
 		'item_version_id',
-		'item_identifier'
+		'item_identifier',
+		'item_change_type'
 	]
 
 	available_sort_fields = [
 		'item_type',
 		'item_id',
+		'item_user_id',
+		'item_user_name',
 		'item_version_id',
-		'item_identifier'
+		'item_identifier',
+		'item_change_type'
 	]
 
 	def __init__(self, client: Client = None, changeset: merchantapi.model.Changeset = None):

@@ -10,6 +10,7 @@ OrderPayment data model.
 """
 
 from merchantapi.abstract import Model
+from .module import Module
 
 class OrderPayment(Model):
 	# ORDER_PAYMENT_TYPE constants.
@@ -30,6 +31,13 @@ class OrderPayment(Model):
 		"""
 
 		super().__init__(data)
+		if self.has_field('module'):
+			value = self.get_field('module')
+			if isinstance(value, dict):
+				if not isinstance(value, Module):
+					self.set_field('module', Module(value))
+			else:
+				raise Exception('Expected Module or a dict')
 
 	def get_id(self) -> int:
 		"""
@@ -183,3 +191,24 @@ class OrderPayment(Model):
 		"""
 
 		return self.get_field('ip')
+
+	def get_module(self):
+		"""
+		Get module.
+
+		:returns: Module|None
+		"""
+
+		return self.get_field('module', None)
+
+	def to_dict(self) -> dict:
+		"""
+		Reduce the model to a dict.
+		"""
+
+		ret = self.copy()
+
+		if 'module' in ret and isinstance(ret['module'], Module):
+			ret['module'] = ret['module'].to_dict()
+
+		return ret

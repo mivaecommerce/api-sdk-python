@@ -18,6 +18,9 @@ class JavaScriptResource(Model):
 	RESOURCE_TYPE_INLINE = 'I'
 	RESOURCE_TYPE_EXTERNAL = 'E'
 	RESOURCE_TYPE_LOCAL = 'L'
+	RESOURCE_TYPE_MODULE = 'M'
+	RESOURCE_TYPE_MODULE_INLINE = 'Y'
+	RESOURCE_TYPE_MODULE_MANAGED = 'Z'
 
 	def __init__(self, data: dict = None):
 		"""
@@ -110,6 +113,24 @@ class JavaScriptResource(Model):
 		"""
 
 		return self.get_field('attributes', [])
+
+	def get_module_code(self) -> str:
+		"""
+		Get mod_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('mod_code')
+
+	def get_module_data(self) -> str:
+		"""
+		Get mod_data.
+
+		:returns: string
+		"""
+
+		return self.get_field('mod_data')
 
 	def to_dict(self) -> dict:
 		"""

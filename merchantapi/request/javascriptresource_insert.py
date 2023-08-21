@@ -33,6 +33,8 @@ class JavaScriptResourceInsert(merchantapi.abstract.Request):
 		self.javascript_resource_active = None
 		self.javascript_resource_file_path = None
 		self.javascript_resource_attributes = []
+		self.javascript_resource_module_code = None
+		self.javascript_resource_module_data = None
 
 	def get_function(self):
 		"""
@@ -96,6 +98,24 @@ class JavaScriptResourceInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.javascript_resource_attributes
+
+	def get_javascript_resource_module_code(self) -> str:
+		"""
+		Get JavaScriptResource_Module_Code.
+
+		:returns: str
+		"""
+
+		return self.javascript_resource_module_code
+
+	def get_javascript_resource_module_data(self) -> str:
+		"""
+		Get JavaScriptResource_Module_Data.
+
+		:returns: str
+		"""
+
+		return self.javascript_resource_module_data
 
 	def set_javascript_resource_code(self, javascript_resource_code: str) -> 'JavaScriptResourceInsert':
 		"""
@@ -163,8 +183,30 @@ class JavaScriptResourceInsert(merchantapi.abstract.Request):
 
 		for e in javascript_resource_attributes:
 			if not isinstance(e, merchantapi.model.JavaScriptResourceAttribute):
-				raise Exception("")
+				raise Exception("Expected instance of JavaScriptResourceAttribute")
 		self.javascript_resource_attributes = javascript_resource_attributes
+		return self
+
+	def set_javascript_resource_module_code(self, javascript_resource_module_code: str) -> 'JavaScriptResourceInsert':
+		"""
+		Set JavaScriptResource_Module_Code.
+
+		:param javascript_resource_module_code: str
+		:returns: JavaScriptResourceInsert
+		"""
+
+		self.javascript_resource_module_code = javascript_resource_module_code
+		return self
+
+	def set_javascript_resource_module_data(self, javascript_resource_module_data: str) -> 'JavaScriptResourceInsert':
+		"""
+		Set JavaScriptResource_Module_Data.
+
+		:param javascript_resource_module_data: str
+		:returns: JavaScriptResourceInsert
+		"""
+
+		self.javascript_resource_module_data = javascript_resource_module_data
 		return self
 	
 	def add_javascript_resource_attribute(self, javascript_resource_attribute) -> 'JavaScriptResourceInsert':
@@ -195,7 +237,7 @@ class JavaScriptResourceInsert(merchantapi.abstract.Request):
 
 		for e in javascript_resource_attributes:
 			if not isinstance(e, merchantapi.model.JavaScriptResourceAttribute):
-				raise Exception('')
+				raise Exception('Expected instance of JavaScriptResourceAttribute')
 			self.javascript_resource_attributes.append(e)
 
 		return self
@@ -237,4 +279,8 @@ class JavaScriptResourceInsert(merchantapi.abstract.Request):
 
 			for f in self.javascript_resource_attributes:
 				data['JavaScriptResource_Attributes'].append(f.to_dict())
+		if self.javascript_resource_module_code is not None:
+			data['JavaScriptResource_Module_Code'] = self.javascript_resource_module_code
+		if self.javascript_resource_module_data is not None:
+			data['JavaScriptResource_Module_Data'] = self.javascript_resource_module_data
 		return data

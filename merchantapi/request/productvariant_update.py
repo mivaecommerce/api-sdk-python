@@ -159,7 +159,7 @@ class ProductVariantUpdate(merchantapi.abstract.Request):
 
 		for e in attributes:
 			if not isinstance(e, merchantapi.model.VariantAttribute):
-				raise Exception("")
+				raise Exception("Expected instance of VariantAttribute")
 		self.attributes = attributes
 		return self
 
@@ -174,7 +174,7 @@ class ProductVariantUpdate(merchantapi.abstract.Request):
 
 		for e in parts:
 			if not isinstance(e, merchantapi.model.VariantPart):
-				raise Exception("")
+				raise Exception("Expected instance of VariantPart")
 		self.parts = parts
 		return self
 	
@@ -206,7 +206,7 @@ class ProductVariantUpdate(merchantapi.abstract.Request):
 
 		for e in attributes:
 			if not isinstance(e, merchantapi.model.VariantAttribute):
-				raise Exception('')
+				raise Exception('Expected instance of VariantAttribute')
 			self.attributes.append(e)
 
 		return self
@@ -239,7 +239,7 @@ class ProductVariantUpdate(merchantapi.abstract.Request):
 
 		for e in parts:
 			if not isinstance(e, merchantapi.model.VariantPart):
-				raise Exception('')
+				raise Exception('Expected instance of VariantPart')
 			self.parts.append(e)
 
 		return self

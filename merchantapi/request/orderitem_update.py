@@ -261,7 +261,7 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 
 		for e in options:
 			if not isinstance(e, merchantapi.model.OrderItemOption):
-				raise Exception("")
+				raise Exception("Expected instance of OrderItemOption")
 		self.options = options
 		return self
 	
@@ -293,7 +293,7 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 
 		for e in options:
 			if not isinstance(e, merchantapi.model.OrderItemOption):
-				raise Exception('')
+				raise Exception('Expected instance of OrderItemOption')
 			self.options.append(e)
 
 		return self

@@ -9,44 +9,17 @@ file that was distributed with this source code.
 VersionSettings data model.
 """
 
-from merchantapi.abstract import Model
+from .variable_value import VariableValue
 
-class VersionSettings(Model):
-	def __init__(self, data: dict = None):
+class VersionSettings(VariableValue):
+	def __init__(self, data = None):
 		"""
 		VersionSettings Constructor
 
-		:param data: dict
+		:param data: mixed
 		"""
 
-		self.data = data
-	
-	def is_scalar(self) -> bool:
-		"""
-		Check if the underlying data is a scalar value
-
-		:returns: bool
-		"""
-
-		return not isinstance(self.data, dict) and not isinstance(self.data, list)
-
-	def is_list(self) -> bool:
-		"""
-		Check if the underlying data is a list
-
-		:returns: bool
-		"""
-
-		return isinstance(self.data, list)
-
-	def is_dict(self) -> bool:
-		"""
-		Check if the underlying data is a dictionary
-
-		:returns: bool
-		"""
-
-		return isinstance(self.data, dict)
+		super().__init__(data)
 
 	def has_item(self, item: str) -> bool:
 		"""
@@ -56,7 +29,7 @@ class VersionSettings(Model):
 		:returns: bool
 		"""
 
-		return self.is_dict() and item in self.data;
+		return self.has_property(item)
 	
 	def item_has_property(self, item: str, item_property: str) -> bool:
 		"""
@@ -67,10 +40,7 @@ class VersionSettings(Model):
 		:returns: bool
 		"""
 		
-		if not self.is_dict() or not self.has_item(item):
-			return False
-
-		return item_property in self.data[item];
+		return self.has_sub_property(item, item_property)
 
 	def get_item(self, item: str):
 		"""
@@ -80,7 +50,7 @@ class VersionSettings(Model):
 		:returns: dict
 		"""
 
-		return self.data[item] if self.is_dict() and self.has_item(item) else None
+		return self.get_property(item)
 
 	def get_item_property(self, item: str, item_property: str):
 		"""
@@ -91,23 +61,7 @@ class VersionSettings(Model):
 		:returns: dict
 		"""
 
-		return self.data[item][item_property] if self.is_dict() and self.item_has_property(item, item_property) else None
-
-	def get_data(self):
-		"""
-		Get the underlying data
-
-		:returns: mixed
-		"""
-
-		return self.data
-
-	def to_dict(self):
-		"""
-		Reduce the model to a dict.
-		"""
-
-		return self.data
+		return self.get_sub_property(item, item_property)
 
 
 	def set_item(self, item: str, value: dict) -> 'VersionSettings':
@@ -119,8 +73,7 @@ class VersionSettings(Model):
 		:returns: VersionSettings
 		"""
 
-		self[item] = value		
-		return self
+		return self.set_property(item, value)
 
 	def set_item_property(self, item: str, item_property: str, value) -> 'VersionSettings':
 		"""
@@ -132,7 +85,4 @@ class VersionSettings(Model):
 		:returns: VersionSettings
 		"""
 
-		if not self.has_item(item):
-			self[item] = {}
-
-		self[item][item_property] = value
+		return self.set_sub_property(item, item_property, value)

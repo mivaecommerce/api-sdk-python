@@ -84,14 +84,14 @@ class Changeset(Model):
 
 		return self.get_field('user_icon')
 
-	def get_tags(self) -> dict:
+	def get_tags(self) -> list:
 		"""
 		Get tags.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('tags', {})
+		return self.get_field('tags', [])
 
 	def get_formatted_tags(self) -> str:
 		"""

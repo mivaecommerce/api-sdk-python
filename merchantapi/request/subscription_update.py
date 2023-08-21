@@ -400,7 +400,7 @@ class SubscriptionUpdate(merchantapi.abstract.Request):
 
 		for e in attributes:
 			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
-				raise Exception("")
+				raise Exception("Expected instance of SubscriptionAttribute")
 		self.attributes = attributes
 		return self
 	
@@ -432,7 +432,7 @@ class SubscriptionUpdate(merchantapi.abstract.Request):
 
 		for e in attributes:
 			if not isinstance(e, merchantapi.model.SubscriptionAttribute):
-				raise Exception('')
+				raise Exception('Expected instance of SubscriptionAttribute')
 			self.attributes.append(e)
 
 		return self

@@ -143,7 +143,8 @@ class OrderListLoadQuery(ListQueryRequest):
 		'notes',
 		'parts',
 		'shipments',
-		'returns'
+		'returns',
+		'payment_data'
 	]
 
 	available_custom_filters = {

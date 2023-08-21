@@ -30,7 +30,7 @@ class ProductCopy(Response):
 		if not self.is_success():
 			return
 
-		self.data['data'] = merchantapi.model.Product(self.data['data']) if 'data' in self.data else None
+		self.data['data'] = merchantapi.model.Product(self.data['data'])
 
 	def get_completed(self):
 		"""

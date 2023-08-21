@@ -190,7 +190,7 @@ class ProductKitUpdateParts(merchantapi.abstract.Request):
 
 		for e in parts:
 			if not isinstance(e, merchantapi.model.KitPart):
-				raise Exception("")
+				raise Exception("Expected instance of KitPart")
 		self.parts = parts
 		return self
 	
@@ -222,7 +222,7 @@ class ProductKitUpdateParts(merchantapi.abstract.Request):
 
 		for e in parts:
 			if not isinstance(e, merchantapi.model.KitPart):
-				raise Exception('')
+				raise Exception('Expected instance of KitPart')
 			self.parts.append(e)
 
 		return self

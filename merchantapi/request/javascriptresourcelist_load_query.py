@@ -26,7 +26,9 @@ class JavaScriptResourceListLoadQuery(ListQueryRequest):
 		'type',
 		'is_global',
 		'active',
-		'file'
+		'file',
+		'mod_code',
+		'mod_data'
 	]
 
 	available_sort_fields = [
@@ -35,7 +37,9 @@ class JavaScriptResourceListLoadQuery(ListQueryRequest):
 		'type',
 		'is_global',
 		'active',
-		'file'
+		'file',
+		'mod_code',
+		'mod_data'
 	]
 
 	def __init__(self, client: Client = None):

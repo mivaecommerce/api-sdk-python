@@ -58,7 +58,7 @@ class OrderShipmentListUpdate(merchantapi.abstract.Request):
 
 		for e in shipment_updates:
 			if not isinstance(e, merchantapi.model.OrderShipmentUpdate):
-				raise Exception("")
+				raise Exception("Expected instance of OrderShipmentUpdate")
 		self.shipment_updates = shipment_updates
 		return self
 	
@@ -90,7 +90,7 @@ class OrderShipmentListUpdate(merchantapi.abstract.Request):
 
 		for e in shipment_updates:
 			if not isinstance(e, merchantapi.model.OrderShipmentUpdate):
-				raise Exception('')
+				raise Exception('Expected instance of OrderShipmentUpdate')
 			self.shipment_updates.append(e)
 
 		return self

@@ -58,7 +58,7 @@ class OrderReturnListReceived(merchantapi.abstract.Request):
 
 		for e in returns:
 			if not isinstance(e, merchantapi.model.ReceivedReturn):
-				raise Exception("")
+				raise Exception("Expected instance of ReceivedReturn")
 		self.returns = returns
 		return self
 	
@@ -90,7 +90,7 @@ class OrderReturnListReceived(merchantapi.abstract.Request):
 
 		for e in returns:
 			if not isinstance(e, merchantapi.model.ReceivedReturn):
-				raise Exception('')
+				raise Exception('Expected instance of ReceivedReturn')
 			self.returns.append(e)
 
 		return self

@@ -39,23 +39,23 @@ class ResourceGroupChange(Model):
 
 		return self.get_field('ResourceGroup_Code')
 
-	def get_linked_css_resources(self) -> dict:
+	def get_linked_css_resources(self) -> list:
 		"""
 		Get LinkedCSSResources.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('LinkedCSSResources', {})
+		return self.get_field('LinkedCSSResources', [])
 
-	def get_linked_javascript_resources(self) -> dict:
+	def get_linked_javascript_resources(self) -> list:
 		"""
 		Get LinkedJavaScriptResources.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('LinkedJavaScriptResources', {})
+		return self.get_field('LinkedJavaScriptResources', [])
 
 	def set_resource_group_id(self, resource_group_id: int) -> 'ResourceGroupChange':
 		"""

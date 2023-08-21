@@ -83,14 +83,14 @@ class OrderCustomField(Model):
 
 		return self.get_field('module', None)
 
-	def get_choices(self) -> dict:
+	def get_choices(self) -> list:
 		"""
 		Get choices.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('choices', {})
+		return self.get_field('choices', [])
 
 	def to_dict(self) -> dict:
 		"""

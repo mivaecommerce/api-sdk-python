@@ -33,6 +33,8 @@ class CSSResourceInsert(merchantapi.abstract.Request):
 		self.css_resource_active = None
 		self.css_resource_file_path = None
 		self.css_resource_attributes = []
+		self.css_resource_module_code = None
+		self.css_resource_module_data = None
 
 	def get_function(self):
 		"""
@@ -96,6 +98,24 @@ class CSSResourceInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.css_resource_attributes
+
+	def get_css_resource_module_code(self) -> str:
+		"""
+		Get CSSResource_Module_Code.
+
+		:returns: str
+		"""
+
+		return self.css_resource_module_code
+
+	def get_css_resource_module_data(self) -> str:
+		"""
+		Get CSSResource_Module_Data.
+
+		:returns: str
+		"""
+
+		return self.css_resource_module_data
 
 	def set_css_resource_code(self, css_resource_code: str) -> 'CSSResourceInsert':
 		"""
@@ -163,8 +183,30 @@ class CSSResourceInsert(merchantapi.abstract.Request):
 
 		for e in css_resource_attributes:
 			if not isinstance(e, merchantapi.model.CSSResourceAttribute):
-				raise Exception("")
+				raise Exception("Expected instance of CSSResourceAttribute")
 		self.css_resource_attributes = css_resource_attributes
+		return self
+
+	def set_css_resource_module_code(self, css_resource_module_code: str) -> 'CSSResourceInsert':
+		"""
+		Set CSSResource_Module_Code.
+
+		:param css_resource_module_code: str
+		:returns: CSSResourceInsert
+		"""
+
+		self.css_resource_module_code = css_resource_module_code
+		return self
+
+	def set_css_resource_module_data(self, css_resource_module_data: str) -> 'CSSResourceInsert':
+		"""
+		Set CSSResource_Module_Data.
+
+		:param css_resource_module_data: str
+		:returns: CSSResourceInsert
+		"""
+
+		self.css_resource_module_data = css_resource_module_data
 		return self
 	
 	def add_css_resource_attribute(self, css_resource_attribute) -> 'CSSResourceInsert':
@@ -195,7 +237,7 @@ class CSSResourceInsert(merchantapi.abstract.Request):
 
 		for e in css_resource_attributes:
 			if not isinstance(e, merchantapi.model.CSSResourceAttribute):
-				raise Exception('')
+				raise Exception('Expected instance of CSSResourceAttribute')
 			self.css_resource_attributes.append(e)
 
 		return self
@@ -237,4 +279,8 @@ class CSSResourceInsert(merchantapi.abstract.Request):
 
 			for f in self.css_resource_attributes:
 				data['CSSResource_Attributes'].append(f.to_dict())
+		if self.css_resource_module_code is not None:
+			data['CSSResource_Module_Code'] = self.css_resource_module_code
+		if self.css_resource_module_data is not None:
+			data['CSSResource_Module_Data'] = self.css_resource_module_data
 		return data

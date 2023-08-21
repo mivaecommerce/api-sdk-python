@@ -701,7 +701,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in items:
 			if not isinstance(e, merchantapi.model.OrderItem):
-				raise Exception("")
+				raise Exception("Expected instance of OrderItem")
 		self.items = items
 		return self
 
@@ -716,7 +716,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in products:
 			if not isinstance(e, merchantapi.model.OrderProduct):
-				raise Exception("")
+				raise Exception("Expected instance of OrderProduct")
 		self.products = products
 		return self
 
@@ -731,7 +731,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in charges:
 			if not isinstance(e, merchantapi.model.OrderCharge):
-				raise Exception("")
+				raise Exception("Expected instance of OrderCharge")
 		self.charges = charges
 		return self
 
@@ -745,7 +745,7 @@ class OrderCreate(merchantapi.abstract.Request):
 		"""
 
 		if not isinstance(custom_field_values, merchantapi.model.CustomFieldValues):
-			raise Exception("")
+			raise Exception("Expected instance of CustomFieldValues")
 		self.custom_field_values = custom_field_values
 		return self
 
@@ -821,7 +821,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in items:
 			if not isinstance(e, merchantapi.model.OrderItem):
-				raise Exception('')
+				raise Exception('Expected instance of OrderItem')
 			self.items.append(e)
 
 		return self
@@ -854,7 +854,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in products:
 			if not isinstance(e, merchantapi.model.OrderProduct):
-				raise Exception('')
+				raise Exception('Expected instance of OrderProduct')
 			self.products.append(e)
 
 		return self
@@ -887,7 +887,7 @@ class OrderCreate(merchantapi.abstract.Request):
 
 		for e in charges:
 			if not isinstance(e, merchantapi.model.OrderCharge):
-				raise Exception('')
+				raise Exception('Expected instance of OrderCharge')
 			self.charges.append(e)
 
 		return self

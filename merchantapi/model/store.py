@@ -393,3 +393,21 @@ class Store(Model):
 		"""
 
 		return self.get_field('redisex', 0)
+
+	def get_box_packing_id(self) -> int:
+		"""
+		Get boxpack_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('boxpack_id', 0)
+
+	def get_address_validation_id(self) -> int:
+		"""
+		Get addrval_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('addrval_id', 0)

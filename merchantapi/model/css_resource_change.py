@@ -105,23 +105,23 @@ class CSSResourceChange(Model):
 
 		return self.get_field('Source')
 
-	def get_linked_pages(self) -> dict:
+	def get_linked_pages(self) -> list:
 		"""
 		Get LinkedPages.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('LinkedPages', {})
+		return self.get_field('LinkedPages', [])
 
-	def get_linked_resources(self) -> dict:
+	def get_linked_resources(self) -> list:
 		"""
 		Get LinkedResources.
 
-		:returns: dict
+		:returns: list
 		"""
 
-		return self.get_field('LinkedResources', {})
+		return self.get_field('LinkedResources', [])
 
 	def get_attributes(self):
 		"""

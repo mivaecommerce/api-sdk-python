@@ -181,7 +181,7 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 
 		for e in limits:
 			if not isinstance(e, merchantapi.model.ProductVariantLimit):
-				raise Exception("")
+				raise Exception("Expected instance of ProductVariantLimit")
 		self.limits = limits
 		return self
 
@@ -196,7 +196,7 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 
 		for e in exclusions:
 			if not isinstance(e, merchantapi.model.ProductVariantExclusion):
-				raise Exception("")
+				raise Exception("Expected instance of ProductVariantExclusion")
 		self.exclusions = exclusions
 		return self
 	
@@ -228,7 +228,7 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 
 		for e in limits:
 			if not isinstance(e, merchantapi.model.ProductVariantLimit):
-				raise Exception('')
+				raise Exception('Expected instance of ProductVariantLimit')
 			self.limits.append(e)
 
 		return self
@@ -261,7 +261,7 @@ class ProductVariantListLoadProduct(merchantapi.abstract.Request):
 
 		for e in exclusions:
 			if not isinstance(e, merchantapi.model.ProductVariantExclusion):
-				raise Exception('')
+				raise Exception('Expected instance of ProductVariantExclusion')
 			self.exclusions.append(e)
 
 		return self

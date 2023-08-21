@@ -58,7 +58,7 @@ class ProductListAdjustInventory(merchantapi.abstract.Request):
 
 		for e in inventory_adjustments:
 			if not isinstance(e, merchantapi.model.ProductInventoryAdjustment):
-				raise Exception("")
+				raise Exception("Expected instance of ProductInventoryAdjustment")
 		self.inventory_adjustments = inventory_adjustments
 		return self
 	
@@ -90,7 +90,7 @@ class ProductListAdjustInventory(merchantapi.abstract.Request):
 
 		for e in inventory_adjustments:
 			if not isinstance(e, merchantapi.model.ProductInventoryAdjustment):
-				raise Exception('')
+				raise Exception('Expected instance of ProductInventoryAdjustment')
 			self.inventory_adjustments.append(e)
 
 		return self

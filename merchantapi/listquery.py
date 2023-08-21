@@ -462,7 +462,7 @@ class FilterExpressionEntry:
 			for e in self.right:
 				ret = ret + ('' if len(ret) is 0 else ',') + str(e)
 			return ret
-				
+
 		return str(self.right)
 
 	def set_right(self, right) -> 'FilterExpressionEntry':
@@ -653,29 +653,37 @@ class FilterExpression:
 		:raises Exception:
 		"""
 
-		expression.set_parent(self)
+		return self.sub_x(FilterExpression.FILTER_SEARCH_AND, expression)
 
-		self.expressions.append({
-			'type': FilterExpression.FILTER_SEARCH_AND,
-			'entry': expression
-		})
-
-		return self
-
-	def or_x(self, expression) -> 'FilterExpression':
+	def or_x(self, expression: 'FilterExpression') -> 'FilterExpression':
 		"""
-		Add a OR expression.
+		Add an OR expression.
 
 		:param expression: FilterExpression
 		:return: FilterExpression
 		:raises Exception:
 		"""
 
+		return self.sub_x(FilterExpression.FILTER_SEARCH_OR, expression)
+
+	def sub_x(self, search_type: str, expression: 'FilterExpression') -> 'FilterExpression':
+		"""
+		Add a nested expression.
+
+		:param search_type: str
+		:param expression: FilterExpression
+		:return: FilterExpression
+		:raises Exception:
+		"""
+
+		if expression == self:
+			raise Exception('Cannot add a subexpression with itself')
+
 		expression.set_parent(self)
 
 		self.expressions.append({
-			'type': FilterExpression.FILTER_SEARCH_OR,
-			'entry': expression
+			'type':		search_type,
+			'entry':	expression
 		})
 
 		return self
@@ -1170,14 +1178,34 @@ class FilterExpression:
 		:returns: list
 		"""
 
-		ret = []
+		if self.is_child():
+			return self._to_list()
+
+		return [
+			{
+				'name':		FilterExpression.FILTER_SEARCH,
+				'value':	self._to_list()
+			}
+		]
+
+	def _to_list(self) -> list:
+		"""
+		Reduce the built expression(s) to an array.
+
+		:returns: list
+		"""
+
+		filters = []
+		last_entry_type = None
+
 		for e in self.expressions:
 			if isinstance(e['entry'], FilterExpression):
 				entry = {
-					'name': e['type'],
-					'value': e['entry'].to_list()
+					'field':	e['type'],
+					'operator':	FilterExpression.OPERATOR_SUBWHERE,
+					'value':	e['entry'].to_list()
 				}
-			elif self.is_child():
+			elif self.is_child() or ( not self.is_child() and last_entry_type != None and e['type'] != last_entry_type ):
 				entry = {
 					'field': e['type'],
 					'operator': FilterExpression.OPERATOR_SUBWHERE,
@@ -1190,16 +1218,14 @@ class FilterExpression:
 					]
 				}
 			else:
-				entry = {
-					'name': e['type'],
-					'value': [
-						{
-							'field': e['entry'].get_left(),
-							'operator': e['entry'].get_operator(),
-							'value': e['entry'].get_right_joined()
+				last_entry_type = e['type']
 
-						}
-					]
+				entry = {
+					'field':	e['entry'].get_left(),
+					'operator':	e['entry'].get_operator(),
+					'value':	e['entry'].get_right_joined()
 				}
-			ret.append(entry)
-		return ret
+
+			filters.append(entry)
+
+		return filters
