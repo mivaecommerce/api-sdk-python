@@ -337,6 +337,15 @@ class Product(Model):
 
 		return self.get_field('cancat_code')
 
+	def get_page_id(self) -> int:
+		"""
+		Get page_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('page_id', 0)
+
 	def get_page_code(self) -> str:
 		"""
 		Get page_code.

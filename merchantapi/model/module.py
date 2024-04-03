@@ -101,3 +101,12 @@ class Module(Model):
 		"""
 
 		return self.get_field('active', False)
+
+	def get_priority(self) -> int:
+		"""
+		Get priority.
+
+		:returns: int
+		"""
+
+		return self.get_field('priority', 0)

@@ -113,6 +113,15 @@ class Uri(Model):
 
 		return self.get_field('page_id', 0)
 
+	def get_page_code(self) -> str:
+		"""
+		Get page_code.
+
+		:returns: string
+		"""
+
+		return self.get_field('page_code')
+
 	def get_category_id(self) -> int:
 		"""
 		Get cat_id.

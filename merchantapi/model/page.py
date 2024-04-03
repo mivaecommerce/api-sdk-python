@@ -199,6 +199,15 @@ class Page(Model):
 
 		return self.get_field('CustomField_Values', None)
 
+	def get_version_id(self) -> int:
+		"""
+		Get version_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('version_id', 0)
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.

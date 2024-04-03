@@ -38,6 +38,9 @@ class PageUpdate(merchantapi.abstract.Request):
 		self.changeset_notes = None
 		self.page_uri = None
 		self.custom_field_values = merchantapi.model.CustomFieldValues()
+		self.branch_id = None
+		self.edit_branch = None
+		self.branch_name = None
 		if isinstance(page, merchantapi.model.Page):
 			if page.get_id():
 				self.set_page_id(page.get_id())
@@ -147,6 +150,33 @@ class PageUpdate(merchantapi.abstract.Request):
 		"""
 
 		return self.custom_field_values
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
 
 	def set_page_id(self, page_id: int) -> 'PageUpdate':
 		"""
@@ -261,6 +291,39 @@ class PageUpdate(merchantapi.abstract.Request):
 		self.custom_field_values = custom_field_values
 		return self
 
+	def set_branch_id(self, branch_id: int) -> 'PageUpdate':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: PageUpdate
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'PageUpdate':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: PageUpdate
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'PageUpdate':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: PageUpdate
+		"""
+
+		self.branch_name = branch_name
+		return self
+
 	# noinspection PyTypeChecker
 	def send(self) -> 'merchantapi.response.PageUpdate':
 		return super().send()
@@ -292,6 +355,13 @@ class PageUpdate(merchantapi.abstract.Request):
 			data['Edit_Page'] = self.edit_page
 		elif self.page_code is not None:
 			data['Page_Code'] = self.page_code
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
 
 		if self.page_code is not None:
 			data['Page_Code'] = self.page_code

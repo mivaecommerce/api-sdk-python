@@ -112,6 +112,10 @@ from .copy_product_rule import CopyProductRule
 from .copy_product_rules_module import CopyProductRulesModule
 from .copy_product_rules_custom_field import CopyProductRulesCustomField
 from .product_subscription_settings import ProductSubscriptionSettings
+from .branch_item_version import BranchItemVersion
+from .changeset_item_version import ChangesetItemVersion
+from .branch_page_version import BranchPageVersion
+from .shipping_rule_method import ShippingRuleMethod
 from .availability_group_customer import AvailabilityGroupCustomer
 from .availability_group_category import AvailabilityGroupCategory
 from .availability_group_product import AvailabilityGroupProduct
@@ -147,3 +151,4 @@ from .changeset_property_version import ChangesetPropertyVersion
 from .customer_subscription import CustomerSubscription
 from .product_and_subscription_term import ProductAndSubscriptionTerm
 from .all_order_payment import AllOrderPayment
+from .coupon_business_account import CouponBusinessAccount

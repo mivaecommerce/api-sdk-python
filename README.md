@@ -26,7 +26,7 @@ To install the SDK simply add it to your project with pip:
 
 You can also add it to your project's `requirements.txt` file:
 
-    merchantapi>=2.5.0
+    merchantapi>=2.6.0
     
 Then install
 

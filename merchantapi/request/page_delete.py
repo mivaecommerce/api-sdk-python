@@ -31,6 +31,9 @@ class PageDelete(merchantapi.abstract.Request):
 		self.page_id = None
 		self.edit_page = None
 		self.page_code = None
+		self.branch_id = None
+		self.edit_branch = None
+		self.branch_name = None
 		if isinstance(page, merchantapi.model.Page):
 			if page.get_id():
 				self.set_page_id(page.get_id())
@@ -75,6 +78,33 @@ class PageDelete(merchantapi.abstract.Request):
 
 		return self.page_code
 
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
+
 	def set_page_id(self, page_id: int) -> 'PageDelete':
 		"""
 		Set Page_ID.
@@ -108,6 +138,39 @@ class PageDelete(merchantapi.abstract.Request):
 		self.page_code = page_code
 		return self
 
+	def set_branch_id(self, branch_id: int) -> 'PageDelete':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: PageDelete
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'PageDelete':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: PageDelete
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'PageDelete':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: PageDelete
+		"""
+
+		self.branch_name = branch_name
+		return self
+
 	# noinspection PyTypeChecker
 	def send(self) -> 'merchantapi.response.PageDelete':
 		return super().send()
@@ -139,5 +202,12 @@ class PageDelete(merchantapi.abstract.Request):
 			data['Edit_Page'] = self.edit_page
 		elif self.page_code is not None:
 			data['Page_Code'] = self.page_code
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
 
 		return data

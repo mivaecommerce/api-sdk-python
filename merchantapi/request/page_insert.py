@@ -37,6 +37,9 @@ class PageInsert(merchantapi.abstract.Request):
 		self.changeset_notes = None
 		self.page_uri = None
 		self.custom_field_values = merchantapi.model.CustomFieldValues()
+		self.branch_id = None
+		self.edit_branch = None
+		self.branch_name = None
 
 	def get_function(self):
 		"""
@@ -136,6 +139,33 @@ class PageInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.custom_field_values
+
+	def get_branch_id(self) -> int:
+		"""
+		Get Branch_ID.
+
+		:returns: int
+		"""
+
+		return self.branch_id
+
+	def get_edit_branch(self) -> str:
+		"""
+		Get Edit_Branch.
+
+		:returns: str
+		"""
+
+		return self.edit_branch
+
+	def get_branch_name(self) -> str:
+		"""
+		Get Branch_Name.
+
+		:returns: str
+		"""
+
+		return self.branch_name
 
 	def set_page_code(self, page_code: str) -> 'PageInsert':
 		"""
@@ -250,6 +280,39 @@ class PageInsert(merchantapi.abstract.Request):
 		self.custom_field_values = custom_field_values
 		return self
 
+	def set_branch_id(self, branch_id: int) -> 'PageInsert':
+		"""
+		Set Branch_ID.
+
+		:param branch_id: int
+		:returns: PageInsert
+		"""
+
+		self.branch_id = branch_id
+		return self
+
+	def set_edit_branch(self, edit_branch: str) -> 'PageInsert':
+		"""
+		Set Edit_Branch.
+
+		:param edit_branch: str
+		:returns: PageInsert
+		"""
+
+		self.edit_branch = edit_branch
+		return self
+
+	def set_branch_name(self, branch_name: str) -> 'PageInsert':
+		"""
+		Set Branch_Name.
+
+		:param branch_name: str
+		:returns: PageInsert
+		"""
+
+		self.branch_name = branch_name
+		return self
+
 	# noinspection PyTypeChecker
 	def send(self) -> 'merchantapi.response.PageInsert':
 		return super().send()
@@ -274,6 +337,13 @@ class PageInsert(merchantapi.abstract.Request):
 		"""
 
 		data = super().to_dict()
+
+		if self.branch_id is not None:
+			data['Branch_ID'] = self.branch_id
+		elif self.edit_branch is not None:
+			data['Edit_Branch'] = self.edit_branch
+		elif self.branch_name is not None:
+			data['Branch_Name'] = self.branch_name
 
 		data['Page_Code'] = self.page_code
 		data['Page_Name'] = self.page_name
