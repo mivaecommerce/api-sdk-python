@@ -30,7 +30,30 @@ class BranchCreate(Response):
 		if not self.is_success():
 			return
 
-		self.data['data'] = merchantapi.model.Branch(self.data['data'])
+		if 'data' in self.data:
+			self.data['data'] = merchantapi.model.Branch(self.data['data'])
+
+	def get_completed(self):
+		"""
+		Get completed.
+
+		:returns: bool
+		"""
+
+		if 'completed' in self.data:
+			return self.data['completed']
+		return False
+
+	def get_branch_create_session_id(self):
+		"""
+		Get branch_create_session_id.
+
+		:returns: string
+		"""
+
+		if 'branch_create_session_id' in self.data:
+			return self.data['branch_create_session_id']
+		return None
 
 	def get_branch(self) -> merchantapi.model.Branch:
 		"""

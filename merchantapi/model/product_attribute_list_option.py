@@ -10,6 +10,7 @@ ProductAttributeListOption data model.
 """
 
 from merchantapi.abstract import Model
+from decimal import Decimal
 
 class ProductAttributeListOption(Model):
 	def __init__(self, data: dict = None):
@@ -20,6 +21,10 @@ class ProductAttributeListOption(Model):
 		"""
 
 		super().__init__(data)
+
+		if 'price' in self: self['price'] = Decimal(self['price'])
+		if 'cost' in self: self['cost'] = Decimal(self['cost'])
+		if 'weight' in self: self['weight'] = Decimal(self['weight'])
 
 	def get_id(self) -> int:
 		"""
@@ -98,32 +103,32 @@ class ProductAttributeListOption(Model):
 
 		return self.get_field('prompt')
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('price', Decimal(0.00))
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('cost', 0.00)
+		return self.get_field('cost', Decimal(0.00))
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('weight', 0.00)
+		return self.get_field('weight', Decimal(0.00))
 
 	def get_image(self) -> str:
 		"""

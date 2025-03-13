@@ -20,6 +20,7 @@ from .product_image_data import ProductImageData
 from .product_attribute import ProductAttribute
 from .product_subscription_settings import ProductSubscriptionSettings
 from .product_subscription_term import ProductSubscriptionTerm
+from decimal import Decimal
 
 class Product(Model):
 	def __init__(self, data: dict = None):
@@ -139,6 +140,10 @@ class Product(Model):
 			if 'imagetype:' in k:
 				self['image_types'][ k[ k.index(':')+1 : ] ] = v
 
+		if 'price' in self: self['price'] = Decimal(self['price'])
+		if 'cost' in self: self['cost'] = Decimal(self['cost'])
+		if 'weight' in self: self['weight'] = Decimal(self['weight'])
+
 	def get_id(self) -> int:
 		"""
 		Get id.
@@ -193,14 +198,14 @@ class Product(Model):
 
 		return self.get_field('image')
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('price', Decimal(0.00))
 
 	def get_formatted_price(self) -> str:
 		"""
@@ -211,14 +216,14 @@ class Product(Model):
 
 		return self.get_field('formatted_price')
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('cost', 0.00)
+		return self.get_field('cost', Decimal(0.00))
 
 	def get_formatted_cost(self) -> str:
 		"""
@@ -247,14 +252,23 @@ class Product(Model):
 
 		return self.get_field('catcount', 0)
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('weight', 0.00)
+		return self.get_field('weight', Decimal(0.00))
+
+	def get_formatted_weight(self) -> str:
+		"""
+		Get formatted_weight.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_weight')
 
 	def get_active(self) -> bool:
 		"""

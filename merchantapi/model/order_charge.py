@@ -153,7 +153,7 @@ class OrderCharge(Model):
 		"""
 		Set amount.
 
-		:param amount: int
+		:param amount: float
 		:returns: OrderCharge
 		"""
 
@@ -163,7 +163,7 @@ class OrderCharge(Model):
 		"""
 		Set disp_amt.
 
-		:param display_amount: int
+		:param display_amount: float
 		:returns: OrderCharge
 		"""
 

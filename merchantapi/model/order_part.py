@@ -10,6 +10,7 @@ OrderPart data model.
 """
 
 from merchantapi.abstract import Model
+from decimal import Decimal
 
 class OrderPart(Model):
 	def __init__(self, data: dict = None):
@@ -20,6 +21,8 @@ class OrderPart(Model):
 		"""
 
 		super().__init__(data)
+
+		if 'price' in self: self['price'] = Decimal(self['price'])
 
 	def get_code(self) -> str:
 		"""
@@ -66,11 +69,11 @@ class OrderPart(Model):
 
 		return self.get_field('total_quantity', 0)
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('price', Decimal(0.00))

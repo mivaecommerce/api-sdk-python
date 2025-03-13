@@ -11,6 +11,7 @@ OrderItemOption data model.
 
 from merchantapi.abstract import Model
 from .order_item_option_discount import OrderItemOptionDiscount
+from decimal import Decimal
 
 class OrderItemOption(Model):
 	def __init__(self, data: dict = None):
@@ -32,6 +33,11 @@ class OrderItemOption(Model):
 						raise Exception('Expected list of OrderItemOptionDiscount or dict')
 			else:
 				raise Exception('Expected list of OrderItemOptionDiscount or dict')
+
+		if 'weight' in self: self['weight'] = Decimal(self['weight'])
+		if 'retail' in self: self['retail'] = Decimal(self['retail'])
+		if 'base_price' in self: self['base_price'] = Decimal(self['base_price'])
+		if 'price' in self: self['price'] = Decimal(self['price'])
 
 	def get_id(self) -> int:
 		"""
@@ -114,41 +120,50 @@ class OrderItemOption(Model):
 
 		return self.get_field('value')
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('weight', 0.00)
+		return self.get_field('weight', Decimal(0.00))
 
-	def get_retail(self) -> float:
+	def get_formatted_weight(self) -> str:
+		"""
+		Get formatted_weight.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_weight')
+
+	def get_retail(self) -> Decimal:
 		"""
 		Get retail.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('retail', 0.00)
+		return self.get_field('retail', Decimal(0.00))
 
-	def get_base_price(self) -> float:
+	def get_base_price(self) -> Decimal:
 		"""
 		Get base_price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('base_price', 0.00)
+		return self.get_field('base_price', Decimal(0.00))
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('price', Decimal(0.00))
 
 	def get_option_data(self) -> str:
 		"""
@@ -235,45 +250,45 @@ class OrderItemOption(Model):
 
 		return self.set_field('value', value)
 
-	def set_weight(self, weight: float) -> 'OrderItemOption':
+	def set_weight(self, weight) -> 'OrderItemOption':
 		"""
 		Set weight.
 
-		:param weight: int
+		:param weight: string|float|Decimal
 		:returns: OrderItemOption
 		"""
 
-		return self.set_field('weight', weight)
+		return self.set_field('weight', Decimal(weight))
 
-	def set_retail(self, retail: float) -> 'OrderItemOption':
+	def set_retail(self, retail) -> 'OrderItemOption':
 		"""
 		Set retail.
 
-		:param retail: int
+		:param retail: string|float|Decimal
 		:returns: OrderItemOption
 		"""
 
-		return self.set_field('retail', retail)
+		return self.set_field('retail', Decimal(retail))
 
-	def set_base_price(self, base_price: float) -> 'OrderItemOption':
+	def set_base_price(self, base_price) -> 'OrderItemOption':
 		"""
 		Set base_price.
 
-		:param base_price: int
+		:param base_price: string|float|Decimal
 		:returns: OrderItemOption
 		"""
 
-		return self.set_field('base_price', base_price)
+		return self.set_field('base_price', Decimal(base_price))
 
-	def set_price(self, price: float) -> 'OrderItemOption':
+	def set_price(self, price) -> 'OrderItemOption':
 		"""
 		Set price.
 
-		:param price: int
+		:param price: string|float|Decimal
 		:returns: OrderItemOption
 		"""
 
-		return self.set_field('price', price)
+		return self.set_field('price', Decimal(price))
 
 	def to_dict(self) -> dict:
 		"""

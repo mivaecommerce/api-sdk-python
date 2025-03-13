@@ -115,3 +115,12 @@ class CopyPageRule(Model):
 		"""
 
 		return self.get_field('cacheset', False)
+
+	def get_public(self) -> bool:
+		"""
+		Get public.
+
+		:returns: bool
+		"""
+
+		return self.get_field('public', False)

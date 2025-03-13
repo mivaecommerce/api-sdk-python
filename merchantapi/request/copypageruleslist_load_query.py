@@ -31,7 +31,8 @@ class CopyPageRulesListLoadQuery(ListQueryRequest):
 		'settings',
 		'jsres',
 		'cssres',
-		'cacheset'
+		'cacheset',
+		'public'
 	]
 
 	available_sort_fields = [
@@ -44,7 +45,8 @@ class CopyPageRulesListLoadQuery(ListQueryRequest):
 		'settings',
 		'jsres',
 		'cssres',
-		'cacheset'
+		'cacheset',
+		'public'
 	]
 
 	def __init__(self, client: Client = None):

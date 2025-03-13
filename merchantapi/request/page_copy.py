@@ -40,6 +40,7 @@ class PageCopy(merchantapi.abstract.Request):
 		self.changeset_notes = None
 		self.destination_page_name = None
 		self.destination_page_layout = None
+		self.destination_page_fragment = None
 		if isinstance(page, merchantapi.model.Page):
 			if page.get_id():
 				self.set_source_page_id(page.get_id())
@@ -165,6 +166,15 @@ class PageCopy(merchantapi.abstract.Request):
 
 		return self.destination_page_layout
 
+	def get_destination_page_fragment(self) -> bool:
+		"""
+		Get destination_page_fragment.
+
+		:returns: bool
+		"""
+
+		return self.destination_page_fragment
+
 	def set_source_page_id(self, source_page_id: int) -> 'PageCopy':
 		"""
 		Set Source_Page_ID.
@@ -286,6 +296,17 @@ class PageCopy(merchantapi.abstract.Request):
 		self.destination_page_layout = destination_page_layout
 		return self
 
+	def set_destination_page_fragment(self, destination_page_fragment: bool) -> 'PageCopy':
+		"""
+		Set destination_page_fragment.
+
+		:param destination_page_fragment: bool
+		:returns: PageCopy
+		"""
+
+		self.destination_page_fragment = destination_page_fragment
+		return self
+
 	# noinspection PyTypeChecker
 	def send(self) -> 'merchantapi.response.PageCopy':
 		return super().send()
@@ -336,4 +357,6 @@ class PageCopy(merchantapi.abstract.Request):
 		data['Dest_Page_Name'] = self.destination_page_name
 		if self.destination_page_layout is not None:
 			data['Dest_Page_Layout'] = self.destination_page_layout
+		if self.destination_page_fragment is not None:
+			data['Dest_Page_Fragment'] = self.destination_page_fragment
 		return data

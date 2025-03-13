@@ -34,6 +34,7 @@ class PageUpdate(merchantapi.abstract.Request):
 		self.page_name = None
 		self.page_title = None
 		self.page_secure = None
+		self.page_public = None
 		self.page_cache = None
 		self.changeset_notes = None
 		self.page_uri = None
@@ -114,6 +115,15 @@ class PageUpdate(merchantapi.abstract.Request):
 		"""
 
 		return self.page_secure
+
+	def get_page_public(self) -> bool:
+		"""
+		Get Page_Public.
+
+		:returns: bool
+		"""
+
+		return self.page_public
 
 	def get_page_cache(self) -> str:
 		"""
@@ -244,6 +254,17 @@ class PageUpdate(merchantapi.abstract.Request):
 		self.page_secure = page_secure
 		return self
 
+	def set_page_public(self, page_public: bool) -> 'PageUpdate':
+		"""
+		Set Page_Public.
+
+		:param page_public: bool
+		:returns: PageUpdate
+		"""
+
+		self.page_public = page_public
+		return self
+
 	def set_page_cache(self, page_cache: str) -> 'PageUpdate':
 		"""
 		Set Page_Cache.
@@ -370,6 +391,8 @@ class PageUpdate(merchantapi.abstract.Request):
 			data['Page_Title'] = self.page_title
 		if self.page_secure is not None:
 			data['Page_Secure'] = self.page_secure
+		if self.page_public is not None:
+			data['Page_Public'] = self.page_public
 		data['Page_Cache'] = self.page_cache
 		if self.changeset_notes is not None:
 			data['Changeset_Notes'] = self.changeset_notes

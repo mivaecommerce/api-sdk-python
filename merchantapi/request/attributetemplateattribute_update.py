@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class AttributeTemplateAttributeUpdate(merchantapi.abstract.Request):
@@ -151,29 +152,29 @@ class AttributeTemplateAttributeUpdate(merchantapi.abstract.Request):
 
 		return self.image
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.price
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get Cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.cost
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.weight
@@ -315,37 +316,37 @@ class AttributeTemplateAttributeUpdate(merchantapi.abstract.Request):
 		self.image = image
 		return self
 
-	def set_price(self, price: float) -> 'AttributeTemplateAttributeUpdate':
+	def set_price(self, price) -> 'AttributeTemplateAttributeUpdate':
 		"""
 		Set Price.
 
-		:param price: float
+		:param price: str|float|Decimal
 		:returns: AttributeTemplateAttributeUpdate
 		"""
 
-		self.price = price
+		self.price = Decimal(price)
 		return self
 
-	def set_cost(self, cost: float) -> 'AttributeTemplateAttributeUpdate':
+	def set_cost(self, cost) -> 'AttributeTemplateAttributeUpdate':
 		"""
 		Set Cost.
 
-		:param cost: float
+		:param cost: str|float|Decimal
 		:returns: AttributeTemplateAttributeUpdate
 		"""
 
-		self.cost = cost
+		self.cost = Decimal(cost)
 		return self
 
-	def set_weight(self, weight: float) -> 'AttributeTemplateAttributeUpdate':
+	def set_weight(self, weight) -> 'AttributeTemplateAttributeUpdate':
 		"""
 		Set Weight.
 
-		:param weight: float
+		:param weight: str|float|Decimal
 		:returns: AttributeTemplateAttributeUpdate
 		"""
 
-		self.weight = weight
+		self.weight = Decimal(weight)
 		return self
 
 	def set_copy(self, copy: bool) -> 'AttributeTemplateAttributeUpdate':
@@ -420,7 +421,8 @@ class AttributeTemplateAttributeUpdate(merchantapi.abstract.Request):
 		elif self.edit_attribute_template_attribute is not None:
 			data['Edit_AttributeTemplateAttribute'] = self.edit_attribute_template_attribute
 
-		data['Code'] = self.code
+		if self.code is not None:
+			data['Code'] = self.code
 		if self.prompt is not None:
 			data['Prompt'] = self.prompt
 		if self.type is not None:

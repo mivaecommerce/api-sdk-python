@@ -10,11 +10,14 @@ file that was distributed with self source code.
 import requests
 import time
 import json
+import platform
 from merchantapi.abstract import Request, Response
 from merchantapi.multicall import MultiCallRequest, MultiCallOperation
 from merchantapi.authenticator import Authenticator, TokenAuthenticator, SSHPrivateKeyAuthenticator, SSHAgentAuthenticator
+from merchantapi.version import Version
 from requests.exceptions import HTTPError, ConnectionError
 from logging import Logger
+from decimal import Decimal
 
 '''
 BaseClient - sending API requests
@@ -211,13 +214,22 @@ class BaseClient:
 		if self.get_option('require_timestamps') is True:
 			data['Miva_Request_Timestamp'] = int(time.time())
 
-		data = json.dumps(data).encode('utf-8')
+		data = json.dumps(data, cls=ClientEncoder).encode('utf-8')
+		headers = request.process_request_headers(self.get_global_headers().copy())
+		ua = f'MerchantAPI/{Version.STRING} python/{platform.python_version()} {platform.system()}'
 
-		headers = self.get_global_headers().copy()
+		for k in list(headers):
+			if k.upper() == 'USER-AGENT':
+				if len(headers[k]):
+					ua = headers[k]
+				del headers[k]
+				break
+
 		headers.update({
 			'Content-Type': 'application/json',
 			'Content-Length': str(len(data)),
-			'X-Miva-API-Authorization': self.generate_auth_header(data)
+			'X-Miva-API-Authorization': self.generate_auth_header(data),
+			'User-Agent': ua
 		})
 
 		if request.get_binary_encoding() == Request.BINARY_ENCODING_BASE64:
@@ -233,7 +245,7 @@ class BaseClient:
 		http_response = None
 
 		try:
-			http_response = requests.post(self.endpoint, data=data, headers=request.process_request_headers(headers), verify=self.get_option('ssl_verify'))
+			http_response = requests.post(self.endpoint, data=data, headers=headers, verify=self.get_option('ssl_verify'))
 
 			if 200 <= http_response.status_code < 300:
 				json_response = http_response.json()
@@ -265,6 +277,18 @@ class BaseClient:
 			raise Exception('No authenticator instance')
 
 		return self.authenticator.generate_authentication_header(data)
+
+
+'''
+ClientEncoder - JSONEncoder instance used by the client when encoding to json
+'''
+
+
+class ClientEncoder(json.JSONEncoder):
+	def default(self, o):
+		if isinstance(o, Decimal):
+			return str(o.quantize(Decimal('0.00000000')))
+		return super().default(o)
 
 
 '''

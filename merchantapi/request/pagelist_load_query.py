@@ -28,7 +28,9 @@ class PageListLoadQuery(ListQueryRequest):
 		'title',
 		'cache',
 		'admin',
-		'layout'
+		'layout',
+		'public',
+		'fragment'
 	]
 
 	available_sort_fields = [
@@ -38,7 +40,9 @@ class PageListLoadQuery(ListQueryRequest):
 		'title',
 		'cache',
 		'admin',
-		'layout'
+		'layout',
+		'public',
+		'fragment'
 	]
 
 	available_on_demand_columns = [

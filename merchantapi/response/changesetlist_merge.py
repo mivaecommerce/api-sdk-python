@@ -30,7 +30,30 @@ class ChangesetListMerge(Response):
 		if not self.is_success():
 			return
 
-		self.data['data'] = merchantapi.model.Changeset(self.data['data'])
+		if 'data' in self.data:
+			self.data['data'] = merchantapi.model.Changeset(self.data['data'])
+
+	def get_completed(self):
+		"""
+		Get completed.
+
+		:returns: bool
+		"""
+
+		if 'completed' in self.data:
+			return self.data['completed']
+		return False
+
+	def get_changesetlist_merge_session_id(self):
+		"""
+		Get changesetlist_merge_session_id.
+
+		:returns: string
+		"""
+
+		if 'changesetlist_merge_session_id' in self.data:
+			return self.data['changesetlist_merge_session_id']
+		return None
 
 	def get_changeset(self) -> merchantapi.model.Changeset:
 		"""

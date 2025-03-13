@@ -29,6 +29,7 @@ class BranchCreate(merchantapi.abstract.Request):
 
 		super().__init__(client)
 		self.parent_branch_id = None
+		self.branch_create_session_id = None
 		self.name = None
 		self.color = None
 		self.changeset_id = None
@@ -54,6 +55,15 @@ class BranchCreate(merchantapi.abstract.Request):
 		"""
 
 		return self.parent_branch_id
+
+	def get_branch_create_session_id(self) -> str:
+		"""
+		Get Branch_Create_Session_ID.
+
+		:returns: str
+		"""
+
+		return self.branch_create_session_id
 
 	def get_name(self) -> str:
 		"""
@@ -100,6 +110,17 @@ class BranchCreate(merchantapi.abstract.Request):
 		"""
 
 		self.parent_branch_id = parent_branch_id
+		return self
+
+	def set_branch_create_session_id(self, branch_create_session_id: str) -> 'BranchCreate':
+		"""
+		Set Branch_Create_Session_ID.
+
+		:param branch_create_session_id: str
+		:returns: BranchCreate
+		"""
+
+		self.branch_create_session_id = branch_create_session_id
 		return self
 
 	def set_name(self, name: str) -> 'BranchCreate':
@@ -174,6 +195,8 @@ class BranchCreate(merchantapi.abstract.Request):
 		if self.parent_branch_id is not None:
 			data['Parent_Branch_ID'] = self.parent_branch_id
 
+		if self.branch_create_session_id is not None:
+			data['Branch_Create_Session_ID'] = self.branch_create_session_id
 		if self.name is not None:
 			data['Name'] = self.name
 		if self.color is not None:

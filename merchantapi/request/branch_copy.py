@@ -29,7 +29,9 @@ class BranchCopy(merchantapi.abstract.Request):
 
 		super().__init__(client)
 		self.source_branch_id = None
+		self.source_changeset_id = None
 		self.destination_branch_id = None
+		self.branch_copy_session_id = None
 		self.notes = None
 		if isinstance(branch, merchantapi.model.Branch):
 			if branch.get_id():
@@ -53,6 +55,15 @@ class BranchCopy(merchantapi.abstract.Request):
 
 		return self.source_branch_id
 
+	def get_source_changeset_id(self) -> int:
+		"""
+		Get Source_Changeset_ID.
+
+		:returns: int
+		"""
+
+		return self.source_changeset_id
+
 	def get_destination_branch_id(self) -> int:
 		"""
 		Get Destination_Branch_ID.
@@ -61,6 +72,15 @@ class BranchCopy(merchantapi.abstract.Request):
 		"""
 
 		return self.destination_branch_id
+
+	def get_branch_copy_session_id(self) -> str:
+		"""
+		Get Branch_Copy_Session_ID.
+
+		:returns: str
+		"""
+
+		return self.branch_copy_session_id
 
 	def get_notes(self) -> str:
 		"""
@@ -82,6 +102,17 @@ class BranchCopy(merchantapi.abstract.Request):
 		self.source_branch_id = source_branch_id
 		return self
 
+	def set_source_changeset_id(self, source_changeset_id: int) -> 'BranchCopy':
+		"""
+		Set Source_Changeset_ID.
+
+		:param source_changeset_id: int
+		:returns: BranchCopy
+		"""
+
+		self.source_changeset_id = source_changeset_id
+		return self
+
 	def set_destination_branch_id(self, destination_branch_id: int) -> 'BranchCopy':
 		"""
 		Set Destination_Branch_ID.
@@ -91,6 +122,17 @@ class BranchCopy(merchantapi.abstract.Request):
 		"""
 
 		self.destination_branch_id = destination_branch_id
+		return self
+
+	def set_branch_copy_session_id(self, branch_copy_session_id: str) -> 'BranchCopy':
+		"""
+		Set Branch_Copy_Session_ID.
+
+		:param branch_copy_session_id: str
+		:returns: BranchCopy
+		"""
+
+		self.branch_copy_session_id = branch_copy_session_id
 		return self
 
 	def set_notes(self, notes: str) -> 'BranchCopy':
@@ -135,6 +177,10 @@ class BranchCopy(merchantapi.abstract.Request):
 		if self.destination_branch_id is not None:
 			data['Destination_Branch_ID'] = self.destination_branch_id
 
+		if self.source_changeset_id is not None:
+			data['Source_Changeset_ID'] = self.source_changeset_id
+		if self.branch_copy_session_id is not None:
+			data['Branch_Copy_Session_ID'] = self.branch_copy_session_id
 		if self.notes is not None:
 			data['Notes'] = self.notes
 		return data

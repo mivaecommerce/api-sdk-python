@@ -33,13 +33,13 @@ class ChildCategoryListLoadQuery(ListQueryResponse):
 
 		if 'data' in self.data and 'data' in self.data['data'] and isinstance(self.data['data']['data'], list):
 			for i, e in enumerate(self.data['data']['data'], 0):
-				self.data['data']['data'][i] = merchantapi.model.Category(e)
+				self.data['data']['data'][i] = merchantapi.model.ChildCategory(e)
 
 	def get_categories(self):
 		"""
 		Get categories.
 
-		:returns: list of Category
+		:returns: list of ChildCategory
 		"""
 
 		if self.data['data'] is None or not isinstance(self.data['data']['data'], list):

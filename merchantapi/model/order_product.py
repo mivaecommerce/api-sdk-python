@@ -87,6 +87,15 @@ class OrderProduct(Model):
 
 		return self.get_field('quantity', 0)
 
+	def get_tax(self) -> float:
+		"""
+		Get tax.
+
+		:returns: float
+		"""
+
+		return self.get_field('tax', 0.00)
+
 	def get_attributes(self):
 		"""
 		Get attributes.
@@ -155,6 +164,16 @@ class OrderProduct(Model):
 		"""
 
 		return self.set_field('quantity', quantity)
+
+	def set_tax(self, tax: float) -> 'OrderProduct':
+		"""
+		Set tax.
+
+		:param tax: float
+		:returns: OrderProduct
+		"""
+
+		return self.set_field('tax', tax)
 
 	def set_attributes(self, attributes: list) -> 'OrderProduct':
 		"""

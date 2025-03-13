@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class ProductUpdate(merchantapi.abstract.Request):
@@ -179,29 +180,29 @@ class ProductUpdate(merchantapi.abstract.Request):
 
 		return self.product_image
 
-	def get_product_price(self) -> float:
+	def get_product_price(self) -> Decimal:
 		"""
 		Get Product_Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.product_price
 
-	def get_product_cost(self) -> float:
+	def get_product_cost(self) -> Decimal:
 		"""
 		Get Product_Cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.product_cost
 
-	def get_product_weight(self) -> float:
+	def get_product_weight(self) -> Decimal:
 		"""
 		Get Product_Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.product_weight
@@ -363,37 +364,37 @@ class ProductUpdate(merchantapi.abstract.Request):
 		self.product_image = product_image
 		return self
 
-	def set_product_price(self, product_price: float) -> 'ProductUpdate':
+	def set_product_price(self, product_price) -> 'ProductUpdate':
 		"""
 		Set Product_Price.
 
-		:param product_price: float
+		:param product_price: str|float|Decimal
 		:returns: ProductUpdate
 		"""
 
-		self.product_price = product_price
+		self.product_price = Decimal(product_price)
 		return self
 
-	def set_product_cost(self, product_cost: float) -> 'ProductUpdate':
+	def set_product_cost(self, product_cost) -> 'ProductUpdate':
 		"""
 		Set Product_Cost.
 
-		:param product_cost: float
+		:param product_cost: str|float|Decimal
 		:returns: ProductUpdate
 		"""
 
-		self.product_cost = product_cost
+		self.product_cost = Decimal(product_cost)
 		return self
 
-	def set_product_weight(self, product_weight: float) -> 'ProductUpdate':
+	def set_product_weight(self, product_weight) -> 'ProductUpdate':
 		"""
 		Set Product_Weight.
 
-		:param product_weight: float
+		:param product_weight: str|float|Decimal
 		:returns: ProductUpdate
 		"""
 
-		self.product_weight = product_weight
+		self.product_weight = Decimal(product_weight)
 		return self
 
 	def set_product_inventory(self, product_inventory: int) -> 'ProductUpdate':

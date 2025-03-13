@@ -32,6 +32,8 @@ class PageInsert(merchantapi.abstract.Request):
 		self.page_title = None
 		self.page_template = None
 		self.page_layout = None
+		self.page_fragment = None
+		self.page_public = None
 		self.page_secure = None
 		self.page_cache = None
 		self.changeset_notes = None
@@ -94,6 +96,24 @@ class PageInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.page_layout
+
+	def get_page_fragment(self) -> bool:
+		"""
+		Get Page_Fragment.
+
+		:returns: bool
+		"""
+
+		return self.page_fragment
+
+	def get_page_public(self) -> bool:
+		"""
+		Get Page_Public.
+
+		:returns: bool
+		"""
+
+		return self.page_public
 
 	def get_page_secure(self) -> bool:
 		"""
@@ -220,6 +240,28 @@ class PageInsert(merchantapi.abstract.Request):
 		"""
 
 		self.page_layout = page_layout
+		return self
+
+	def set_page_fragment(self, page_fragment: bool) -> 'PageInsert':
+		"""
+		Set Page_Fragment.
+
+		:param page_fragment: bool
+		:returns: PageInsert
+		"""
+
+		self.page_fragment = page_fragment
+		return self
+
+	def set_page_public(self, page_public: bool) -> 'PageInsert':
+		"""
+		Set Page_Public.
+
+		:param page_public: bool
+		:returns: PageInsert
+		"""
+
+		self.page_public = page_public
 		return self
 
 	def set_page_secure(self, page_secure: bool) -> 'PageInsert':
@@ -353,6 +395,10 @@ class PageInsert(merchantapi.abstract.Request):
 			data['Page_Template'] = self.page_template
 		if self.page_layout is not None:
 			data['Page_Layout'] = self.page_layout
+		if self.page_fragment is not None:
+			data['Page_Fragment'] = self.page_fragment
+		if self.page_public is not None:
+			data['Page_Public'] = self.page_public
 		if self.page_secure is not None:
 			data['Page_Secure'] = self.page_secure
 		if self.page_cache is not None:

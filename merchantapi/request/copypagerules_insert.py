@@ -32,6 +32,7 @@ class CopyPageRulesInsert(merchantapi.abstract.Request):
 		self.title = None
 		self.template = None
 		self.items = None
+		self.public = None
 		self.settings = None
 		self.javascript_resource_assignments = None
 		self.css_resource_assignments = None
@@ -90,6 +91,15 @@ class CopyPageRulesInsert(merchantapi.abstract.Request):
 		"""
 
 		return self.items
+
+	def get_public(self) -> bool:
+		"""
+		Get Public.
+
+		:returns: bool
+		"""
+
+		return self.public
 
 	def get_settings(self) -> str:
 		"""
@@ -182,6 +192,17 @@ class CopyPageRulesInsert(merchantapi.abstract.Request):
 		self.items = items
 		return self
 
+	def set_public(self, public: bool) -> 'CopyPageRulesInsert':
+		"""
+		Set Public.
+
+		:param public: bool
+		:returns: CopyPageRulesInsert
+		"""
+
+		self.public = public
+		return self
+
 	def set_settings(self, settings: str) -> 'CopyPageRulesInsert':
 		"""
 		Set Settings.
@@ -260,6 +281,8 @@ class CopyPageRulesInsert(merchantapi.abstract.Request):
 			data['Template'] = self.template
 		if self.items is not None:
 			data['Items'] = self.items
+		if self.public is not None:
+			data['Public'] = self.public
 		if self.settings is not None:
 			data['Settings'] = self.settings
 		if self.javascript_resource_assignments is not None:

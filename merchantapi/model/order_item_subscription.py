@@ -9,10 +9,11 @@ file that was distributed with this source code.
 OrderItemSubscription data model.
 """
 
-from .subscription import Subscription
+from .base_subscription import BaseSubscription
 from .product_subscription_term import ProductSubscriptionTerm
+from .subscription_option import SubscriptionOption
 
-class OrderItemSubscription(Subscription):
+class OrderItemSubscription(BaseSubscription):
 	def __init__(self, data: dict = None):
 		"""
 		OrderItemSubscription Constructor
@@ -28,6 +29,18 @@ class OrderItemSubscription(Subscription):
 					self.set_field('productsubscriptionterm', ProductSubscriptionTerm(value))
 			else:
 				raise Exception('Expected ProductSubscriptionTerm or a dict')
+
+		if self.has_field('options'):
+			value = self.get_field('options')
+			if isinstance(value, list):
+				for i, e in enumerate(value):
+					if isinstance(e, dict):
+						if not isinstance(e, SubscriptionOption):
+							value[i] = SubscriptionOption(e)
+					else:
+						raise Exception('Expected list of SubscriptionOption or dict')
+			else:
+				raise Exception('Expected list of SubscriptionOption or dict')
 
 	def get_method(self) -> str:
 		"""
@@ -47,6 +60,15 @@ class OrderItemSubscription(Subscription):
 
 		return self.get_field('productsubscriptionterm', None)
 
+	def get_options(self):
+		"""
+		Get options.
+
+		:returns: List of SubscriptionOption
+		"""
+
+		return self.get_field('options', [])
+
 	def to_dict(self) -> dict:
 		"""
 		Reduce the model to a dict.
@@ -56,5 +78,10 @@ class OrderItemSubscription(Subscription):
 
 		if 'productsubscriptionterm' in ret and isinstance(ret['productsubscriptionterm'], ProductSubscriptionTerm):
 			ret['productsubscriptionterm'] = ret['productsubscriptionterm'].to_dict()
+
+		if 'options' in ret and isinstance(ret['options'], list):
+			for i, e in enumerate(ret['options']):
+				if isinstance(e, SubscriptionOption):
+					ret['options'][i] = ret['options'][i].to_dict()
 
 		return ret

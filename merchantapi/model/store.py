@@ -70,6 +70,15 @@ class Store(Model):
 
 		return self.get_field('name')
 
+	def get_icon(self) -> str:
+		"""
+		Get icon.
+
+		:returns: string
+		"""
+
+		return self.get_field('icon')
+
 	def get_owner(self) -> str:
 		"""
 		Get owner.
@@ -177,6 +186,33 @@ class Store(Model):
 		"""
 
 		return self.get_field('wtunitcode')
+
+	def get_display_mixed_weight_units(self) -> bool:
+		"""
+		Get wtdispmix.
+
+		:returns: bool
+		"""
+
+		return self.get_field('wtdispmix', False)
+
+	def get_display_weight_less_than(self) -> bool:
+		"""
+		Get wtdisplow.
+
+		:returns: bool
+		"""
+
+		return self.get_field('wtdisplow', False)
+
+	def get_weight_digits(self) -> int:
+		"""
+		Get wtdispdig.
+
+		:returns: int
+		"""
+
+		return self.get_field('wtdispdig', 0)
 
 	def get_dimension_units(self) -> str:
 		"""
@@ -358,6 +394,42 @@ class Store(Model):
 
 		return self.get_field('cache_type')
 
+	def get_cache_expiration(self) -> int:
+		"""
+		Get cache_exp.
+
+		:returns: int
+		"""
+
+		return self.get_field('cache_exp', 0)
+
+	def get_cache_version(self) -> int:
+		"""
+		Get cache_ver.
+
+		:returns: int
+		"""
+
+		return self.get_field('cache_ver', 0)
+
+	def get_cache_compression(self) -> bool:
+		"""
+		Get cache_comp.
+
+		:returns: bool
+		"""
+
+		return self.get_field('cache_comp', False)
+
+	def get_cache_set(self) -> int:
+		"""
+		Get cacheset.
+
+		:returns: int
+		"""
+
+		return self.get_field('cacheset', 0)
+
 	def get_redis_host(self) -> str:
 		"""
 		Get redishost.
@@ -411,3 +483,66 @@ class Store(Model):
 		"""
 
 		return self.get_field('addrval_id', 0)
+
+	def get_defer_baskets(self) -> bool:
+		"""
+		Get deferbask.
+
+		:returns: bool
+		"""
+
+		return self.get_field('deferbask', False)
+
+	def get_track_page_hits(self) -> bool:
+		"""
+		Get trackhits.
+
+		:returns: bool
+		"""
+
+		return self.get_field('trackhits', False)
+
+	def get_maintenance_allowed_ips(self) -> str:
+		"""
+		Get mnt_ips.
+
+		:returns: string
+		"""
+
+		return self.get_field('mnt_ips')
+
+	def get_branch_id(self) -> int:
+		"""
+		Get branch_id.
+
+		:returns: int
+		"""
+
+		return self.get_field('branch_id', 0)
+
+	def get_character_set(self) -> str:
+		"""
+		Get charset.
+
+		:returns: string
+		"""
+
+		return self.get_field('charset')
+
+	def get_scheduled_task_advance(self) -> int:
+		"""
+		Get schtsk_adv.
+
+		:returns: int
+		"""
+
+		return self.get_field('schtsk_adv', 0)
+
+	def get_scheduled_task_timeout(self) -> int:
+		"""
+		Get schtsk_min.
+
+		:returns: int
+		"""
+
+		return self.get_field('schtsk_min', 0)

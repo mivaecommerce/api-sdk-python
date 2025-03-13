@@ -14,6 +14,7 @@ from .order_shipment import OrderShipment
 from .order_item_discount import OrderItemDiscount
 from .order_item_option import OrderItemOption
 from .order_item_subscription import OrderItemSubscription
+from decimal import Decimal
 
 class OrderItem(Model):
 	# ORDER_ITEM_STATUS constants.
@@ -77,6 +78,11 @@ class OrderItem(Model):
 					self.set_field('subscription', OrderItemSubscription(value))
 			else:
 				raise Exception('Expected OrderItemSubscription or a dict')
+
+		if 'retail' in self: self['retail'] = Decimal(self['retail'])
+		if 'base_price' in self: self['base_price'] = Decimal(self['base_price'])
+		if 'price' in self: self['price'] = Decimal(self['price'])
+		if 'weight' in self: self['weight'] = Decimal(self['weight'])
 
 	def get_order_id(self) -> int:
 		"""
@@ -195,32 +201,50 @@ class OrderItem(Model):
 
 		return self.get_field('sku')
 
-	def get_retail(self) -> float:
+	def get_retail(self) -> Decimal:
 		"""
 		Get retail.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('retail', 0.00)
+		return self.get_field('retail', Decimal(0.00))
 
-	def get_base_price(self) -> float:
+	def get_base_price(self) -> Decimal:
 		"""
 		Get base_price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('base_price', 0.00)
+		return self.get_field('base_price', Decimal(0.00))
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
+		:returns: Decimal
+		"""
+
+		return self.get_field('price', Decimal(0.00))
+
+	def get_total(self) -> float:
+		"""
+		Get total.
+
 		:returns: float
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('total', 0.00)
+
+	def get_formatted_total(self) -> str:
+		"""
+		Get formatted_total.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_total')
 
 	def get_tax(self) -> float:
 		"""
@@ -240,14 +264,23 @@ class OrderItem(Model):
 
 		return self.get_field('formatted_tax')
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('weight', 0.00)
+		return self.get_field('weight', Decimal(0.00))
+
+	def get_formatted_weight(self) -> str:
+		"""
+		Get formatted_weight.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_weight')
 
 	def get_taxable(self) -> bool:
 		"""
@@ -302,15 +335,6 @@ class OrderItem(Model):
 		"""
 
 		return self.get_field('options', [])
-
-	def get_total(self) -> float:
-		"""
-		Get total.
-
-		:returns: float
-		"""
-
-		return self.get_field('total', 0.00)
 
 	def get_tracking_type(self) -> str:
 		"""
@@ -396,35 +420,35 @@ class OrderItem(Model):
 
 		return self.set_field('sku', sku)
 
-	def set_price(self, price: float) -> 'OrderItem':
+	def set_price(self, price) -> 'OrderItem':
 		"""
 		Set price.
 
-		:param price: int
+		:param price: string|float|Decimal
 		:returns: OrderItem
 		"""
 
-		return self.set_field('price', price)
+		return self.set_field('price', Decimal(price))
 
 	def set_tax(self, tax: float) -> 'OrderItem':
 		"""
 		Set tax.
 
-		:param tax: int
+		:param tax: float
 		:returns: OrderItem
 		"""
 
 		return self.set_field('tax', tax)
 
-	def set_weight(self, weight: float) -> 'OrderItem':
+	def set_weight(self, weight) -> 'OrderItem':
 		"""
 		Set weight.
 
-		:param weight: int
+		:param weight: string|float|Decimal
 		:returns: OrderItem
 		"""
 
-		return self.set_field('weight', weight)
+		return self.set_field('weight', Decimal(weight))
 
 	def set_taxable(self, taxable: bool) -> 'OrderItem':
 		"""

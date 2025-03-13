@@ -42,7 +42,7 @@ from .order_item_discount import OrderItemDiscount
 from .order_item_option_discount import OrderItemOptionDiscount
 from .order_discount_total import OrderDiscountTotal
 from .order_payment import OrderPayment
-from .subscription import Subscription
+from .base_subscription import BaseSubscription
 from .product_subscription_term import ProductSubscriptionTerm
 from .order_custom_field import OrderCustomField
 from .customer_payment_card import CustomerPaymentCard
@@ -121,7 +121,9 @@ from .availability_group_category import AvailabilityGroupCategory
 from .availability_group_product import AvailabilityGroupProduct
 from .availability_group_business_account import AvailabilityGroupBusinessAccount
 from .business_account_customer import BusinessAccountCustomer
+from .child_category import ChildCategory
 from .order_note import OrderNote
+from .subscription import Subscription
 from .category_product import CategoryProduct
 from .attribute_template_product import AttributeTemplateProduct
 from .coupon_price_group import CouponPriceGroup

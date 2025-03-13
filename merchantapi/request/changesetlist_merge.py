@@ -30,7 +30,9 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 		super().__init__(client)
 		self.source_changeset_ids = []
 		self.destination_branch_id = None
+		self.changeset_list_merge_session_id = None
 		self.notes = None
+		self.tags = None
 		if isinstance(branch, merchantapi.model.Branch):
 			if branch.get_id():
 				self.set_destination_branch_id(branch.get_id())
@@ -62,6 +64,15 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 
 		return self.destination_branch_id
 
+	def get_changeset_list_merge_session_id(self) -> str:
+		"""
+		Get ChangesetList_Merge_Session_ID.
+
+		:returns: str
+		"""
+
+		return self.changeset_list_merge_session_id
+
 	def get_notes(self) -> str:
 		"""
 		Get Notes.
@@ -70,6 +81,15 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 		"""
 
 		return self.notes
+
+	def get_tags(self) -> str:
+		"""
+		Get Tags.
+
+		:returns: str
+		"""
+
+		return self.tags
 
 	def set_destination_branch_id(self, destination_branch_id: int) -> 'ChangesetListMerge':
 		"""
@@ -82,6 +102,17 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 		self.destination_branch_id = destination_branch_id
 		return self
 
+	def set_changeset_list_merge_session_id(self, changeset_list_merge_session_id: str) -> 'ChangesetListMerge':
+		"""
+		Set ChangesetList_Merge_Session_ID.
+
+		:param changeset_list_merge_session_id: str
+		:returns: ChangesetListMerge
+		"""
+
+		self.changeset_list_merge_session_id = changeset_list_merge_session_id
+		return self
+
 	def set_notes(self, notes: str) -> 'ChangesetListMerge':
 		"""
 		Set Notes.
@@ -91,6 +122,17 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 		"""
 
 		self.notes = notes
+		return self
+
+	def set_tags(self, tags: str) -> 'ChangesetListMerge':
+		"""
+		Set Tags.
+
+		:param tags: str
+		:returns: ChangesetListMerge
+		"""
+
+		self.tags = tags
 		return self
 	
 	def add_source_changeset_id(self, source_changeset_id) -> 'ChangesetListMerge':
@@ -149,6 +191,10 @@ class ChangesetListMerge(merchantapi.abstract.Request):
 			data['Destination_Branch_ID'] = self.destination_branch_id
 
 		data['Source_Changeset_IDs'] = self.source_changeset_ids
+		if self.changeset_list_merge_session_id is not None:
+			data['ChangesetList_Merge_Session_ID'] = self.changeset_list_merge_session_id
 		if self.notes is not None:
 			data['Notes'] = self.notes
+		if self.tags is not None:
+			data['Tags'] = self.tags
 		return data

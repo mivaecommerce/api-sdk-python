@@ -48,14 +48,14 @@ class ProductInventoryAdjustment(Model):
 
 		return self.get_field('product_sku')
 
-	def get_adjustment(self) -> float:
+	def get_adjustment(self) -> int:
 		"""
 		Get adjustment.
 
-		:returns: float
+		:returns: int
 		"""
 
-		return self.get_field('adjustment', 0.00)
+		return self.get_field('adjustment', 0)
 
 	def set_product_id(self, product_id: int) -> 'ProductInventoryAdjustment':
 		"""
@@ -87,7 +87,7 @@ class ProductInventoryAdjustment(Model):
 
 		return self.set_field('product_sku', product_sku)
 
-	def set_adjustment(self, adjustment: float) -> 'ProductInventoryAdjustment':
+	def set_adjustment(self, adjustment: int) -> 'ProductInventoryAdjustment':
 		"""
 		Set adjustment.
 

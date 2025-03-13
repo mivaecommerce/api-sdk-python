@@ -136,6 +136,24 @@ class Page(Model):
 
 		return self.get_field('layout', False)
 
+	def get_fragment(self) -> bool:
+		"""
+		Get fragment.
+
+		:returns: bool
+		"""
+
+		return self.get_field('fragment', False)
+
+	def get_public(self) -> bool:
+		"""
+		Get public.
+
+		:returns: bool
+		"""
+
+		return self.get_field('public', False)
+
 	def get_notes(self) -> str:
 		"""
 		Get notes.

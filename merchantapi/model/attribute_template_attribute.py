@@ -11,6 +11,7 @@ AttributeTemplateAttribute data model.
 
 from merchantapi.abstract import Model
 from .attribute_template_option import AttributeTemplateOption
+from decimal import Decimal
 
 class AttributeTemplateAttribute(Model):
 	# TEMPLATE_ATTRIBUTE_TYPE constants.
@@ -41,6 +42,10 @@ class AttributeTemplateAttribute(Model):
 						raise Exception('Expected list of AttributeTemplateOption or dict')
 			else:
 				raise Exception('Expected list of AttributeTemplateOption or dict')
+
+		if 'price' in self: self['price'] = Decimal(self['price'])
+		if 'cost' in self: self['cost'] = Decimal(self['cost'])
+		if 'weight' in self: self['weight'] = Decimal(self['weight'])
 
 	def get_id(self) -> int:
 		"""
@@ -110,32 +115,59 @@ class AttributeTemplateAttribute(Model):
 
 		return self.get_field('prompt')
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('price', 0.00)
+		return self.get_field('price', Decimal(0.00))
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('cost', 0.00)
+		return self.get_field('cost', Decimal(0.00))
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('weight', 0.00)
+		return self.get_field('weight', Decimal(0.00))
+
+	def get_formatted_price(self) -> str:
+		"""
+		Get formatted_price.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_price')
+
+	def get_formatted_cost(self) -> str:
+		"""
+		Get formatted_cost.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_cost')
+
+	def get_formatted_weight(self) -> str:
+		"""
+		Get formatted_weight.
+
+		:returns: string
+		"""
+
+		return self.get_field('formatted_weight')
 
 	def get_required(self) -> bool:
 		"""

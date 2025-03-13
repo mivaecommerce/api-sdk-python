@@ -6,17 +6,26 @@ This file is part of the MerchantAPI package.
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
-CustomerSubscription data model.
+ChildCategory data model.
 """
 
-from .subscription import Subscription
+from .category import Category
 
-class CustomerSubscription(Subscription):
+class ChildCategory(Category):
 	def __init__(self, data: dict = None):
 		"""
-		CustomerSubscription Constructor
+		ChildCategory Constructor
 
 		:param data: dict
 		"""
 
 		super().__init__(data)
+
+	def get_assigned(self) -> bool:
+		"""
+		Get assigned.
+
+		:returns: bool
+		"""
+
+		return self.get_field('assigned', False)

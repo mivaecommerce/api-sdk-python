@@ -10,6 +10,7 @@ OrderItemOptionDiscount data model.
 """
 
 from merchantapi.abstract import Model
+from decimal import Decimal
 
 class OrderItemOptionDiscount(Model):
 	def __init__(self, data: dict = None):
@@ -20,6 +21,8 @@ class OrderItemOptionDiscount(Model):
 		"""
 
 		super().__init__(data)
+
+		if 'discount' in self: self['discount'] = Decimal(self['discount'])
 
 	def get_order_id(self) -> int:
 		"""
@@ -84,11 +87,11 @@ class OrderItemOptionDiscount(Model):
 
 		return self.get_field('descrip')
 
-	def get_discount(self) -> float:
+	def get_discount(self) -> Decimal:
 		"""
 		Get discount.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
-		return self.get_field('discount', 0.00)
+		return self.get_field('discount', Decimal(0.00))

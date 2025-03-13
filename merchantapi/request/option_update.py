@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class OptionUpdate(merchantapi.abstract.Request):
@@ -170,29 +171,29 @@ class OptionUpdate(merchantapi.abstract.Request):
 
 		return self.image
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.price
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get Cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.cost
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.weight
@@ -327,37 +328,37 @@ class OptionUpdate(merchantapi.abstract.Request):
 		self.image = image
 		return self
 
-	def set_price(self, price: float) -> 'OptionUpdate':
+	def set_price(self, price) -> 'OptionUpdate':
 		"""
 		Set Price.
 
-		:param price: float
+		:param price: str|float|Decimal
 		:returns: OptionUpdate
 		"""
 
-		self.price = price
+		self.price = Decimal(price)
 		return self
 
-	def set_cost(self, cost: float) -> 'OptionUpdate':
+	def set_cost(self, cost) -> 'OptionUpdate':
 		"""
 		Set Cost.
 
-		:param cost: float
+		:param cost: str|float|Decimal
 		:returns: OptionUpdate
 		"""
 
-		self.cost = cost
+		self.cost = Decimal(cost)
 		return self
 
-	def set_weight(self, weight: float) -> 'OptionUpdate':
+	def set_weight(self, weight) -> 'OptionUpdate':
 		"""
 		Set Weight.
 
-		:param weight: float
+		:param weight: str|float|Decimal
 		:returns: OptionUpdate
 		"""
 
-		self.weight = weight
+		self.weight = Decimal(weight)
 		return self
 
 	def set_default(self, default: bool) -> 'OptionUpdate':

@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class AttributeTemplateOptionUpdate(merchantapi.abstract.Request):
@@ -165,29 +166,29 @@ class AttributeTemplateOptionUpdate(merchantapi.abstract.Request):
 
 		return self.image
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.price
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get Cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.cost
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.weight
@@ -333,37 +334,37 @@ class AttributeTemplateOptionUpdate(merchantapi.abstract.Request):
 		self.image = image
 		return self
 
-	def set_price(self, price: float) -> 'AttributeTemplateOptionUpdate':
+	def set_price(self, price) -> 'AttributeTemplateOptionUpdate':
 		"""
 		Set Price.
 
-		:param price: float
+		:param price: str|float|Decimal
 		:returns: AttributeTemplateOptionUpdate
 		"""
 
-		self.price = price
+		self.price = Decimal(price)
 		return self
 
-	def set_cost(self, cost: float) -> 'AttributeTemplateOptionUpdate':
+	def set_cost(self, cost) -> 'AttributeTemplateOptionUpdate':
 		"""
 		Set Cost.
 
-		:param cost: float
+		:param cost: str|float|Decimal
 		:returns: AttributeTemplateOptionUpdate
 		"""
 
-		self.cost = cost
+		self.cost = Decimal(cost)
 		return self
 
-	def set_weight(self, weight: float) -> 'AttributeTemplateOptionUpdate':
+	def set_weight(self, weight) -> 'AttributeTemplateOptionUpdate':
 		"""
 		Set Weight.
 
-		:param weight: float
+		:param weight: str|float|Decimal
 		:returns: AttributeTemplateOptionUpdate
 		"""
 
-		self.weight = weight
+		self.weight = Decimal(weight)
 		return self
 
 	def set_default(self, default: bool) -> 'AttributeTemplateOptionUpdate':
@@ -423,8 +424,10 @@ class AttributeTemplateOptionUpdate(merchantapi.abstract.Request):
 		elif self.edit_attribute_template_option is not None:
 			data['Edit_AttributeTemplateOption'] = self.edit_attribute_template_option
 
-		data['Code'] = self.code
-		data['Prompt'] = self.prompt
+		if self.code is not None:
+			data['Code'] = self.code
+		if self.prompt is not None:
+			data['Prompt'] = self.prompt
 		if self.image is not None:
 			data['Image'] = self.image
 		if self.price is not None:

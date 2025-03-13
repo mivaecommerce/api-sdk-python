@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class AttributeTemplateAttributeInsert(merchantapi.abstract.Request):
@@ -121,29 +122,29 @@ class AttributeTemplateAttributeInsert(merchantapi.abstract.Request):
 
 		return self.image
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.price
 
-	def get_cost(self) -> float:
+	def get_cost(self) -> Decimal:
 		"""
 		Get Cost.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.cost
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.weight
@@ -252,37 +253,37 @@ class AttributeTemplateAttributeInsert(merchantapi.abstract.Request):
 		self.image = image
 		return self
 
-	def set_price(self, price: float) -> 'AttributeTemplateAttributeInsert':
+	def set_price(self, price) -> 'AttributeTemplateAttributeInsert':
 		"""
 		Set Price.
 
-		:param price: float
+		:param price: str|float|Decimal
 		:returns: AttributeTemplateAttributeInsert
 		"""
 
-		self.price = price
+		self.price = Decimal(price)
 		return self
 
-	def set_cost(self, cost: float) -> 'AttributeTemplateAttributeInsert':
+	def set_cost(self, cost) -> 'AttributeTemplateAttributeInsert':
 		"""
 		Set Cost.
 
-		:param cost: float
+		:param cost: str|float|Decimal
 		:returns: AttributeTemplateAttributeInsert
 		"""
 
-		self.cost = cost
+		self.cost = Decimal(cost)
 		return self
 
-	def set_weight(self, weight: float) -> 'AttributeTemplateAttributeInsert':
+	def set_weight(self, weight) -> 'AttributeTemplateAttributeInsert':
 		"""
 		Set Weight.
 
-		:param weight: float
+		:param weight: str|float|Decimal
 		:returns: AttributeTemplateAttributeInsert
 		"""
 
-		self.weight = weight
+		self.weight = Decimal(weight)
 		return self
 
 	def set_copy(self, copy: bool) -> 'AttributeTemplateAttributeInsert':

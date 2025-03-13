@@ -16,6 +16,7 @@ import merchantapi.model
 import merchantapi.response
 from merchantapi.client import BaseClient as Client
 from requests.models import Response as HttpResponse
+from decimal import Decimal
 
 
 class OrderItemUpdate(merchantapi.abstract.Request):
@@ -115,20 +116,20 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 
 		return self.quantity
 
-	def get_price(self) -> float:
+	def get_price(self) -> Decimal:
 		"""
 		Get Price.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.price
 
-	def get_weight(self) -> float:
+	def get_weight(self) -> Decimal:
 		"""
 		Get Weight.
 
-		:returns: float
+		:returns: Decimal
 		"""
 
 		return self.weight
@@ -217,26 +218,26 @@ class OrderItemUpdate(merchantapi.abstract.Request):
 		self.quantity = quantity
 		return self
 
-	def set_price(self, price: float) -> 'OrderItemUpdate':
+	def set_price(self, price) -> 'OrderItemUpdate':
 		"""
 		Set Price.
 
-		:param price: float
+		:param price: str|float|Decimal
 		:returns: OrderItemUpdate
 		"""
 
-		self.price = price
+		self.price = Decimal(price)
 		return self
 
-	def set_weight(self, weight: float) -> 'OrderItemUpdate':
+	def set_weight(self, weight) -> 'OrderItemUpdate':
 		"""
 		Set Weight.
 
-		:param weight: float
+		:param weight: str|float|Decimal
 		:returns: OrderItemUpdate
 		"""
 
-		self.weight = weight
+		self.weight = Decimal(weight)
 		return self
 
 	def set_taxable(self, taxable: bool) -> 'OrderItemUpdate':

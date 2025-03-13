@@ -80,6 +80,13 @@ See https://tools.ietf.org/html/rfc4253#section-6.6 for format.
 
 A quick way to get the correct format if you have the key associated with your local SSH agent is to run the command `ssh-add -L` and copying the corresponding key.
 
+
+# High Precision Pricing & Weight
+
+Miva Merchant 10.11 added support for high precision pricing and weight. To support these changes, the decimal module is used on all high precision fields. Transition should be seamless, and you can perform arithmetic against these values as you would native floats.
+
+For more information see https://docs.python.org/3/library/decimal.html
+
 # License
 
 This library is licensed under the `Miva SDK License Agreement`.

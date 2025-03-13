@@ -138,14 +138,14 @@ class CustomerPaymentCard(Model):
 
 		return self.get_field('cntry')
 
-	def get_last_used(self) -> str:
+	def get_last_used(self) -> int:
 		"""
 		Get lastused.
 
-		:returns: string
+		:returns: int
 		"""
 
-		return self.get_field('lastused')
+		return self.get_field('lastused', 0)
 
 	def get_token(self) -> str:
 		"""
